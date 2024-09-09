@@ -1,0 +1,100 @@
+#!/bin/bash
+
+declare -r EXIT_SUCCESS="0"
+declare -r EXIT_ERROR="1"
+
+declare -r SYSFS_CPU_COLD_REBOOT="/sys/bus/platform/devices/bbd_ctrl_cpld/cold_reboot"
+
+FORCE_REBOOT="no"
+
+function ParseArguments() {
+    while [ $# -ge 1 ]; do
+        case "$1" in
+            -f|--force)
+                FORCE_REBOOT="yes"
+            ;;
+        esac
+        shift
+    done
+}
+
+function SafePwrCycle() {
+    ## enable port power
+    ## must do this work, and before the Switch reboot.
+    if echo 0 > /sys/bus/i2c/devices/17-000e/all_port_power_on; then
+        logger "$0 set all port power off"
+    fi
+    sleep 0.5s
+
+    # open psu led and fan led write protect
+    echo 0 > /sys/bus/platform/devices/bbd_ctrl_cpld/pwr_led_ctrl
+    echo 1 > /sys/kernel/pddf/devices/sysstatus/sysstatus_data/fan_led_ctrl_wp
+    logger "$0 open psu led and fan led write protect"
+
+    # Set system boot not ok, for cpld to know normal reboot or not
+    echo 0x0 > /sys/bus/platform/devices/bbd_ctrl_cpld/os_boot_sta
+
+    sync ; sync; sleep 0.5s
+    umount -fa > /dev/null 2>&1
+    if [ -f $SYSFS_CPU_COLD_REBOOT ]; then
+        echo "reset with cpu cold reboot"
+        echo 0x0e > $SYSFS_CPU_COLD_REBOOT
+    else
+        echo "reset with cpu warm reboot"
+        exec /sbin/reboot
+    fi
+
+}
+
+function ResetXcvr() {
+
+    for i in $(seq 1 128); do
+        write_enable="/sys_switch/transceiver/eth$i/write_enable"
+        rst_node="/sys_switch/transceiver/eth$i/reset"
+        # Open write enable
+        echo 89 > $write_enable
+    done
+
+
+    for i in $(seq 1 128); do
+        write_enable="/sys_switch/transceiver/eth$i/write_enable"
+        rst_node="/sys_switch/transceiver/eth$i/reset"
+
+        # Set reset enable
+        if [[ -e "$rst_node" ]]; then
+            echo "1" > "$rst_node" || logger "$0 Set reset enable fail: $rst_node"
+        else
+            logger "$rst_node not exist, skip enable reset transceiver"
+        fi
+    done
+
+    sleep 0.5
+
+    for i in $(seq 1 128); do
+        write_enable="/sys_switch/transceiver/eth$i/write_enable"
+        rst_node="/sys_switch/transceiver/eth$i/reset"
+
+        # Set reset disable
+        if [[ -e "$rst_node" ]]; then
+            echo "0" > "$rst_node" || logger "$0 Set reset disable fail: $rst_node"
+        else
+            logger "$rst_node not exist, skip disable reset transceiver"
+        fi
+    done
+
+    for i in $(seq 1 128); do
+        write_enable="/sys_switch/transceiver/eth$i/write_enable"
+        rst_node="/sys_switch/transceiver/eth$i/reset"
+
+        # Close write enable
+        echo 78 > $write_enable
+    done
+
+}
+
+ParseArguments "$@"
+
+# Before reboot, reset transceiver module
+ResetXcvr
+
+SafePwrCycle
