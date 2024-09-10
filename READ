@@ -1,32 +1,50 @@
-#!/bin/bash
+import os
+import time
+import subprocess
 
-# 服务名
-SERVICE_NAME="s3ip-sysfs.service"
+# 检查设备路径是否存在的函数
+def wait_for_device(path):
+    print(f"等待设备 {path} 出现...")
+    while not os.path.exists(path):
+        time.sleep(2)  # 等待2秒后再检查一次
+    print(f"设备 {path} 已经出现！")
 
-# 等待服务启动成功
-while true; do
-    # 检查服务状态是否为active (running)
-    STATUS=$(systemctl is-active $SERVICE_NAME)
-    
-    if [ "$STATUS" = "active" ]; then
-        echo "$SERVICE_NAME 已成功启动"
-        break
-    else
-        echo "$SERVICE_NAME 未启动，等待中..."
-        sleep 5  # 每隔5秒检查一次
-    fi
-done
+# 执行shell命令的函数
+def execute_command(command):
+    print(f"执行命令: {command}")
+    result = subprocess.run(command, shell=True)
+    if result.returncode == 0:
+        print(f"命令执行成功: {command}")
+    else:
+        print(f"命令执行失败: {command}, 返回码: {result.returncode}")
 
-# 服务启动成功后执行后续命令
-echo "执行后续操作..."
-# 在这里写入你需要执行的命令
+# 检查服务状态的函数
+def wait_for_service(service_name):
+    print(f"等待服务 {service_name} 变为 active...")
+    while True:
+        result = subprocess.run(f"systemctl is-active {service_name}", shell=True, capture_output=True, text=True)
+        if result.stdout.strip() == "active":
+            print(f"服务 {service_name} 已经 active!")
+            break
+        time.sleep(2)  # 等待2秒后再检查一次
 
+# 主程序逻辑
+def main():
+    device_path = "/sys/bus/i2c/devices/i2c-213"
+    shell_command = "your-shell-command-here"  # 替换为你想执行的命令
+    service_name = "s3ip-sysfs.service"
 
+    # 步骤1: 等待设备路径存在
+    wait_for_device(device_path)
 
-TARGET_DIR="/sys/bus/i2c/devices/i2c-213"
+    # 步骤2: 执行指定的 shell 命令
+    execute_command(shell_command)
 
-# 持续检查文件夹是否存在
-while [ ! -d "$TARGET_DIR" ]; do
-    echo "等待 $TARGET_DIR 创建..."
-    sleep 1  # 等待 1 秒后继续检查
-done
+    # 步骤3: 等待服务 active
+    wait_for_service(service_name)
+
+    # 后续可以继续添加其他逻辑
+    print("所有任务完成！")
+
+if __name__ == "__main__":
+    main()
