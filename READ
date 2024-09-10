@@ -1,1 +1,20 @@
-11
+[BUGFIX][ISU2024082885007] Modify set port power on in bn450l0 utils for reboot
+Description:
+	1. After reboot set port power_on in bn450l0 util, not in ieit-driver-init service to set power_On
+	2. Test: touch .installed file in rc.local, reboot and power cycle power_on will not be set on
+Changes to be committed:
+       modified:   platform/mellanox/sonic-platform-modules-baidu/baidu/apps/bn450l0/sonic_platform_modules_extend.sh
+       modified:   platform/mellanox/sonic-platform-modules-baidu/baidu/utils/bn450l0_util.py
+926544e9
+
+
+[BUGFIX][ISU2024082885007] Modify platform module stop service disable service first and then stop service
+
+Reviewer:
+	liwenlong
+Root cause:
+	In reboot process, systemd-shutdown will stop platform-module-baidu service, stop command spend much time, cause service not disable successfuly
+Solution:
+	1. After Execstop platform-module-baidu.service, First to systemctl disable xxx.service qucikly, Second systemctl stop xxx.service
+Changes to be committed:
+       modified:   platform/mellanox/sonic-platform-modules-baidu/baidu/utils/bn450l0_util.py
