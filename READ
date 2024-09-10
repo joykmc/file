@@ -22,3 +22,11 @@ echo "执行后续操作..."
 # 在这里写入你需要执行的命令
 
 
+
+TARGET_DIR="/sys/bus/i2c/devices/i2c-213"
+
+# 持续检查文件夹是否存在
+while [ ! -d "$TARGET_DIR" ]; do
+    echo "等待 $TARGET_DIR 创建..."
+    sleep 1  # 等待 1 秒后继续检查
+done
