@@ -18,3 +18,22 @@ Solution:
 	1. After Execstop platform-module-baidu.service, First to systemctl disable xxx.service qucikly, Second systemctl stop xxx.service
 Changes to be committed:
        modified:   platform/mellanox/sonic-platform-modules-baidu/baidu/utils/bn450l0_util.py
+
+
+
+[ENHANCE][ZENTAOBUG082] Add lm75 and ina3221 driver retry mechanism and module param 
+Description:
+	1. add retries module param to support retry
+	2. Add retries machanism in read value
+
+Changes to be committed:
+       new file:   patch/0001-driver-ina3221-add-retry-mechanism-support.patch
+       new file:   patch/0001-driver-lm75-add-retry-mechanism-support.patch
+       modified:   patch/series
+
+[FEATURE][ZENTAO3375][S3IP]add lc_fru_wp S3ip-Sysfs support lc fru eeprom write protect 
+Description:
+    1. add lc_fru_wp S3ip-Sysfs support lc fru eeprom write protect;
+Changes to be committed:
+    modified: pddf/i2c/modules/sysstatus/pddf_sysstatus_module.c
+
