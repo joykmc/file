@@ -1,39 +1,24 @@
-[BUGFIX][ISU2024082885007] Modify set port power on in bn450l0 utils for reboot
-Description:
-	1. After reboot set port power_on in bn450l0 util, not in ieit-driver-init service to set power_On
-	2. Test: touch .installed file in rc.local, reboot and power cycle power_on will not be set on
-Changes to be committed:
-       modified:   platform/mellanox/sonic-platform-modules-baidu/baidu/apps/bn450l0/sonic_platform_modules_extend.sh
-       modified:   platform/mellanox/sonic-platform-modules-baidu/baidu/utils/bn450l0_util.py
-926544e9
+#!/bin/bash
 
+# 服务名
+SERVICE_NAME="s3ip-sysfs.service"
 
-[BUGFIX][ISU2024082885007] Modify platform module stop service disable service first and then stop service
+# 等待服务启动成功
+while true; do
+    # 检查服务状态是否为active (running)
+    STATUS=$(systemctl is-active $SERVICE_NAME)
+    
+    if [ "$STATUS" = "active" ]; then
+        echo "$SERVICE_NAME 已成功启动"
+        break
+    else
+        echo "$SERVICE_NAME 未启动，等待中..."
+        sleep 5  # 每隔5秒检查一次
+    fi
+done
 
-Reviewer:
-	liwenlong
-Root cause:
-	In reboot process, systemd-shutdown will stop platform-module-baidu service, stop command spend much time, cause service not disable successfuly
-Solution:
-	1. After Execstop platform-module-baidu.service, First to systemctl disable xxx.service qucikly, Second systemctl stop xxx.service
-Changes to be committed:
-       modified:   platform/mellanox/sonic-platform-modules-baidu/baidu/utils/bn450l0_util.py
+# 服务启动成功后执行后续命令
+echo "执行后续操作..."
+# 在这里写入你需要执行的命令
 
-
-
-[ENHANCE][ZENTAOBUG082] Add lm75 and ina3221 driver retry mechanism and module param 
-Description:
-	1. add retries module param to support retry
-	2. Add retries machanism in read value
-
-Changes to be committed:
-       new file:   patch/0001-driver-ina3221-add-retry-mechanism-support.patch
-       new file:   patch/0001-driver-lm75-add-retry-mechanism-support.patch
-       modified:   patch/series
-
-[FEATURE][ZENTAO3375][S3IP]add lc_fru_wp S3ip-Sysfs support lc fru eeprom write protect 
-Description:
-    1. add lc_fru_wp S3ip-Sysfs support lc fru eeprom write protect;
-Changes to be committed:
-    modified: pddf/i2c/modules/sysstatus/pddf_sysstatus_module.c
 
