@@ -1,0 +1,77 @@
+From f25532b7bf12a7ed54935047aba1f50f13ac635d Mon Sep 17 00:00:00 2001
+From: lizhaoxing <lizhaoxing@inspur.com>
+Date: Fri, 6 Sep 2024 14:48:44 +0800
+Subject: [PATCH] driver ina3221 add retry mechanism support
+
+Description:
+	1. add retries module param support for retry read value
+---
+ device/hwmon/ina3221.c | 42 +++++++++++++++++++++++++++---------------
+ 1 file changed, 27 insertions(+), 15 deletions(-)
+
+diff --git a/device/hwmon/ina3221.c b/device/hwmon/ina3221.c
+index ad11cbd..7712369 100644
+--- a/device/hwmon/ina3221.c
++++ b/device/hwmon/ina3221.c
+@@ -57,6 +57,10 @@
+ #define INA3221_CONFIG_DEFAULT		0x7127
+ #define INA3221_RSHUNT_DEFAULT		10000
+ 
++static int retries = 0x03;
++module_param(retries, int, 0644);
++MODULE_PARM_DESC(retries, "retries: number of retries when reading failed.\n");
++
+ enum ina3221_fields {
+ 	/* Configuration */
+ 	F_RST,
+@@ -525,24 +529,32 @@ static int ina3221_read(struct device *dev, enum hwmon_sensor_types type,
+ 			u32 attr, int channel, long *val)
+ {
+ 	struct ina3221_data *ina = dev_get_drvdata(dev);
+-	int ret;
++	int ret, i;
+ 
+ 	mutex_lock(&ina->lock);
+ 
+-	switch (type) {
+-	case hwmon_chip:
+-		ret = ina3221_read_chip(dev, attr, val);
+-		break;
+-	case hwmon_in:
+-		/* 0-align channel ID */
+-		ret = ina3221_read_in(dev, attr, channel - 1, val);
+-		break;
+-	case hwmon_curr:
+-		ret = ina3221_read_curr(dev, attr, channel, val);
+-		break;
+-	default:
+-		ret = -EOPNOTSUPP;
+-		break;
++	for (i = 0; i < retries; i++) {
++		switch (type) {
++		case hwmon_chip:
++			ret = ina3221_read_chip(dev, attr, val);
++			break;
++		case hwmon_in:
++			/* 0-align channel ID */
++			ret = ina3221_read_in(dev, attr, channel - 1, val);
++			break;
++		case hwmon_curr:
++			ret = ina3221_read_curr(dev, attr, channel, val);
++			break;
++		default:
++			ret = -EOPNOTSUPP;
++			break;
++		}
++
++		if (!ret)
++			break;
++
++		dev_info(dev, "ina3221 device retry %d times, ret=%d\n", i+1, ret);
++		usleep_range(100, 500);
+ 	}
+ 
+ 	mutex_unlock(&ina->lock);
+-- 
+2.25.1
+

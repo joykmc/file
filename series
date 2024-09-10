@@ -1,0 +1,41 @@
+# This series applies on GIT commit 83bbbf756dcd2cc760ef1355d3b54826373f065e
+# for pca954x patch
+0001-driver-pca954x-fix-coverity-issue-id-duplicate.patch
+0001-add-pca954x-platform-data-for-adapter-create.patch
+0002-driver-pca954x-i2c-mux-force-deselect-on-exit.patch
+0003-add-pca954x-bus-base-id-and-ignore-hardware-parm.patch
+
+# For pxe1610 driver
+0001-pxe1610-driver-sppport-for-pxe1410.patch
+0001-driver-pxe1610-add-get-fw-version-and-client-mutex.patch
+0002-driver-pxe1610-add-support-retry-format.patch
+0003-driver-pxe1610-fix-install-failed-with-block-read.patch
+
+# For xdpe12284 driver
+0001-driver-xdpe12284-add-fw-version-sysfs-for-show.patch
+0002-driver-xdpe12284-add-retry-and-module-param.patch
+
+# For lm75 driver
+0001-driver-lm75-add-retry-mechanism-support.patch
+
+# For ina3221 driver
+0001-driver-ina3221-add-retry-mechanism-support.patch
+
+0001-i2c-i801-disable-spd-register.patch
+0002-add-i2c-i801-bus-clear-and-recovery-support.patch
+0003-add-emc1403-driver-support-for-CT7432-device.patch
+0004-add-emc1403-driver-support-for-negative-temp.patch
+0006-add-sysfs-node-to-get-firmware-version-ir35221.patch
+0006-add-tps546d24-driver-support-tps546c23.patch
+
+0001-driver-ad5592r-add-channel-mode-manual-config-set.patch
+0001-driver-mp2975-retry-support.patch
+0002-driver-mp2975-firmware-version-support.patch
+0003-driver-mp2975-support-vout-format-manual-set.patch
+0009-FEATURE-ZENTAO1682-add-sysfs-node-for-switch.patch
+0010-add-inspur-ipsps-driver-support.patch
+0001-driver-mp5023-add-id-table-support.patch
+0001-FEATURE-ZENTAO3253-DRIVER-fixbug-the-API-function-of.patch
+
+0001-driver-ipsps-modify-smbus-block-read-str-and-add-retry.patch
+0002-driver-ipsps-add-power-cycle-sysfs-for-psu-auto-cycle.patch
