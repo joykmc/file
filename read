@@ -1,0 +1,10 @@
+[BUGFIX][ISU2024082246076] Modify driver extend vol and curr device init in background
+
+Description:
+	1. Delete vol and curr sensor from platform device init service
+	2. Init device in driver_stage2.py, wait for the last adapter ok and wait for s3ip ok to init at the same time.
+	3. systemctl stop ieit-driver-init.service in the background will save the stop time
+Changes to be committed:
+       new file:   platform/mellanox/sonic-platform-modules-baidu/baidu/apps/bn450l0/driver_stage2.py
+       modified:   platform/mellanox/sonic-platform-modules-baidu/baidu/modules/bn450l0/config/platform-device.json
+       modified:   platform/mellanox/sonic-platform-modules-baidu/baidu/utils/bn450l0_util.py
