@@ -12,3 +12,15 @@ Changes to be committed:
 
 https://100.60.146.184:8443/login/login.htm
 sbu_2 / coverity
+
+
+
+15. Condition curr_times < max_times, taking true branch.
+546        for(curr_times=0; curr_times < max_times; ++curr_times) {
+547                memset(_buf, 0, sizeof(_buf));
+     	16. negative_return_fn: Function find_string(curr, cnt, ";", 1UL) returns a negative number.[show details]
+     	17. assign: Assigning: pos = find_string(curr, cnt, ";", 1UL).
+548                pos = find_string(curr, cnt, ";", 1);    /* find the first ";" position */
+     	
+CID 1310610: (#1 of 1): Argument cannot be negative (NEGATIVE_RETURNS)
+18. negative_returns: pos is passed to a parameter that cannot be negative. [Note: The source code implementation of the function has been overridden by a builtin model.]
