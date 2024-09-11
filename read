@@ -49,4 +49,65 @@ CID 1310615: (#1 of 1): Out-of-bounds write (OVERRUN)
 704        } else {
 705                dev_warn(dev, "enter the string with \";\" at the end.");
 706        }
+
 707        dev_dbg(dev, "the standardized data _buf=%s\n", _buf);
+
+
+
+
+
+
+
+
+char _buf[sizeof("dev0:1,") * sizeof(fan_dbg_arr)];
+682        u8 cnt = count - 1;  /* valid input data length */
+683
+     	1. Condition count < 1, taking false branch.
+     	2. Condition cnt > 160UL /* sizeof (_buf) */, taking false branch.
+     	3. cond_at_most: Checking cnt > 160UL implies that cnt may be up to 160 on the false branch.
+684        if (count < 1 || cnt > sizeof(_buf)) {
+685                dev_err(dev, "enter the string with invalid=%s, count=%ld\n", buf, count);
+686                return -EINVAL;
+687        }
+688
+     	4. Condition 0 /* __builtin_types_compatible_p() */, taking false branch.
+     	5. Condition 1 /* __builtin_types_compatible_p() */, taking true branch.
+     	6. Falling through to end of if statement.
+     	7. Condition !!branch, taking false branch.
+     	8. Condition ({...; !!branch;}), taking false branch.
+689        dev_dbg(dev, "buf=%s sizeof(buf)=%ld, cnt=%d count=%ld, *buf=%c\n",
+690                         buf, sizeof(buf), cnt, count, *buf);
+691
+     	9. Condition *buf == '1', taking false branch.
+     	10. Condition *buf == '0', taking false branch.
+692        if(*buf == '1' || *buf == '0') {
+693                fan_simple_sta_store(dev, buf, cnt);
+694                return count;
+695        }
+696
+697        /* support dev1:1,dev3:0 and dev1:1;dev3:0 */
+698        memset(_buf, 0, sizeof(_buf));
+699        strncpy(_buf, buf, cnt);
+700
+701        replace_char(_buf, cnt, ',', ';');
+     	11. Condition *(_buf + cnt - 1) != ';', taking true branch.
+702        if(*(_buf + cnt-1) != ';') {
+     	
+CID 1310615: (#1 of 1): Out-of-bounds write (OVERRUN)
+12. overrun-local: Overrunning array of 160 bytes at byte offset 160 by dereferencing pointer _buf + cnt.
+703                *(_buf + cnt) = ';';
+704        } else {
+705                dev_warn(dev, "enter the string with \";\" at the end.");
+706        }
+707        dev_dbg(dev, "the standardized data _buf=%s\n", _buf);
+708
+709        if(find_string(_buf, sizeof(_buf), "fan", 3) >= 0) {
+710                dev_dbg(dev, "enter fan count=%ld\n", count);
+711                fan_name_sta_store(dev, _buf, count);
+712                return count;
+713        }
+714
+715        dev_name_sta_store(dev, _buf, count);
+716
+717        return count;
+718}
