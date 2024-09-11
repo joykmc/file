@@ -23,4 +23,30 @@ sbu_2 / coverity
 548                pos = find_string(curr, cnt, ";", 1);    /* find the first ";" position */
      	
 CID 1310610: (#1 of 1): Argument cannot be negative (NEGATIVE_RETURNS)
-18. negative_returns: pos is passed to a parameter that cannot be negative. [Note: The source code implementation of the function has been overridden by a builtin model.]
+18. negative_returns: pos is passed to a parameter tha
+
+t cannot be negative. [Note: The source code implementation of the function has been overridden by a builtin model.]
+
+
+
+
+ if(*buf == '1' || *buf == '0') {
+693                fan_simple_sta_store(dev, buf, cnt);
+694                return count;
+695        }
+696
+697        /* support dev1:1,dev3:0 and dev1:1;dev3:0 */
+698        memset(_buf, 0, sizeof(_buf));
+699        strncpy(_buf, buf, cnt);
+700
+701        replace_char(_buf, cnt, ',', ';');
+     	11. Condition *(_buf + cnt - 1) != ';', taking true branch.
+702        if(*(_buf + cnt-1) != ';') {
+     	
+CID 1310615: (#1 of 1): Out-of-bounds write (OVERRUN)
+12. overrun-local: Overrunning array of 160 bytes at byte offset 160 by dereferencing pointer _buf + cnt.
+703                *(_buf + cnt) = ';';
+704        } else {
+705                dev_warn(dev, "enter the string with \";\" at the end.");
+706        }
+707        dev_dbg(dev, "the standardized data _buf=%s\n", _buf);
