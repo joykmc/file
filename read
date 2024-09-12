@@ -111,3 +111,25 @@ CID 1310615: (#1 of 1): Out-of-bounds write (OVERRUN)
 716
 717        return count;
 718}
+
+
+
+
+
+
+udev: make net_setup_link builtin quiet when link vanishes while we were processing it or so
+
+Fixes: systemd#16175
+
+
+
+SMM Error Handler Entry
+Enter OemCollectVtdInfo.
+
+Error Type: PCIE_VTD  SMI_SN 0 
+  Socket 0x00
+  VtUncErrSts_VAL = 0x00000080
+  VtUncErrMsk_VAL = 0x80000000
+  VtUncErrSev_VAL = 0x000001BF
+  VtUncErrFErr_VAL = 0x00000000
+
