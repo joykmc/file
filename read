@@ -1,1 +1,4 @@
 https://github.com/eddieruan-alibaba/sonic-buildimage.git
+
+
+ld: cannot open linker script file /sonic/platform/cisco/sonic-platform-modules-inspur/../../common/modules_build/pddf/i2c/modules/cpld/driver/.tmp_pddf_cpld_driver.ver: No such file or directory
