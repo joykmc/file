@@ -2,3 +2,73 @@ https://github.com/eddieruan-alibaba/sonic-buildimage.git
 
 
 ld: cannot open linker script file /sonic/platform/cisco/sonic-platform-modules-inspur/../../common/modules_build/pddf/i2c/modules/cpld/driver/.tmp_pddf_cpld_driver.ver: No such file or directory
+	branch = project-phoenixwing
+
+
+
+
+
+
+
+
+
+
+
+ssize_t set_module_eth_plug_debug(struct device *dev, struct device_attribute *devattr,
+633                 const char *buf, size_t count)
+634{
+635        char _buf[sizeof("eth128:1,") * sizeof(debug_flag)];
+     	1. Condition 0 /* !!(!__builtin_types_compatible_p() && !__builtin_types_compatible_p()) */, taking false branch.
+636        struct i2c_client *client = to_i2c_client(dev);
+637        size_t cnt = count - 1;  /* valid input data length */
+638
+     	2. Condition count < 1, taking false branch.
+     	3. Condition cnt > 5120UL /* sizeof (_buf) */, taking false branch.
+     	4. cond_at_most: Checking cnt > 5120UL implies that cnt may be up to 5120 on the false branch.
+639        if (count < 1 || cnt > sizeof(_buf)) {
+640                dev_err(&client->dev, "enter the string with invalid=%s, count=%ld\n", buf, count);
+641                return -EINVAL;
+642        }
+643
+     	5. Condition 0 /* __builtin_types_compatible_p() */, taking false branch.
+     	6. Condition 1 /* __builtin_types_compatible_p() */, taking true branch.
+     	7. Falling through to end of if statement.
+     	8. Condition !!branch, taking false branch.
+     	9. Condition ({...; !!branch;}), taking false branch.
+644        dev_dbg(&client->dev, "buf=%s sizeof(buf)=%ld, cnt=%ld count=%ld, *buf=%c\n",
+645                         buf, sizeof(buf), cnt, count, *buf);
+646
+     	10. Condition *buf == '1', taking false branch.
+     	11. Condition *buf == '0', taking false branch.
+647        if(*buf == '1' || *buf == '0') {
+648                eth_simple_sta_store(dev, buf, cnt);
+649                return count;
+650        }
+651
+652        /* support fan1:1,fan3:0 and fan1:1;fan3:0 */
+653        memset(_buf, 0, sizeof(_buf));
+654        strncpy(_buf, buf, cnt);
+655
+656        replace_char(_buf, cnt, ',', ';');
+     	12. Condition *(_buf + cnt - 1) != ';', taking true branch.
+657        if(*(_buf + cnt-1) != ';') {
+     	
+CID 1311243: (#1 of 1): Out-of-bounds write (OVERRUN)
+13. overrun-local: Overrunning array of 5120 bytes at byte offset 5120 by dereferencing pointer _buf + cnt.
+658                *(_buf + cnt) = ';';
+659        } else {
+660                dev_info(&client->dev, "enter the string with \";\" at the end.");
+661        }
+662        dev_dbg(&client->dev, "the standardized data _buf=%s\n", _buf);
+663
+664        if(find_string(_buf, sizeof(_buf), "eth", 3) >= 0) {
+665                dev_dbg(&client->dev, "enter eth count=%ld\n", count);
+666                eth_name_sta_store(dev, _buf, count);
+667                return count;
+668        }
+669
+670        /* support dev1:1,dev3:0 and dev1:1;dev3:0; */
+671        dev_name_sta_store(dev, _buf, count);
+672
+673        return count;
+674}
