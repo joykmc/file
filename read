@@ -72,3 +72,15 @@ CID 1311243: (#1 of 1): Out-of-bounds write (OVERRUN)
 672
 673        return count;
 674}
+
+
+
+
+
+from scapy.all import *
+eth = Ether(dst="00:12:34:56:78:9a", src="00:12:34:56:78:1a")
+ip = IP(dst="1.1.2.2", src="3.4.5.6")
+payload = Raw(b"75948305783490582930841907482947283952349")
+p = eth / ip / payload
+[sendp(p, iface="Ethernet1") for _ in range(100000)]
+
