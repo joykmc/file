@@ -1,0 +1,285 @@
+60943:Oct  5 15:44:32.451621 sonic ERR systemd-udevd[382]: mgmt: Failed to get link config: No such device
+60975:Oct  5 15:44:32.506554 sonic ERR systemd-udevd[381]: lo-m: Failed to get link config: No such device
+72200:Oct  5 15:52:30.900364 sonic ERR systemd-udevd[399]: lo-m: Failed to get link config: No such device
+72203:Oct  5 15:52:30.941186 sonic ERR systemd-udevd[383]: mgmt: Failed to get link config: No such device
+78009:Oct  5 15:55:30.955143 sonic ERR systemd-udevd[387]: mgmt: Failed to get link config: No such device
+78016:Oct  5 15:55:31.044337 sonic ERR systemd-udevd[399]: lo-m: Failed to get link config: No such device
+94044:Oct  5 16:08:22.158691 sonic ERR systemd-udevd[385]: eth1: lizhaoxing test build!!!!!: Success
+94046:Oct  5 16:08:22.158841 sonic ERR systemd-udevd[397]: eth2: lizhaoxing test build!!!!!: Success
+94054:Oct  5 16:08:22.307628 sonic ERR systemd-udevd[406]: eth0: lizhaoxing test build!!!!!: Success
+94076:Oct  5 16:08:22.777746 sonic ERR systemd-udevd[401]: lo: lizhaoxing test build!!!!!: Success
+94080:Oct  5 16:08:22.848814 sonic ERR systemd-udevd[385]: eth0.4088: lizhaoxing test build!!!!!: Success
+94084:Oct  5 16:08:22.850263 sonic ERR systemd-udevd[403]: bcm0: lizhaoxing test build!!!!!: Success
+94086:Oct  5 16:08:22.851450 sonic ERR systemd-udevd[410]: docker0: lizhaoxing test build!!!!!: Success
+94088:Oct  5 16:08:22.852528 sonic ERR systemd-udevd[415]: mgmt: lizhaoxing test build!!!!!: No such device
+94091:Oct  5 16:08:22.863960 sonic ERR systemd-udevd[380]: lo-m: lizhaoxing test build!!!!!: No such device
+94093:Oct  5 16:08:22.876364 sonic ERR systemd-udevd[417]: mgmt: lizhaoxing test build!!!!!: Success
+94096:Oct  5 16:08:22.882956 sonic ERR systemd-udevd[404]: lo-m: lizhaoxing test build!!!!!: Success
+95239:Oct  5 16:08:40.324992 sonic ERR systemd-udevd[6289]: Ethernet2: lizhaoxing test build!!!!!: Success
+95244:Oct  5 16:08:40.327953 sonic ERR systemd-udevd[6295]: Ethernet1: lizhaoxing test build!!!!!: Success
+95276:Oct  5 16:08:40.357157 sonic ERR systemd-udevd[6297]: Ethernet4: lizhaoxing test build!!!!!: Success
+95294:Oct  5 16:08:40.374143 sonic ERR systemd-udevd[6297]: Ethernet3: lizhaoxing test build!!!!!: Success
+95321:Oct  5 16:08:40.386418 sonic ERR systemd-udevd[6289]: Ethernet6: lizhaoxing test build!!!!!: Success
+95331:Oct  5 16:08:40.398063 sonic ERR systemd-udevd[6297]: Ethernet5: lizhaoxing test build!!!!!: Success
+95343:Oct  5 16:08:40.409438 sonic ERR systemd-udevd[6295]: Ethernet8: lizhaoxing test build!!!!!: Success
+95353:Oct  5 16:08:40.421531 sonic ERR systemd-udevd[6297]: Ethernet7: lizhaoxing test build!!!!!: Success
+95365:Oct  5 16:08:40.432050 sonic ERR systemd-udevd[6295]: Ethernet10: lizhaoxing test build!!!!!: Success
+95376:Oct  5 16:08:40.443037 sonic ERR systemd-udevd[6297]: Ethernet9: lizhaoxing test build!!!!!: Success
+95387:Oct  5 16:08:40.453780 sonic ERR systemd-udevd[6295]: Ethernet12: lizhaoxing test build!!!!!: Success
+95398:Oct  5 16:08:40.464834 sonic ERR systemd-udevd[6297]: Ethernet11: lizhaoxing test build!!!!!: Success
+95408:Oct  5 16:08:40.476612 sonic ERR systemd-udevd[6295]: Ethernet14: lizhaoxing test build!!!!!: Success
+95418:Oct  5 16:08:40.488736 sonic ERR systemd-udevd[6289]: Ethernet13: lizhaoxing test build!!!!!: Success
+95432:Oct  5 16:08:40.499668 sonic ERR systemd-udevd[6297]: Ethernet16: lizhaoxing test build!!!!!: Success
+95441:Oct  5 16:08:40.511190 sonic ERR systemd-udevd[6295]: Ethernet15: lizhaoxing test build!!!!!: Success
+95453:Oct  5 16:08:40.524695 sonic ERR systemd-udevd[6297]: Ethernet18: lizhaoxing test build!!!!!: Success
+95463:Oct  5 16:08:40.536218 sonic ERR systemd-udevd[6295]: Ethernet17: lizhaoxing test build!!!!!: Success
+95476:Oct  5 16:08:40.548673 sonic ERR systemd-udevd[6289]: Ethernet20: lizhaoxing test build!!!!!: Success
+95496:Oct  5 16:08:40.560315 sonic ERR systemd-udevd[6297]: Ethernet19: lizhaoxing test build!!!!!: Success
+95507:Oct  5 16:08:40.571401 sonic ERR systemd-udevd[6295]: Ethernet22: lizhaoxing test build!!!!!: Success
+95518:Oct  5 16:08:40.584274 sonic ERR systemd-udevd[6297]: Ethernet21: lizhaoxing test build!!!!!: Success
+95530:Oct  5 16:08:40.594315 sonic ERR systemd-udevd[6295]: Ethernet24: lizhaoxing test build!!!!!: Success
+95541:Oct  5 16:08:40.605007 sonic ERR systemd-udevd[6297]: Ethernet23: lizhaoxing test build!!!!!: Success
+95551:Oct  5 16:08:40.617071 sonic ERR systemd-udevd[6295]: Ethernet26: lizhaoxing test build!!!!!: Success
+95562:Oct  5 16:08:40.627843 sonic ERR systemd-udevd[6297]: Ethernet25: lizhaoxing test build!!!!!: Success
+95574:Oct  5 16:08:40.638887 sonic ERR systemd-udevd[6295]: Ethernet28: lizhaoxing test build!!!!!: Success
+95584:Oct  5 16:08:40.649473 sonic ERR systemd-udevd[6297]: Ethernet27: lizhaoxing test build!!!!!: Success
+95595:Oct  5 16:08:40.659835 sonic ERR systemd-udevd[6295]: Ethernet30: lizhaoxing test build!!!!!: Success
+95606:Oct  5 16:08:40.670985 sonic ERR systemd-udevd[6297]: Ethernet29: lizhaoxing test build!!!!!: Success
+95617:Oct  5 16:08:40.681261 sonic ERR systemd-udevd[6295]: Ethernet32: lizhaoxing test build!!!!!: Success
+95629:Oct  5 16:08:40.692913 sonic ERR systemd-udevd[6297]: Ethernet31: lizhaoxing test build!!!!!: Success
+95683:Oct  5 16:08:41.368240 sonic ERR systemd-udevd[6297]: Bridge: lizhaoxing test build!!!!!: Success
+95715:Oct  5 16:08:41.442205 sonic ERR systemd-udevd[6297]: dummy: lizhaoxing test build!!!!!: Success
+95736:Oct  5 16:08:41.472102 sonic ERR systemd-udevd[6297]: Vlan1: lizhaoxing test build!!!!!: Success
+
+
+root@sonic:/home/admin# 
+root@sonic:/home/admin# ethtool -i eth0
+driver: igb
+version: 5.10.0-12-2-amd64
+firmware-version: 3.27, 0x800005cc
+expansion-rom-version: 
+bus-info: 0000:0b:00.0
+supports-statistics: yes
+supports-test: yes
+supports-eeprom-access: yes
+supports-register-dump: yes
+supports-priv-flags: yes
+root@sonic:/home/admin# 
+root@sonic:/home/admin# 
+root@sonic:/home/admin# 
+root@sonic:/home/admin# 
+root@sonic:/home/admin# 
+root@sonic:/home/admin# 
+root@sonic:/home/admin# 
+root@sonic:/home/admin# 
+root@sonic:/home/admin# 
+root@sonic:/home/admin# grep -rni "ERR" /var/log/syslog | grep udev
+16820:Oct  8 23:07:04.529628 sonic ERR systemd-udevd[387]: could not read from '/sys/module/pcc_cpufreq/initstate': No such device
+17106:Oct  8 23:07:19.106608 sonic ERR systemd-udevd[411]: lo-m: Failed to get link config: No such device
+17108:Oct  8 23:07:19.107717 sonic ERR systemd-udevd[415]: mgmt: Failed to get link config: No such device
+root@sonic:/home/admin# 
+root@sonic:/home/admin# 
+root@sonic:/home/admin# 
+root@sonic:/home/admin# 
+root@sonic:/home/admin# 
+root@sonic:/home/admin# show ver
+
+TeleNOS Software Version: V100R02C01TEST.20240909010919
+Distribution: Debian 11.11
+Kernel: 5.10.0-12-2-amd64
+Build commit: 8f81db3c8
+Build date: Sun Sep  8 18:23:51 UTC 2024
+Built by: zhaopf3@ubuntu
+
+Platform: x86_64-inspur_sc8661sl-r0
+HwSKU: SC8661SL
+ASIC: broadcom
+ASIC Count: 1
+Serial Number: 61AB38379
+Model Number: YZSW-01932-101
+Hardware Revision: 48
+Uptime: 23:11:20 up 4 min,  1 user,  load average: 2.35, 1.65, 0.75
+Date: Tue 08 Oct 2024 23:11:20
+
+
+
+36003:Oct 11 00:30:05.354412 sonic ERR systemd-udevd[388]: eth2: lizhaoxing test build!!!!!: Success
+36004:Oct 11 00:30:05.354519 sonic ERR systemd-udevd[409]: eth1: lizhaoxing test build!!!!!: Success
+36008:Oct 11 00:30:05.483057 sonic ERR systemd-udevd[409]: eth0: lizhaoxing test build!!!!!: Success
+36027:Oct 11 00:30:05.875201 sonic ERR systemd-udevd[422]: lo: lizhaoxing test build!!!!!: Success
+36029:Oct 11 00:30:05.966838 sonic ERR systemd-udevd[409]: eth0.4088: lizhaoxing test build!!!!!: Success
+36033:Oct 11 00:30:05.971978 sonic ERR systemd-udevd[390]: docker0: lizhaoxing test build!!!!!: Success
+36036:Oct 11 00:30:05.972819 sonic ERR systemd-udevd[380]: mgmt: lizhaoxing test build!!!!!: No such device
+36038:Oct 11 00:30:05.977009 sonic ERR systemd-udevd[419]: lo-m: lizhaoxing test build!!!!!: No such device
+36039:Oct 11 00:30:05.977986 sonic ERR systemd-udevd[392]: bcm0: lizhaoxing test build!!!!!: Success
+36041:Oct 11 00:30:05.990706 sonic ERR systemd-udevd[392]: mgmt: lizhaoxing test build!!!!!: Success
+36043:Oct 11 00:30:05.993404 sonic ERR systemd-udevd[409]: lo-m: lizhaoxing test build!!!!!: Success
+36891:Oct 11 00:30:33.833400 sonic ERR systemd-udevd[13465]: Bridge: lizhaoxing test build!!!!!: Success
+36908:Oct 11 00:30:33.907700 sonic ERR systemd-udevd[13470]: dummy: lizhaoxing test build!!!!!: Success
+37616:Oct 11 00:30:44.557389 sonic ERR systemd-udevd[13884]: Ethernet65: lizhaoxing test build!!!!!: Success
+37669:Oct 11 00:30:44.574913 sonic ERR systemd-udevd[13886]: Ethernet66: lizhaoxing test build!!!!!: Success
+37709:Oct 11 00:30:44.591038 sonic ERR systemd-udevd[13886]: Ethernet67: lizhaoxing test build!!!!!: Success
+37754:Oct 11 00:30:44.608754 sonic ERR systemd-udevd[13886]: Ethernet68: lizhaoxing test build!!!!!: Success
+37767:Oct 11 00:30:44.626591 sonic ERR systemd-udevd[13886]: Ethernet69: lizhaoxing test build!!!!!: Success
+37809:Oct 11 00:30:44.650534 sonic ERR systemd-udevd[13886]: Ethernet70: lizhaoxing test build!!!!!: Success
+37852:Oct 11 00:30:44.669362 sonic ERR systemd-udevd[13886]: Ethernet71: lizhaoxing test build!!!!!: Success
+37875:Oct 11 00:30:44.686908 sonic ERR systemd-udevd[13886]: Ethernet72: lizhaoxing test build!!!!!: Success
+38050:Oct 11 00:30:44.720452 sonic ERR systemd-udevd[13886]: Ethernet97: lizhaoxing test build!!!!!: Success
+38228:Oct 11 00:30:44.745273 sonic ERR systemd-udevd[13886]: Ethernet98: lizhaoxing test build!!!!!: Success
+38240:Oct 11 00:30:44.758021 sonic ERR systemd-udevd[13886]: Ethernet99: lizhaoxing test build!!!!!: Success
+38253:Oct 11 00:30:44.776417 sonic ERR systemd-udevd[13886]: Ethernet100: lizhaoxing test build!!!!!: Success
+38263:Oct 11 00:30:44.788903 sonic ERR systemd-udevd[13886]: Ethernet101: lizhaoxing test build!!!!!: Success
+38276:Oct 11 00:30:44.802948 sonic ERR systemd-udevd[13886]: Ethernet102: lizhaoxing test build!!!!!: Success
+38288:Oct 11 00:30:44.816035 sonic ERR systemd-udevd[13886]: Ethernet103: lizhaoxing test build!!!!!: Success
+38300:Oct 11 00:30:44.833116 sonic ERR systemd-udevd[13886]: Ethernet104: lizhaoxing test build!!!!!: Success
+38312:Oct 11 00:30:44.847447 sonic ERR systemd-udevd[13886]: Ethernet73: lizhaoxing test build!!!!!: Success
+38322:Oct 11 00:30:44.861619 sonic ERR systemd-udevd[13886]: Ethernet74: lizhaoxing test build!!!!!: Success
+38336:Oct 11 00:30:44.873958 sonic ERR systemd-udevd[13886]: Ethernet75: lizhaoxing test build!!!!!: Success
+38348:Oct 11 00:30:44.887234 sonic ERR systemd-udevd[13886]: Ethernet76: lizhaoxing test build!!!!!: Success
+38360:Oct 11 00:30:44.899834 sonic ERR systemd-udevd[13886]: Ethernet77: lizhaoxing test build!!!!!: Success
+38372:Oct 11 00:30:44.912562 sonic ERR systemd-udevd[13886]: Ethernet78: lizhaoxing test build!!!!!: Success
+38383:Oct 11 00:30:44.927636 sonic ERR systemd-udevd[13886]: Ethernet79: lizhaoxing test build!!!!!: Success
+38395:Oct 11 00:30:44.941693 sonic ERR systemd-udevd[13886]: Ethernet80: lizhaoxing test build!!!!!: Success
+38407:Oct 11 00:30:44.956392 sonic ERR systemd-udevd[13886]: Ethernet105: lizhaoxing test build!!!!!: Success
+38420:Oct 11 00:30:44.969521 sonic ERR systemd-udevd[13886]: Ethernet106: lizhaoxing test build!!!!!: Success
+38430:Oct 11 00:30:44.981803 sonic ERR systemd-udevd[13886]: Ethernet107: lizhaoxing test build!!!!!: Success
+38444:Oct 11 00:30:44.993799 sonic ERR systemd-udevd[13886]: Ethernet108: lizhaoxing test build!!!!!: Success
+38456:Oct 11 00:30:45.005757 sonic ERR systemd-udevd[13886]: Ethernet109: lizhaoxing test build!!!!!: Success
+38468:Oct 11 00:30:45.018269 sonic ERR systemd-udevd[13886]: Ethernet110: lizhaoxing test build!!!!!: Success
+38494:Oct 11 00:30:45.034233 sonic ERR systemd-udevd[13886]: Ethernet111: lizhaoxing test build!!!!!: Success
+38524:Oct 11 00:30:45.049596 sonic ERR systemd-udevd[13886]: Ethernet112: lizhaoxing test build!!!!!: Success
+38550:Oct 11 00:30:45.064114 sonic ERR systemd-udevd[13886]: Ethernet33: lizhaoxing test build!!!!!: Success
+38578:Oct 11 00:30:45.079634 sonic ERR systemd-udevd[13886]: Ethernet34: lizhaoxing test build!!!!!: Success
+38603:Oct 11 00:30:45.093958 sonic ERR systemd-udevd[13886]: Ethernet35: lizhaoxing test build!!!!!: Success
+38631:Oct 11 00:30:45.108591 sonic ERR systemd-udevd[13886]: Ethernet36: lizhaoxing test build!!!!!: Success
+38657:Oct 11 00:30:45.126294 sonic ERR systemd-udevd[13886]: Ethernet37: lizhaoxing test build!!!!!: Success
+38688:Oct 11 00:30:45.142435 sonic ERR systemd-udevd[13886]: Ethernet38: lizhaoxing test build!!!!!: Success
+38712:Oct 11 00:30:45.158867 sonic ERR systemd-udevd[13886]: Ethernet39: lizhaoxing test build!!!!!: Success
+38746:Oct 11 00:30:45.175462 sonic ERR systemd-udevd[13886]: Ethernet40: lizhaoxing test build!!!!!: Success
+38774:Oct 11 00:30:45.192356 sonic ERR systemd-udevd[13886]: Ethernet1: lizhaoxing test build!!!!!: Success
+38804:Oct 11 00:30:45.208156 sonic ERR systemd-udevd[13886]: Ethernet2: lizhaoxing test build!!!!!: Success
+38830:Oct 11 00:30:45.224429 sonic ERR systemd-udevd[13886]: Ethernet3: lizhaoxing test build!!!!!: Success
+38863:Oct 11 00:30:45.244616 sonic ERR systemd-udevd[13886]: Ethernet4: lizhaoxing test build!!!!!: Success
+38888:Oct 11 00:30:45.261993 sonic ERR systemd-udevd[13886]: Ethernet5: lizhaoxing test build!!!!!: Success
+38917:Oct 11 00:30:45.278443 sonic ERR systemd-udevd[13886]: Ethernet6: lizhaoxing test build!!!!!: Success
+38941:Oct 11 00:30:45.299972 sonic ERR systemd-udevd[13886]: Ethernet7: lizhaoxing test build!!!!!: Success
+38953:Oct 11 00:30:45.313608 sonic ERR systemd-udevd[13886]: Ethernet8: lizhaoxing test build!!!!!: Success
+38964:Oct 11 00:30:45.326977 sonic ERR systemd-udevd[13886]: Ethernet45: lizhaoxing test build!!!!!: Success
+38977:Oct 11 00:30:45.340112 sonic ERR systemd-udevd[13886]: Ethernet46: lizhaoxing test build!!!!!: Success
+38989:Oct 11 00:30:45.353648 sonic ERR systemd-udevd[13886]: Ethernet47: lizhaoxing test build!!!!!: Success
+39001:Oct 11 00:30:45.365383 sonic ERR systemd-udevd[13886]: Ethernet48: lizhaoxing test build!!!!!: Success
+39013:Oct 11 00:30:45.378103 sonic ERR systemd-udevd[13886]: Ethernet41: lizhaoxing test build!!!!!: Success
+39025:Oct 11 00:30:45.392138 sonic ERR systemd-udevd[13886]: Ethernet42: lizhaoxing test build!!!!!: Success
+39037:Oct 11 00:30:45.404411 sonic ERR systemd-udevd[13886]: Ethernet43: lizhaoxing test build!!!!!: Success
+39049:Oct 11 00:30:45.417383 sonic ERR systemd-udevd[13886]: Ethernet44: lizhaoxing test build!!!!!: Success
+39061:Oct 11 00:30:45.429745 sonic ERR systemd-udevd[13886]: Ethernet9: lizhaoxing test build!!!!!: Success
+39073:Oct 11 00:30:45.442092 sonic ERR systemd-udevd[13886]: Ethernet10: lizhaoxing test build!!!!!: Success
+39085:Oct 11 00:30:45.454593 sonic ERR systemd-udevd[13886]: Ethernet11: lizhaoxing test build!!!!!: Success
+39097:Oct 11 00:30:45.466834 sonic ERR systemd-udevd[13886]: Ethernet12: lizhaoxing test build!!!!!: Success
+39109:Oct 11 00:30:45.478500 sonic ERR systemd-udevd[13886]: Ethernet13: lizhaoxing test build!!!!!: Success
+39121:Oct 11 00:30:45.491773 sonic ERR systemd-udevd[13886]: Ethernet14: lizhaoxing test build!!!!!: Success
+39133:Oct 11 00:30:45.503860 sonic ERR systemd-udevd[13886]: Ethernet15: lizhaoxing test build!!!!!: Success
+39145:Oct 11 00:30:45.516937 sonic ERR systemd-udevd[13886]: Ethernet16: lizhaoxing test build!!!!!: Success
+39157:Oct 11 00:30:45.530649 sonic ERR systemd-udevd[13886]: Ethernet17: lizhaoxing test build!!!!!: Success
+39169:Oct 11 00:30:45.543112 sonic ERR systemd-udevd[13886]: Ethernet18: lizhaoxing test build!!!!!: Success
+39181:Oct 11 00:30:45.555650 sonic ERR systemd-udevd[13886]: Ethernet19: lizhaoxing test build!!!!!: Success
+39193:Oct 11 00:30:45.568993 sonic ERR systemd-udevd[13886]: Ethernet20: lizhaoxing test build!!!!!: Success
+39282:Oct 11 00:30:45.597620 sonic ERR systemd-udevd[13886]: Ethernet21: lizhaoxing test build!!!!!: Success
+39294:Oct 11 00:30:45.611518 sonic ERR systemd-udevd[13886]: Ethernet22: lizhaoxing test build!!!!!: Success
+39306:Oct 11 00:30:45.624139 sonic ERR systemd-udevd[13886]: Ethernet23: lizhaoxing test build!!!!!: Success
+39318:Oct 11 00:30:45.639254 sonic ERR systemd-udevd[13886]: Ethernet24: lizhaoxing test build!!!!!: Success
+39330:Oct 11 00:30:45.651500 sonic ERR systemd-udevd[13886]: Ethernet53: lizhaoxing test build!!!!!: Success
+39342:Oct 11 00:30:45.664694 sonic ERR systemd-udevd[13886]: Ethernet54: lizhaoxing test build!!!!!: Success
+39354:Oct 11 00:30:45.677590 sonic ERR systemd-udevd[13886]: Ethernet55: lizhaoxing test build!!!!!: Success
+39365:Oct 11 00:30:45.690259 sonic ERR systemd-udevd[13886]: Ethernet56: lizhaoxing test build!!!!!: Success
+39378:Oct 11 00:30:45.702969 sonic ERR systemd-udevd[13886]: Ethernet49: lizhaoxing test build!!!!!: Success
+39390:Oct 11 00:30:45.715111 sonic ERR systemd-udevd[13886]: Ethernet50: lizhaoxing test build!!!!!: Success
+39402:Oct 11 00:30:45.727694 sonic ERR systemd-udevd[13886]: Ethernet51: lizhaoxing test build!!!!!: Success
+39414:Oct 11 00:30:45.742642 sonic ERR systemd-udevd[13886]: Ethernet52: lizhaoxing test build!!!!!: Success
+39426:Oct 11 00:30:45.757117 sonic ERR systemd-udevd[13886]: Ethernet25: lizhaoxing test build!!!!!: Success
+39436:Oct 11 00:30:45.769895 sonic ERR systemd-udevd[13886]: Ethernet26: lizhaoxing test build!!!!!: Success
+39450:Oct 11 00:30:45.782103 sonic ERR systemd-udevd[13886]: Ethernet27: lizhaoxing test build!!!!!: Success
+39462:Oct 11 00:30:45.795069 sonic ERR systemd-udevd[13886]: Ethernet28: lizhaoxing test build!!!!!: Success
+39474:Oct 11 00:30:45.807501 sonic ERR systemd-udevd[13886]: Ethernet29: lizhaoxing test build!!!!!: Success
+39486:Oct 11 00:30:45.819434 sonic ERR systemd-udevd[13886]: Ethernet30: lizhaoxing test build!!!!!: Success
+39498:Oct 11 00:30:45.831235 sonic ERR systemd-udevd[13886]: Ethernet31: lizhaoxing test build!!!!!: Success
+39510:Oct 11 00:30:45.843929 sonic ERR systemd-udevd[13886]: Ethernet32: lizhaoxing test build!!!!!: Success
+39522:Oct 11 00:30:45.857127 sonic ERR systemd-udevd[13886]: Ethernet57: lizhaoxing test build!!!!!: Success
+39534:Oct 11 00:30:45.869326 sonic ERR systemd-udevd[13886]: Ethernet58: lizhaoxing test build!!!!!: Success
+39546:Oct 11 00:30:45.881580 sonic ERR systemd-udevd[13886]: Ethernet59: lizhaoxing test build!!!!!: Success
+39558:Oct 11 00:30:45.897060 sonic ERR systemd-udevd[13886]: Ethernet60: lizhaoxing test build!!!!!: Success
+39570:Oct 11 00:30:45.909852 sonic ERR systemd-udevd[13886]: Ethernet61: lizhaoxing test build!!!!!: Success
+39582:Oct 11 00:30:45.923621 sonic ERR systemd-udevd[13886]: Ethernet62: lizhaoxing test build!!!!!: Success
+39594:Oct 11 00:30:45.936036 sonic ERR systemd-udevd[13886]: Ethernet63: lizhaoxing test build!!!!!: Success
+39606:Oct 11 00:30:45.951686 sonic ERR systemd-udevd[13886]: Ethernet64: lizhaoxing test build!!!!!: Success
+39618:Oct 11 00:30:45.967190 sonic ERR systemd-udevd[13886]: Ethernet113: lizhaoxing test build!!!!!: Success
+39630:Oct 11 00:30:45.981838 sonic ERR systemd-udevd[13886]: Ethernet114: lizhaoxing test build!!!!!: Success
+39642:Oct 11 00:30:45.995779 sonic ERR systemd-udevd[13886]: Ethernet115: lizhaoxing test build!!!!!: Success
+39654:Oct 11 00:30:46.010611 sonic ERR systemd-udevd[13886]: Ethernet116: lizhaoxing test build!!!!!: Success
+39666:Oct 11 00:30:46.025395 sonic ERR systemd-udevd[13886]: Ethernet117: lizhaoxing test build!!!!!: Success
+39678:Oct 11 00:30:46.038963 sonic ERR systemd-udevd[13886]: Ethernet118: lizhaoxing test build!!!!!: Success
+39690:Oct 11 00:30:46.051650 sonic ERR systemd-udevd[13886]: Ethernet119: lizhaoxing test build!!!!!: Success
+39702:Oct 11 00:30:46.065459 sonic ERR systemd-udevd[13886]: Ethernet120: lizhaoxing test build!!!!!: Success
+39713:Oct 11 00:30:46.077928 sonic ERR systemd-udevd[13886]: Ethernet81: lizhaoxing test build!!!!!: Success
+39726:Oct 11 00:30:46.091171 sonic ERR systemd-udevd[13886]: Ethernet82: lizhaoxing test build!!!!!: Success
+39738:Oct 11 00:30:46.106143 sonic ERR systemd-udevd[13886]: Ethernet83: lizhaoxing test build!!!!!: Success
+39750:Oct 11 00:30:46.118701 sonic ERR systemd-udevd[13886]: Ethernet84: lizhaoxing test build!!!!!: Success
+39762:Oct 11 00:30:46.132781 sonic ERR systemd-udevd[13886]: Ethernet85: lizhaoxing test build!!!!!: Success
+39774:Oct 11 00:30:46.146686 sonic ERR systemd-udevd[13886]: Ethernet86: lizhaoxing test build!!!!!: Success
+39786:Oct 11 00:30:46.160149 sonic ERR systemd-udevd[13886]: Ethernet87: lizhaoxing test build!!!!!: Success
+39798:Oct 11 00:30:46.173438 sonic ERR systemd-udevd[13886]: Ethernet88: lizhaoxing test build!!!!!: Success
+39810:Oct 11 00:30:46.187126 sonic ERR systemd-udevd[13886]: Ethernet121: lizhaoxing test build!!!!!: Success
+39822:Oct 11 00:30:46.202557 sonic ERR systemd-udevd[13886]: Ethernet122: lizhaoxing test build!!!!!: Success
+39834:Oct 11 00:30:46.215974 sonic ERR systemd-udevd[13886]: Ethernet123: lizhaoxing test build!!!!!: Success
+39845:Oct 11 00:30:46.229771 sonic ERR systemd-udevd[13886]: Ethernet124: lizhaoxing test build!!!!!: Success
+39858:Oct 11 00:30:46.243718 sonic ERR systemd-udevd[13886]: Ethernet125: lizhaoxing test build!!!!!: Success
+39870:Oct 11 00:30:46.256416 sonic ERR systemd-udevd[13886]: Ethernet126: lizhaoxing test build!!!!!: Success
+39882:Oct 11 00:30:46.269167 sonic ERR systemd-udevd[13886]: Ethernet127: lizhaoxing test build!!!!!: Success
+39894:Oct 11 00:30:46.281993 sonic ERR systemd-udevd[13886]: Ethernet128: lizhaoxing test build!!!!!: Success
+39904:Oct 11 00:30:46.294088 sonic ERR systemd-udevd[13886]: Ethernet89: lizhaoxing test build!!!!!: Success
+39939:Oct 11 00:30:46.310578 sonic ERR systemd-udevd[13886]: Ethernet90: lizhaoxing test build!!!!!: Success
+39969:Oct 11 00:30:46.325911 sonic ERR systemd-udevd[13886]: Ethernet91: lizhaoxing test build!!!!!: Success
+39997:Oct 11 00:30:46.341493 sonic ERR systemd-udevd[13886]: Ethernet92: lizhaoxing test build!!!!!: Success
+40023:Oct 11 00:30:46.356583 sonic ERR systemd-udevd[13886]: Ethernet93: lizhaoxing test build!!!!!: Success
+40051:Oct 11 00:30:46.373342 sonic ERR systemd-udevd[13886]: Ethernet94: lizhaoxing test build!!!!!: Success
+40089:Oct 11 00:30:46.391234 sonic ERR systemd-udevd[13886]: Ethernet95: lizhaoxing test build!!!!!: Success
+40112:Oct 11 00:30:46.406717 sonic ERR systemd-udevd[13886]: Ethernet96: lizhaoxing test build!!!!!: Success
+root@sonic:/home/admin# 
+root@sonic:/home/admin# grep -rni "Configuring network interfa" /var/log/syslog
+12652:Oct 10 18:54:17.774998 sonic INFO networking[326]: networking: Configuring network interfaces
+14365:Oct 10 18:54:28.669051 sonic INFO networking[1928]: networking: Deconfiguring network interfaces
+14369:Oct 10 18:54:29.166295 sonic INFO networking[2110]: networking: Configuring network interfaces
+23882:Oct 11 00:24:19.847386 sonic INFO networking[325]: networking: Configuring network interfaces
+25593:Oct 11 00:24:30.780460 sonic INFO networking[1966]: networking: Deconfiguring network interfaces
+25600:Oct 11 00:24:31.313182 sonic INFO networking[2181]: networking: Configuring network interfaces
+34245:Oct 11 00:29:48.691306 sonic INFO networking[326]: networking: Configuring network interfaces
+35960:Oct 11 00:29:59.748692 sonic INFO networking[1989]: networking: Deconfiguring network interfaces
+35964:Oct 11 00:30:00.285793 sonic INFO networking[2190]: networking: Configuring network interfaces
+root@sonic:/home/admin# 
+
+
+
+
+54027:Oct 11 01:43:15.003246 sonic ERR systemd-udevd[387]: eth1: lizhaoxing test build!!!!!: Success
+54028:Oct 11 01:43:15.003253 sonic ERR systemd-udevd[410]: eth2: lizhaoxing test build!!!!!: Success
+54034:Oct 11 01:43:15.003305 sonic ERR systemd-udevd[418]: eth0: lizhaoxing test build!!!!!: Success
+54188:Oct 11 01:43:15.843622 sonic ERR systemd-udevd[420]: lo: lizhaoxing test build!!!!!: Success
+54449:Oct 11 01:43:17.849891 sonic ERR systemd-udevd[405]: eth0.4088: lizhaoxing test build!!!!!: Success
+54459:Oct 11 01:43:17.860623 sonic ERR systemd-udevd[415]: docker0: lizhaoxing test build!!!!!: Success
+54502:Oct 11 01:43:18.223594 sonic ERR systemd-udevd[415]: mgmt: lizhaoxing test build!!!!!: Success
+54532:Oct 11 01:43:21.794153 sonic ERR systemd-udevd[415]: lo-m: lizhaoxing test build!!!!!: Success
+54674:Oct 11 01:43:25.882104 sonic ERR systemd-udevd[405]: mgmt: lizhaoxing test build!!!!!: Success
+54690:Oct 11 01:43:29.603067 sonic ERR systemd-udevd[405]: lo-m: lizhaoxing test build!!!!!: Success
+55356:Oct 11 01:43:59.970419 sonic ERR systemd-udevd[13154]: Bridge: lizhaoxing test build!!!!!: Success
+55371:Oct 11 01:44:00.030056 sonic ERR systemd-udevd[13154]: dummy: lizhaoxing test build!!!!!: Success
+
+
+48887:Oct 11 01:34:15.623382 sonic INFO networking[14118]: networking: Configuring network interfaces
+49896:Oct 11 01:36:55.910909 sonic INFO networking[325]: networking: Configuring network interfaces
+51683:Oct 11 01:37:06.162838 sonic INFO networking[3236]: networking: Deconfiguring network interfaces
+51687:Oct 11 01:37:06.696724 sonic INFO networking[3421]: networking: Configuring network interfaces
+53786:Oct 11 01:43:15.001338 sonic INFO networking[326]: networking: Configuring network interfaces
+54666:Oct 11 01:43:24.903897 sonic INFO networking[3095]: networking: Deconfiguring network interfaces
+54673:Oct 11 01:43:25.419707 sonic INFO networking[3287]: networking: Configuring network interfaces
+
+
