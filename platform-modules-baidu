@@ -1,0 +1,74 @@
+#!/bin/bash
+
+### BEGIN INIT INFO
+# Provides:          setup-board
+# Required-Start:
+# Required-Stop:
+# Should-Start:
+# Should-Stop:
+# Default-Start:     S
+# Default-Stop:      0 6
+# Short-Description: Setup Inventec baidu board.
+### END INIT INFO
+
+# Check Fast-Reboot cause
+FAST_REBOOT='no'
+case "$(cat /proc/cmdline)" in
+    *fast-reboot*)
+       FAST_REBOOT='yes'
+       ;;
+    **)
+       FAST_REBOOT='no'
+       ;;
+esac
+
+device=$(sed -n 's/^onie_machine=//p' /host/machine.conf | tr A-Z a-z | tr - _)
+if [ -z "$device" ]; then
+    device=$(dmidecode -s system-product-name | tail -1 | tr A-Z a-z | tr - _)
+fi
+if [ -z "$device" ]; then
+    echo -n "Can't get device name ..."
+    exit 1
+fi
+
+# START/STOP/FORCE-RELOAD/RESTART
+case "$1" in
+start)
+    echo -n "Setting up $device drivers ... "
+    if [ "$FAST_REBOOT" = "yes" ] ; then
+        options='-f fast-reboot-install'
+    else
+        options='-f install'
+    fi
+
+    pip3 install --force-reinstall --upgrade /usr/local/lib/platform_baidu_base-2.0-py3-none-any.whl &
+    pip3 install --force-reinstall --upgrade /usr/local/lib/platform_baidu_${device}-1.0-py3-none-any.whl &
+    /usr/local/bin/${device}_util.py $options
+    touch /run/platform-modules-baidu.installed
+    #old_basemac=$(cat /etc/sonic/basemac)
+    #new_basemac=$(decode-syseeprom -m)
+    #if [ "$old_basemac" != "$new_basemac" ] ; then
+    #    echo "$new_basemac" > /etc/sonic/basemac
+    #fi
+    echo "done."
+    ;;
+
+stop)
+    echo -n "Removing $device drivers ... "
+    pip3 uninstall -y platform_baidu_base-2.0-py3-none-any.whl
+    pip3 uninstall -y platform_baidu_${device}-1.0-py3-none-any.whl
+    /usr/local/bin/${device}_util.py -f clean
+    echo "done."
+    ;;
+
+force-reload|restart)
+    echo "Not supported"
+    ;;
+
+*)
+    echo "Usage: /etc/init.d/platform-modules-baidu {start|stop}"
+    exit 1
+    ;;
+esac
+
+exit 0
