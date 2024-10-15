@@ -10,6 +10,19 @@
 # Default-Stop:      0 6
 # Short-Description: Setup Inventec baidu board.
 ### END INIT INFO
+log_out() {
+    lvl=$1
+    msg=$2
+
+    # 输出到控制台
+    echo "PMB:${lvl}:${msg}"
+
+    # 输出到系统日志
+    logger -p "${lvl}" "PMB:${msg}"
+}
+
+Stage1File="/run/platform-modules-baidu_stage1.installed"
+Stage2File="/run/platform-modules-baidu_stage2.installed"
 
 # Check Fast-Reboot cause
 FAST_REBOOT='no'
@@ -22,52 +35,206 @@ case "$(cat /proc/cmdline)" in
        ;;
 esac
 
+if [ "$FAST_REBOOT" = "yes" ] ; then
+    options='-f fast-reboot-install'
+else
+    options='-f install'
+fi
+
 device=$(sed -n 's/^onie_machine=//p' /host/machine.conf | tr A-Z a-z | tr - _)
 if [ -z "$device" ]; then
     device=$(dmidecode -s system-product-name | tail -1 | tr A-Z a-z | tr - _)
 fi
 if [ -z "$device" ]; then
-    echo -n "Can't get device name ..."
+    log_out "Can't get device name ..."
     exit 1
 fi
 
 # START/STOP/FORCE-RELOAD/RESTART
 case "$1" in
 start)
-    echo -n "Setting up $device drivers ... "
+    log_out "INFO" "Start PMB.${device} Service Processing ..."
+
+    systemctl start platform-modules-baidu_stage1.service
+    log_out "INFO" "PMB.${device} Service Waiting for Stage1"
+
+    timeout=60  # 超时时间，单位为秒
+    interval=2  # 检查文件的间隔时间，单位为秒
+    elapsed=0   # 已经过的时间
+
+    while [ ! -e "$Stage1File" ]
+    do
+        if [ "$elapsed" -ge "$timeout" ]; then
+            log_out "ERROR" "PMB.${device} Service Waiting for Stage1 Time Out."
+            exit 1
+        fi
+
+        echo -n "."
+        sleep "$interval"
+        elapsed=$((elapsed + interval))
+    done
+
+    systemctl start platform-modules-baidu_stage2.service
+    log_out "INFO" "PMB.${device} Service Waiting for Stage2"
+
+    timeout=60  # 超时时间，单位为秒
+    interval=2  # 检查文件的间隔时间，单位为秒
+    elapsed=0   # 已经过的时间
+
+    while [ ! -e "$Stage2File" ]
+    do
+        if [ "$elapsed" -ge "$timeout" ]; then
+            log_out "ERROR" "PMB.${device} Service Waiting for Stage2 Time Out."
+            exit 1
+        fi
+
+        echo -n "."
+        sleep "$interval"
+        elapsed=$((elapsed + interval))
+    done
+    ;;
+
+stop)
+    log_out "INFO" "Stop PMB.${device} Service Processing ... "
+
+    /usr/local/bin/${device}_util.py -f clean
+
+    log_out "INFO" "Stop PMB.${device} Service done."
+    ;;
+
+prestart)
+    log_out "INFO" "Pre-Start PMB.${device} Service Processing ... "
+
+    /usr/local/bin/${device}_util.py prestart
+
+    log_out "INFO" "Pre-Start PMB.${device} Service done."
+    ;;
+
+poststart)
+    log_out "INFO" "Post-Start PMB.${device} Service Processing ... "
+
+    /usr/local/bin/${device}_util.py poststart
+
+    log_out "INFO" "Post-Start PMB.${device} Service done. "
+    ;;
+
+poststop)
+    log_out "INFO" "Post-Stop PMB.${device} Service Processing ... "
+
+    /usr/local/bin/${device}_util.py poststop
+
+    log_out "INFO" "Post-Stop PMB.${device} Service done."
+    ;;
+
+start_stage1)
+    log_out "INFO"  "Start PMB.${device} Service Stage1 ..."
+
     if [ "$FAST_REBOOT" = "yes" ] ; then
         options='-f fast-reboot-install'
     else
         options='-f install'
     fi
 
-    pip3 install --force-reinstall --upgrade /usr/local/lib/platform_baidu_base-2.0-py3-none-any.whl &
-    pip3 install --force-reinstall --upgrade /usr/local/lib/platform_baidu_${device}-1.0-py3-none-any.whl &
     /usr/local/bin/${device}_util.py $options
-    touch /run/platform-modules-baidu.installed
-    #old_basemac=$(cat /etc/sonic/basemac)
-    #new_basemac=$(decode-syseeprom -m)
-    #if [ "$old_basemac" != "$new_basemac" ] ; then
-    #    echo "$new_basemac" > /etc/sonic/basemac
-    #fi
-    echo "done."
+
+    log_out "INFO"  "Start PMB.${device} Service Stage1 done."
     ;;
 
-stop)
-    echo -n "Removing $device drivers ... "
-    pip3 uninstall -y platform_baidu_base-2.0-py3-none-any.whl
-    pip3 uninstall -y platform_baidu_${device}-1.0-py3-none-any.whl
-    /usr/local/bin/${device}_util.py -f clean
-    echo "done."
+stop_stage1)
+    log_out "INFO"  "Stop PMB.${device} Service Stage1"
+
+    /usr/local/bin/${device}_util.py stop_stage2
+
+    log_out "INFO"  "Stop PMB.${device} Service Stage1 done."
+    ;;
+
+start_stage2)
+    log_out "INFO"  "Start PMB.${device} Service Stage2"
+
+    /usr/local/bin/${device}_util.py start_stage2
+
+    log_out "INFO"  "Start PMB.${device} Service Stage2 done."
+    ;;
+
+stop_stage2)
+    log_out "INFO"  "Stop PMB.${device} Service Stage2 ..."
+
+    /usr/local/bin/${device}_util.py -f stop_stage2
+
+    log_out "INFO"  "Stop PMB.${device} Service Stage2 done."
+    ;;
+
+prestart_stage1)
+    log_out "INFO" "Pre-Start PMB.${device} Service Stage1 ... "
+
+    /usr/local/bin/${device}_util.py prestart_stage1
+    rm -rf Stage1File
+
+    log_out "INFO" "Pre-Start PMB.${device} Service Stage1 done. "
+    ;;
+
+prestart_stage2)
+    log_out "INFO" "Pre-Start PMB.${device} Service Stage2 ... "
+
+    /usr/local/bin/${device}_util.py prestart_stage2
+    rm -rf Stage2File
+
+    log_out "INFO" "Pre-Start PMB.${device} Service Stage2 done."
+    ;;
+
+poststart_stage1)
+    log_out "INFO" "Post-Start PMB.${device} Stage1 ... "
+
+    /usr/local/bin/${device}_util.py $options
+
+    old_basemac=$(cat /etc/sonic/basemac)
+    new_basemac=$(onie-syseeprom -g 0x24)
+    if [ -z "$new_basemac" ]; then
+        new_basemac=$(decode-syseeprom -m)
+    fi
+
+    if [ "$old_basemac" != "$new_basemac" ] ; then
+        echo "$new_basemac" > /etc/sonic/basemac
+    fi
+
+    touch /run/platform-modules-baidu_stage1.installed
+
+    log_out "INFO" "Post-Start PMB.${device} Stage1 done."
+    ;;
+
+poststart_stage2)
+    log_out "INFO" "Post-Start PMB.${device} Stage2 ... "
+
+    /usr/local/bin/${device}_util.py poststart_stage2
+
+    touch /run/platform-modules-baidu_stage2.installed
+
+    log_out "INFO" "Post-Start PMB.${device} Stage2 done."
+    ;;
+
+poststop_stage1)
+    log_out "INFO" "Post-Stop PMB.${device} Service Stage1 ... "
+
+    /usr/local/bin/${device}_util.py poststart
+
+    log_out "INFO" "Post-Stop PMB.${device} Service Stage1 done."
+    ;;
+
+poststop_stage2)
+    log_out "INFO" "Post-Stop PMB.${device} Service Stage2 ... "
+
+    /usr/local/bin/${device}_util.py poststart
+
+    log_out "INFO" "Post-Stop PMB.${device} Service Stage2 done."
     ;;
 
 force-reload|restart)
-    echo "Not supported"
+    log_out "Not supported"
     ;;
 
 *)
     echo "Usage: /etc/init.d/platform-modules-baidu {start|stop}"
-    exit 1
+    exit 0
     ;;
 esac
 

@@ -13,6 +13,17 @@ command:
     clean                         : uninstall and disable platform service list
     fast-reboot-install           : switch to fast-reboot, installing platform service
     list-service | --list-service : switch support service list
+    prestart                      : platform module baidu Execstartpre
+    poststart                     : platform module baidu ExecStartPost
+    poststop                      : platform module baidu ExecStopPost
+    start_stage1                  : platform module baidu stage1 ExecStart
+    stop_stage1                   : platform module baidu stage1 ExecStop
+    start_stage2                  : platform module baidu stage2 ExecStart
+    stop_stage2                   : platform module baidu stage2 ExecStop
+    prestart_stage1               : platform module baidu stage1 ExecStartPre
+    poststart_stage2              : platform module baidu stage2 ExecStartPost
+    poststop_stage1               : platform module baidu stage1 ExecStopPost
+    poststop_stage2               : platform module baidu stage2 ExecStopPost
 """
 
 from asyncio import FastChildWatcher
@@ -40,7 +51,7 @@ FORCE = 0
 PORT_NUM = 128
 # TODO Add service list
 SERVICE_LIST = ['ieit-driver-init.service', 's3ip-sysfs.service', 's3ip-sysfs-monitor.service',
-                'fan-monitor.service', 'led-monitor.service', 'sensor-monitor.service']
+                'fan-monitor.service', 'led-monitor.service']
 
 SYSLOG_IDENTIFIER = "BN450L0_UTIL"
 
@@ -127,6 +138,32 @@ def main():
             do_install()
         elif arg == 'clean':
             do_uninstall()
+        elif arg == 'prestart':
+            do_prestart()
+        elif arg == 'poststart':
+            do_poststart()
+        elif arg == 'poststop':
+            do_poststop()
+        elif arg == 'start_stage1':
+            do_install()
+        elif arg == 'stop_stage1':
+            do_stop_stage1()
+        elif arg == 'start_stage2':
+            do_start_stage2()
+        elif arg == 'stop_stage2':
+            do_stop_stage2()
+        elif arg == 'prestart_stage1':
+            do_prestart_stage1()
+        elif arg == 'prestart_stage2':
+            do_prestart_stage2()
+        elif arg == 'poststart_stage1':
+            do_poststart_stage1()
+        elif arg == 'poststart_stage2':
+            do_poststart_stage2()
+        elif arg == 'poststop_stage1':
+            do_poststop_stage1()
+        elif arg == 'poststop_stage2':
+            do_poststop_stage2()
         elif arg == 'fast-reboot-install':
             return
         elif arg == 'list-service':
@@ -164,60 +201,49 @@ def handle_transceiver_init():
         ## enable port power
         cmd = 'echo 1 > /sys/bus/i2c/devices/17-000e/all_port_power_on'
         log_os_system(cmd)
-        # set lpmode
+
+        # Set all cpld write_enable enable, one global control in every cpld
+        cmd = "echo 89 > /sys_switch/transceiver/eth1/write_enable"
+        log_os_system(cmd)
+
+        cmd = "echo 89 > /sys_switch/transceiver/eth5/write_enable"
+        log_os_system(cmd)
+
+        cmd = "echo 89 > /sys_switch/transceiver/eth67/write_enable"
+        log_os_system(cmd)
+
+        # set lpmode and reset
         for i in range(0, PORT_NUM):
-            cmd = "echo 89 > /sys_switch/transceiver/eth{}/write_enable".format(i+1)
-            log_os_system(cmd)
             cmd = "echo 1 > /sys_switch/transceiver/eth{}/low_power_mode".format(i+1)
             log_os_system(cmd)
-            # cmd = "echo 78 > /sys_switch/transceiver/eth{}/write_enable".format(i+1)
-            # log_os_system(cmd)
-        # # power on and free reset
-        # for i in range(0, PORT_NUM):
-        #     cmd = "echo 89 > /sys_switch/transceiver/eth{}/write_enable".format(i+1)
-        #     log_os_system(cmd)
-        #     cmd = "echo 1 > /sys_switch/transceiver/eth{}/power_on".format(i+1)
-        #     log_os_system(cmd)
-        #     cmd = "echo 78 > /sys_switch/transceiver/eth{}/write_enable".format(i+1)
-        #     log_os_system(cmd)
 
-        for i in range(0, PORT_NUM):
-            cmd = "echo 89 > /sys_switch/transceiver/eth{}/write_enable".format(i+1)
-            log_os_system(cmd)
             cmd = "echo 0 > /sys_switch/transceiver/eth{}/reset".format(i+1)
             log_os_system(cmd)
-            # cmd = "echo 78 > /sys_switch/transceiver/eth{}/write_enable".format(i+1)
-            # log_os_system(cmd)
+
 
 def handle_transceiver_deinit():
     if not os.path.isfile(INSTALLED_FILE):
         ## disable port power
         cmd = 'echo 0 > /sys/bus/i2c/devices/17-000e/all_port_power_on'
         log_os_system(cmd)
-        # set lpmode
+
+        # Set all cpld write_enable enable
+        cmd = "echo 89 > /sys_switch/transceiver/eth1/write_enable"
+        log_os_system(cmd)
+
+        cmd = "echo 89 > /sys_switch/transceiver/eth5/write_enable"
+        log_os_system(cmd)
+
+        cmd = "echo 89 > /sys_switch/transceiver/eth67/write_enable"
+        log_os_system(cmd)
+
+        # set lpmode and reset
         for i in range(0, PORT_NUM):
-            cmd = "echo 89 > /sys_switch/transceiver/eth{}/write_enable".format(i+1)
-            log_os_system(cmd)
             cmd = "echo 0 > /sys_switch/transceiver/eth{}/low_power_mode".format(i+1)
             log_os_system(cmd)
-            # cmd = "echo 78 > /sys_switch/transceiver/eth{}/write_enable".format(i+1)
-            # log_os_system(cmd)
-        # # power on and free reset
-        # for i in range(0, PORT_NUM):
-        #     cmd = "echo 89 > /sys_switch/transceiver/eth{}/write_enable".format(i+1)
-        #     log_os_system(cmd)
-        #     cmd = "echo 0 > /sys_switch/transceiver/eth{}/power_on".format(i+1)
-        #     log_os_system(cmd)
-        #     cmd = "echo 78 > /sys_switch/transceiver/eth{}/write_enable".format(i+1)
-        #     log_os_system(cmd)
 
-        for i in range(0, PORT_NUM):
-            cmd = "echo 89 > /sys_switch/transceiver/eth{}/write_enable".format(i+1)
-            log_os_system(cmd)
             cmd = "echo 1 > /sys_switch/transceiver/eth{}/reset".format(i+1)
             log_os_system(cmd)
-            # cmd = "echo 78 > /sys_switch/transceiver/eth{}/write_enable".format(i+1)
-            # log_os_system(cmd)
 
 def exec_syscmd(cmd):
     try:
@@ -228,6 +254,13 @@ def exec_syscmd(cmd):
         log_error("Command: {0} exec fail, get{1}.".format(cmd, str(err)))
 
     return 1, None
+
+def is_service_deactivating(name):
+    ret, is_active = exec_syscmd("systemctl is-active {}".format(name))
+    if is_active == "deactivating":
+        return True
+
+    return False
 
 def is_service_active(name):
     ret, is_active = exec_syscmd("systemctl is-active {}".format(name))
@@ -243,13 +276,25 @@ def is_service_enable(name):
 
     return False
 
+def is_service_masked(name):
+    try:
+        result = subprocess.run(
+            ['systemctl', 'status', name],
+            capture_output=True,
+            text=True
+        )
+        return 'masked' in result.stdout
+    except Exception as e:
+        log_error("Service adjust if masked exec fail")
+        return False
+
 def wait_for_systemd_service_ready(name):
-    for i in range(30):
+    for i in range(60):
         if is_service_active(name):
             break
-        time.sleep(1)
+        time.sleep(0.5)
 
-    if i >= 30:
+    if i >= 60:
         log_error("Service already enabled, wait active failed...")
         return False
 
@@ -257,8 +302,12 @@ def wait_for_systemd_service_ready(name):
 
 def start_systemd_service(service):
     ret = 0
+
+    if is_service_masked(service):
+        ret = log_os_system("systemctl unmask {}".format(service))
+
     if not is_service_enable(service):
-        ret = log_os_system("systemctl enable {}".format(service))
+        ret += log_os_system("systemctl enable {}".format(service))
         ret += log_os_system("systemctl start {}".format(service))
         return ret
     wait_for_systemd_service_ready(service)
@@ -267,38 +316,15 @@ def start_systemd_service(service):
 def stop_systemd_service(service):
     log_os_system("systemctl disable {}".format(service))
     if service == 'ieit-driver-init.service':
-        log_os_system("systemctl stop {} &".format(service))
+        log_os_system("systemctl stop {}".format(service))
     else:
-        log_os_system("systemctl stop {} &".format(service))
+        log_os_system("systemctl stop {}".format(service))
 
 
 def print_support_service_list():
     for service in SERVICE_LIST:
         print(service)
 
-def do_install():
-    global FORCE
-    log_info("BN450L0_util start....")
-
-    if os.path.isfile(INSTALLED_FILE) and not FORCE:
-        log_info("Exist installed file, skip install action...")
-        return
-
-    # Install driver extend stage2 in the background
-    log_os_system("/usr/local/bin/driver_stage2.py &")
-
-    for service in SERVICE_LIST:
-        ret = start_systemd_service(service)
-        if ret:
-            log_error("start systemd service fail: {}".format(service))
-
-    handle_transceiver_init()
-
-    ret = os.system("touch {}".format(INSTALLED_FILE))
-    if ret:
-        log_error("Installed service, touch firsttime file failed")
-
-    return
 
 def do_uninstall():
     global FORCE
@@ -315,11 +341,78 @@ def do_uninstall():
         if ret:
             log_error("start systemd service fail: {}".format(service))
 
-    ret = os.remove(INSTALLED_FILE)
-    if ret:
-        log_error("remove installed file failed")
+    return
+
+def do_prestart():
+    log_os_system("")
+
+def do_poststart():
+    return
+
+def do_poststop():
+    return
+
+def do_poststart():
+    return
+
+def do_poststart():
+    return
+
+# def do_start_stage1():
+def do_install():
+    global FORCE
+    log_info("BN450L0_util start....")
+
+    if os.path.isfile(INSTALLED_FILE) and not FORCE:
+        log_info("Exist installed file, skip install action...")
+        return
+
+    for service in SERVICE_LIST:
+        ret = start_systemd_service(service)
+        if ret:
+            log_error("start systemd service fail: {}".format(service))
+
+    handle_transceiver_init()
 
     return
+
+def do_start_stage2():
+    # Install driver extend stage2 include vol and curr sensor
+    log_info("start driver stage2 ")
+    log_os_system("/usr/local/bin/driver_stage2.py")
+
+    ret = start_systemd_service('sensor-monitor.service')
+    if ret:
+        log_error("start sensor monitor service fail")
+    return
+
+def do_stop_stage1():
+    return
+
+def do_stop_stage2():
+    ret = stop_systemd_service('sensor-monitor.service')
+    if ret:
+        log_error("stop sensor monitor service fail")
+    return
+
+def do_prestart_stage1():
+    return
+
+def do_prestart_stage2():
+    return
+
+def do_poststart_stage1():
+    return
+
+def do_poststart_stage2():
+    return
+
+def do_poststop_stage1():
+    return
+
+def do_poststop_stage2():
+    return
+
 
 if __name__ == "__main__":
     main()
