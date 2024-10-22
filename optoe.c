@@ -184,6 +184,41 @@ struct optoe_platform_data {
 #define SFF8636_TX_DIS_OFFSET 86
 #define SFF8636_TX_DIS_LENGTH 1
 
+#define AOC_TYPE_REG			0x00
+#define SFF8636_TYPE_VAL		0x11
+#define CMIS5P1_TYPE_VAL		0x1e
+#define SELECT_PAGE_REG			0x7f
+
+enum optoe_type_idx {
+	cmis5p1,
+	sff8636,
+	num_type
+};
+
+struct page_reg {
+	u8 page;
+	u8 reg;
+};
+
+struct ctrl_reg {
+	struct page_reg rx_los;
+	struct page_reg tx_fault;
+	struct page_reg tx_disable;
+};
+
+static const struct ctrl_reg _info[] = {
+	{	/* cmis5p1 -> byte */
+		{0x11, 0x93},	/* Rx_LOS Page 180*/
+		{0x11, 0x87},	/* Tx_Fault Page 178 */
+		{0x10, 0x82}	/* Tx_Disable Page 162 */
+	},
+	{	/* sff8636 -> only bit0 bit1 bit2 bit4 */
+		{0x00, 0x03},	/* Rx_LOS Page 34 */
+		{0x00, 0x04},	/* Tx_Fault Page 34 */
+		{0x00, 0x56}	/* Tx_Disable Page 38 Tx1 Tx2 Tx3 Tx4 */
+	}
+};
+
 struct optoe_data {
 	struct optoe_platform_data chip;
 	int use_smbus;
@@ -959,34 +994,54 @@ static ssize_t show_eeprom_txdis(struct device *dev,
 	struct i2c_client *client = to_i2c_client(dev);
 	struct optoe_data *optoe = i2c_get_clientdata(client);
 	int ret = 0;
-	u8 regval;
+	u8 regval, reg, aoc_type, info_offset;
 	uint8_t page = 0;
 
 	mutex_lock(&optoe->lock);
+
+	ret = optoe_eeprom_read(optoe, client, &aoc_type,
+				AOC_TYPE_REG, SFF8636_TX_DIS_LENGTH);
+
+	switch (aoc_type) {
+		case SFF8636_TYPE_VAL:
+			info_offset = sff8636;
+			break;
+		case CMIS5P1_TYPE_VAL:
+			info_offset = cmis5p1;
+			break;
+		default:
+			return -EINVAL;
+	}
+
+	page = (_info + info_offset)->tx_disable.page;
+	reg = (_info + info_offset)->tx_disable.reg;
+
 	ret = optoe_eeprom_write(optoe, client, &page,
-		OPTOE_PAGE_SELECT_REG, 1);
+		OPTOE_PAGE_SELECT_REG, page);
 	if (ret < 0) {
 		mutex_unlock(&optoe->lock);
 		return ret;
 	}
 
     ret = optoe_eeprom_read(optoe, client, &regval,
-				SFF8636_TX_DIS_OFFSET, SFF8636_TX_DIS_LENGTH);
+				reg, SFF8636_TX_DIS_LENGTH);
 	if (ret < 0) {
 		mutex_unlock(&optoe->lock);
 		return ret;  /* error out (no module?) */
 	}
 
-	if ((regval & 0xf) < 1) {
-		ret = 0;
-	}
-	else {
-		ret = 1;
-	}
+	// if ((regval & 0xf) < 1) {
+	// 	ret = 0;
+	// }
+	// else {
+	// 	ret = 1;
+	// }
+	dev_err(dev, "get tx_disable, aoc_type(0x%x) \
+				regval=0x%x, page=%d, reg=0x%x.\n", aoc_type, regval, page, reg);
 
 	mutex_unlock(&optoe->lock);
 
-	return snprintf(buf, PAGE_SIZE, "%d\n", ret);
+	return snprintf(buf, PAGE_SIZE, "%d\n", regval);
 }
 
 static ssize_t store_eeprom_txdis(struct device *dev,
@@ -996,41 +1051,178 @@ static ssize_t store_eeprom_txdis(struct device *dev,
 	struct i2c_client *client = to_i2c_client(dev);
 	struct optoe_data *optoe = i2c_get_clientdata(client);
 	int ret = 0;
-	u8 regval;
+	u8 regval, reg, aoc_type, info_offset;
 	uint8_t page = 0;
 
-	if (kstrtou8(buf, 0, &regval) != 0 || regval > 1) {
+	if (kstrtou8(buf, 0, &regval) != 0) {
 		return -EINVAL;
 	}
 
 	mutex_lock(&optoe->lock);
 
+	ret = optoe_eeprom_read(optoe, client, &aoc_type,
+				AOC_TYPE_REG, SFF8636_TX_DIS_LENGTH);
+
+	switch (aoc_type) {
+		case SFF8636_TYPE_VAL:
+			info_offset = sff8636;
+			break;
+		case CMIS5P1_TYPE_VAL:
+			info_offset = cmis5p1;
+			break;
+		default:
+			return -EINVAL;
+	}
+
+	page = (_info + info_offset)->tx_disable.page;
+	reg = (_info + info_offset)->tx_disable.reg;
+
 	ret = optoe_eeprom_write(optoe, client, &page,
-		OPTOE_PAGE_SELECT_REG, 1);
+		OPTOE_PAGE_SELECT_REG, page);
 	if (ret < 0) {
 		mutex_unlock(&optoe->lock);
 		return ret;
 	}
 
-	if (regval == 1) {
-		regval = 0xf;
-	}
+	// if (regval == 1) {
+	// 	regval = 0xf;
+	// }
 
     ret = optoe_eeprom_write(optoe, client, &regval,
-				SFF8636_TX_DIS_OFFSET, SFF8636_TX_DIS_LENGTH);
+				reg, SFF8636_TX_DIS_LENGTH);
 	if (ret < 0) {
 		mutex_unlock(&optoe->lock);
 		return ret;  /* error out (no module?) */
 	}
+	dev_err(dev, "set tx_disable, aoc_type(0x%x) \
+			regval=0x%x, page=%d, reg=0x%x.\n", aoc_type, regval, page, reg);
 
 	mutex_unlock(&optoe->lock);
 
 	return count;
 }
 
+static ssize_t show_eeprom_rxlos(struct device *dev,
+			struct device_attribute *dattr, char *buf)
+{
+	struct i2c_client *client = to_i2c_client(dev);
+	struct optoe_data *optoe = i2c_get_clientdata(client);
+	int ret = 0;
+	u8 regval, reg, aoc_type, info_offset;
+	uint8_t page = 0;
+
+	mutex_lock(&optoe->lock);
+
+	ret = optoe_eeprom_read(optoe, client, &aoc_type,
+				AOC_TYPE_REG, SFF8636_TX_DIS_LENGTH);
+
+	switch (aoc_type) {
+		case SFF8636_TYPE_VAL:
+			info_offset = sff8636;
+			break;
+		case CMIS5P1_TYPE_VAL:
+			info_offset = cmis5p1;
+			break;
+		default:
+			return -EINVAL;
+	}
+
+	page = (_info + info_offset)->tx_disable.page;
+	reg = (_info + info_offset)->tx_disable.reg;
+
+	ret = optoe_eeprom_write(optoe, client, &page,
+		OPTOE_PAGE_SELECT_REG, page);
+	if (ret < 0) {
+		mutex_unlock(&optoe->lock);
+		return ret;
+	}
+
+    ret = optoe_eeprom_read(optoe, client, &regval,
+				reg, SFF8636_TX_DIS_LENGTH);
+	if (ret < 0) {
+		mutex_unlock(&optoe->lock);
+		return ret;  /* error out (no module?) */
+	}
+
+	// if ((regval & 0xf) < 1) {
+	// 	ret = 0;
+	// }
+	// else {
+	// 	ret = 1;
+	// }
+	dev_err(dev, "get tx_disable, aoc_type(0x%x) \
+				regval=0x%x, page=%d, reg=0x%x.\n", aoc_type, regval, page, reg);
+
+	mutex_unlock(&optoe->lock);
+
+	return snprintf(buf, PAGE_SIZE, "%d\n", regval);
+}
+
+static ssize_t show_eeprom_txfault(struct device *dev,
+			struct device_attribute *dattr, char *buf)
+{
+	struct i2c_client *client = to_i2c_client(dev);
+	struct optoe_data *optoe = i2c_get_clientdata(client);
+	int ret = 0;
+	u8 regval, reg, aoc_type, info_offset;
+	uint8_t page = 0;
+
+	mutex_lock(&optoe->lock);
+
+	ret = optoe_eeprom_read(optoe, client, &aoc_type,
+				AOC_TYPE_REG, SFF8636_TX_DIS_LENGTH);
+
+	switch (aoc_type) {
+		case SFF8636_TYPE_VAL:
+			info_offset = sff8636;
+			break;
+		case CMIS5P1_TYPE_VAL:
+			info_offset = cmis5p1;
+			break;
+		default:
+			mutex_unlock(&optoe->lock);
+			return -EINVAL;
+	}
+
+	page = (_info + info_offset)->tx_disable.page;
+	reg = (_info + info_offset)->tx_disable.reg;
+
+	ret = optoe_eeprom_write(optoe, client, &page,
+		OPTOE_PAGE_SELECT_REG, page);
+	if (ret < 0) {
+		mutex_unlock(&optoe->lock);
+		return ret;
+	}
+
+    ret = optoe_eeprom_read(optoe, client, &regval,
+				reg, SFF8636_TX_DIS_LENGTH);
+	if (ret < 0) {
+		mutex_unlock(&optoe->lock);
+		return ret;  /* error out (no module?) */
+	}
+
+	// if ((regval & 0xf) < 1) {
+	// 	ret = 0;
+	// }
+	// else {
+	// 	ret = 1;
+	// }
+	dev_err(dev, "get tx_disable, aoc_type(0x%x) \
+				regval=0x%x, page=%d, reg=0x%x.\n", aoc_type, regval, page, reg);
+
+	mutex_unlock(&optoe->lock);
+
+	return snprintf(buf, PAGE_SIZE, "%d\n", regval);
+}
+
 static DEVICE_ATTR(tx_disable,  0644, show_eeprom_txdis, store_eeprom_txdis);
+static DEVICE_ATTR(rx_los,  0444, show_eeprom_rxlos, NULL);
+static DEVICE_ATTR(tx_fault,  0444, show_eeprom_txfault, NULL);
+
 static struct attribute *txdis_attrs[] = {
 	&dev_attr_tx_disable.attr,
+	&dev_attr_rx_los.attr,
+	&dev_attr_tx_fault.attr,
 	NULL,
 };
 static struct attribute_group txdis_attr_group = {

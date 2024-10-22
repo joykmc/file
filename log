@@ -1,0 +1,21 @@
+root@sonic:/home/admin# bash read.sh 
+lrwxrwxrwx 1 root root 35 Oct 24 15:55 /sys_switch/transceiver/eth1/eeprom -> /sys/bus/i2c/devices/23-0050/eeprom
+lrwxrwxrwx 1 root root 39 Oct 24 15:55 /sys_switch/transceiver/eth1/tx_disable -> /sys/bus/i2c/devices/23-0050/tx_disable
+lrwxrwxrwx 1 root root 35 Oct 24 15:55 /sys_switch/transceiver/eth1/rx_los -> /sys/bus/i2c/devices/23-0050/rx_los
+lrwxrwxrwx 1 root root 37 Oct 24 15:55 /sys_switch/transceiver/eth1/tx_fault -> /sys/bus/i2c/devices/23-0050/tx_fault
+
+
+
+root@sonic:/home/admin# cat read.sh 
+#!/bin/bash
+
+for i in {1..128};
+do
+	ls /sys_switch/transceiver/eth$i/eeprom -l
+	ls /sys_switch/transceiver/eth$i/tx_disable -l
+	ls /sys_switch/transceiver/eth$i/rx_los -l
+	ls /sys_switch/transceiver/eth$i/tx_fault -l
+	echo "====================================="
+done
+root@sonic:/home/admin# 
+
