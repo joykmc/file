@@ -125,3 +125,350 @@ source /etc/network/interfaces.d/*
 git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git
 https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git
 https://kernel.googlesource.com/pub/scm/linux/kernel/git/stable/linux.git
+
+
+
+
+
+ diff -qr --exclude=".git" linux/ linux-kernel-v2.2/
+Files linux/arch/arm/include/asm/arch_timer.h and linux-kernel-v2.2/arch/arm/include/asm/arch_timer.h differ
+Files linux/arch/arm64/boot/dts/Makefile and linux-kernel-v2.2/arch/arm64/boot/dts/Makefile differ
+Only in linux-kernel-v2.2/arch/arm64/boot/dts: phytium
+Only in linux-kernel-v2.2/arch/arm64/configs: phytium_debug.config
+Only in linux-kernel-v2.2/arch/arm64/configs: phytium_defconfig
+Only in linux-kernel-v2.2/arch/arm64/configs: phytium_k8s.config
+Only in linux-kernel-v2.2/arch/arm64/configs: phytium_optee.config
+Files linux/arch/arm64/include/asm/arch_timer.h and linux-kernel-v2.2/arch/arm64/include/asm/arch_timer.h differ
+Files linux/arch/arm64/include/asm/cpucaps.h and linux-kernel-v2.2/arch/arm64/include/asm/cpucaps.h differ
+Files linux/arch/arm64/include/asm/cputype.h and linux-kernel-v2.2/arch/arm64/include/asm/cputype.h differ
+Files linux/arch/arm64/include/asm/esr.h and linux-kernel-v2.2/arch/arm64/include/asm/esr.h differ
+Files linux/arch/arm64/include/asm/sysreg.h and linux-kernel-v2.2/arch/arm64/include/asm/sysreg.h differ
+Files linux/arch/arm64/Kconfig.platforms and linux-kernel-v2.2/arch/arm64/Kconfig.platforms differ
+Files linux/arch/arm64/kernel/cpufeature.c and linux-kernel-v2.2/arch/arm64/kernel/cpufeature.c differ
+Files linux/arch/arm64/kernel/traps.c and linux-kernel-v2.2/arch/arm64/kernel/traps.c differ
+Files linux/arch/arm64/mm/flush.c and linux-kernel-v2.2/arch/arm64/mm/flush.c differ
+Files linux/Documentation/admin-guide/kernel-parameters.txt and linux-kernel-v2.2/Documentation/admin-guide/kernel-parameters.txt differ
+Files linux/Documentation/devicetree/bindings/arm/cpus.yaml and linux-kernel-v2.2/Documentation/devicetree/bindings/arm/cpus.yaml differ
+Only in linux-kernel-v2.2/Documentation/devicetree/bindings/dma: phytium-ddma.yaml
+Only in linux-kernel-v2.2/Documentation/devicetree/bindings/dma: phytium,gdma.yaml
+Only in linux-kernel-v2.2/Documentation/devicetree/bindings/edac: phytium-pe220x-edac.txt
+Only in linux-kernel-v2.2/Documentation/devicetree/bindings/gpio: gpio-phytium-sgpio.txt
+Only in linux-kernel-v2.2/Documentation/devicetree/bindings/gpio: phytium,gpio.yaml
+Only in linux-kernel-v2.2/Documentation/devicetree/bindings/hwlock: phytium-hwspinlock.txt
+Only in linux-kernel-v2.2/Documentation/devicetree/bindings/hwmon: tacho-phytium.txt
+Only in linux-kernel-v2.2/Documentation/devicetree/bindings/i2c: phytium,i2c.yaml
+Only in linux-kernel-v2.2/Documentation/devicetree/bindings/iio/adc: phytium-adc.txt
+Only in linux-kernel-v2.2/Documentation/devicetree/bindings/input: phytium-keypad.txt
+Only in linux-kernel-v2.2/Documentation/devicetree/bindings/interrupt-controller: phytium,ixic.txt
+Only in linux-kernel-v2.2/Documentation/devicetree/bindings/interrupt-controller: phytium,ixic.yaml
+Only in linux-kernel-v2.2/Documentation/devicetree/bindings/mailbox: phytium,mbox.yaml
+Only in linux-kernel-v2.2/Documentation/devicetree/bindings/media: phytium-jpeg.txt
+Only in linux-kernel-v2.2/Documentation/devicetree/bindings/mmc: phytium-mci.txt
+Only in linux-kernel-v2.2/Documentation/devicetree/bindings/mmc: phytium,sdci.yaml
+Only in linux-kernel-v2.2/Documentation/devicetree/bindings/net/can: phytium-can.txt
+Files linux/Documentation/devicetree/bindings/net/macb.txt and linux-kernel-v2.2/Documentation/devicetree/bindings/net/macb.txt differ
+Only in linux-kernel-v2.2/Documentation/devicetree/bindings/net: phytium,gmac.yaml
+Files linux/Documentation/devicetree/bindings/net/snps,dwmac.yaml and linux-kernel-v2.2/Documentation/devicetree/bindings/net/snps,dwmac.yaml differ
+Only in linux-kernel-v2.2/Documentation/devicetree/bindings/pwm: pwm-phytium.txt
+Only in linux-kernel-v2.2/Documentation/devicetree/bindings/remoteproc: homo-rproc.txt
+Only in linux-kernel-v2.2/Documentation/devicetree/bindings/rng: phytium-rng.txt
+Only in linux-kernel-v2.2/Documentation/devicetree/bindings/sound: phytium,hda.yaml
+Only in linux-kernel-v2.2/Documentation/devicetree/bindings/spi: phytium,qspi-nor.yaml
+Only in linux-kernel-v2.2/Documentation/devicetree/bindings/spi: spi-phytium.txt
+Only in linux-kernel-v2.2/Documentation/devicetree/bindings/w1: phytium-w1.txt
+Only in linux-kernel-v2.2/Documentation/devicetree: configfs-overlays.txt
+Files linux/drivers/acpi/acpi_apd.c and linux-kernel-v2.2/drivers/acpi/acpi_apd.c differ
+Files linux/drivers/acpi/internal.h and linux-kernel-v2.2/drivers/acpi/internal.h differ
+Files linux/drivers/acpi/irq.c and linux-kernel-v2.2/drivers/acpi/irq.c differ
+Files linux/drivers/acpi/pci_irq.c and linux-kernel-v2.2/drivers/acpi/pci_irq.c differ
+Files linux/drivers/acpi/pci_link.c and linux-kernel-v2.2/drivers/acpi/pci_link.c differ
+Files linux/drivers/char/hw_random/Kconfig and linux-kernel-v2.2/drivers/char/hw_random/Kconfig differ
+Files linux/drivers/char/hw_random/Makefile and linux-kernel-v2.2/drivers/char/hw_random/Makefile differ
+Only in linux-kernel-v2.2/drivers/char/hw_random: phytium-rng.c
+Only in linux-kernel-v2.2/drivers/char/ipmi: bt_bmc_phytium.c
+Files linux/drivers/char/ipmi/Kconfig and linux-kernel-v2.2/drivers/char/ipmi/Kconfig differ
+Only in linux-kernel-v2.2/drivers/char/ipmi: kcs_bmc_phytium.c
+Files linux/drivers/char/ipmi/Makefile and linux-kernel-v2.2/drivers/char/ipmi/Makefile differ
+Files linux/drivers/clocksource/arm_arch_timer.c and linux-kernel-v2.2/drivers/clocksource/arm_arch_timer.c differ
+Files linux/drivers/cpufreq/scpi-cpufreq.c and linux-kernel-v2.2/drivers/cpufreq/scpi-cpufreq.c differ
+Files linux/drivers/crypto/Kconfig and linux-kernel-v2.2/drivers/crypto/Kconfig differ
+Files linux/drivers/dma/Kconfig and linux-kernel-v2.2/drivers/dma/Kconfig differ
+Files linux/drivers/dma/Makefile and linux-kernel-v2.2/drivers/dma/Makefile differ
+Only in linux-kernel-v2.2/drivers/dma: phytium
+Files linux/drivers/edac/Kconfig and linux-kernel-v2.2/drivers/edac/Kconfig differ
+Files linux/drivers/edac/Makefile and linux-kernel-v2.2/drivers/edac/Makefile differ
+Only in linux-kernel-v2.2/drivers/edac: phytium_edac.c
+Files linux/drivers/firmware/arm_scmi/driver.c and linux-kernel-v2.2/drivers/firmware/arm_scmi/driver.c differ
+Files linux/drivers/firmware/arm_scmi/shmem.c and linux-kernel-v2.2/drivers/firmware/arm_scmi/shmem.c differ
+Files linux/drivers/firmware/Kconfig and linux-kernel-v2.2/drivers/firmware/Kconfig differ
+Only in linux-kernel-v2.2/drivers/gpio: gpio-phytium-core.c
+Only in linux-kernel-v2.2/drivers/gpio: gpio-phytium-core.h
+Only in linux-kernel-v2.2/drivers/gpio: gpio-phytium-pci.c
+Only in linux-kernel-v2.2/drivers/gpio: gpio-phytium-platform.c
+Only in linux-kernel-v2.2/drivers/gpio: gpio-phytium-sgpio.c
+Files linux/drivers/gpio/Kconfig and linux-kernel-v2.2/drivers/gpio/Kconfig differ
+Files linux/drivers/gpio/Makefile and linux-kernel-v2.2/drivers/gpio/Makefile differ
+Files linux/drivers/gpu/drm/Kconfig and linux-kernel-v2.2/drivers/gpu/drm/Kconfig differ
+Files linux/drivers/gpu/drm/Makefile and linux-kernel-v2.2/drivers/gpu/drm/Makefile differ
+Only in linux-kernel-v2.2/drivers/gpu/drm: mwv207
+Only in linux-kernel-v2.2/drivers/gpu/drm: phytium
+Files linux/drivers/gpu/drm/ttm/ttm_tt.c and linux-kernel-v2.2/drivers/gpu/drm/ttm/ttm_tt.c differ
+Files linux/drivers/hwmon/Kconfig and linux-kernel-v2.2/drivers/hwmon/Kconfig differ
+Files linux/drivers/hwmon/Makefile and linux-kernel-v2.2/drivers/hwmon/Makefile differ
+Only in linux-kernel-v2.2/drivers/hwmon: tacho-phytium.c
+Files linux/drivers/hwspinlock/Kconfig and linux-kernel-v2.2/drivers/hwspinlock/Kconfig differ
+Files linux/drivers/hwspinlock/Makefile and linux-kernel-v2.2/drivers/hwspinlock/Makefile differ
+Only in linux-kernel-v2.2/drivers/hwspinlock: phytium_hwspinlock.c
+Files linux/drivers/i2c/busses/i2c-designware-platdrv.c and linux-kernel-v2.2/drivers/i2c/busses/i2c-designware-platdrv.c differ
+Only in linux-kernel-v2.2/drivers/i2c/busses: i2c-phytium-common.c
+Only in linux-kernel-v2.2/drivers/i2c/busses: i2c-phytium-core.h
+Only in linux-kernel-v2.2/drivers/i2c/busses: i2c-phytium-master.c
+Only in linux-kernel-v2.2/drivers/i2c/busses: i2c-phytium-pci.c
+Only in linux-kernel-v2.2/drivers/i2c/busses: i2c-phytium-platform.c
+Only in linux-kernel-v2.2/drivers/i2c/busses: i2c-phytium-slave.c
+Files linux/drivers/i2c/busses/Kconfig and linux-kernel-v2.2/drivers/i2c/busses/Kconfig differ
+Files linux/drivers/i2c/busses/Makefile and linux-kernel-v2.2/drivers/i2c/busses/Makefile differ
+Only in linux-kernel-v2.2/drivers/i3c: i3c_master_acpi.c
+Only in linux-kernel-v2.2/drivers/i3c: i3c_master_acpi.h
+Files linux/drivers/i3c/Makefile and linux-kernel-v2.2/drivers/i3c/Makefile differ
+Only in linux-kernel-v2.2/drivers/i3c/master: i3c-master-phytium.c
+Files linux/drivers/i3c/master/Kconfig and linux-kernel-v2.2/drivers/i3c/master/Kconfig differ
+Files linux/drivers/i3c/master/Makefile and linux-kernel-v2.2/drivers/i3c/master/Makefile differ
+Files linux/drivers/i3c/master.c and linux-kernel-v2.2/drivers/i3c/master.c differ
+Files linux/drivers/iio/adc/Kconfig and linux-kernel-v2.2/drivers/iio/adc/Kconfig differ
+Files linux/drivers/iio/adc/Makefile and linux-kernel-v2.2/drivers/iio/adc/Makefile differ
+Only in linux-kernel-v2.2/drivers/iio/adc: phytium-adc.c
+Files linux/drivers/input/keyboard/Kconfig and linux-kernel-v2.2/drivers/input/keyboard/Kconfig differ
+Files linux/drivers/input/keyboard/Makefile and linux-kernel-v2.2/drivers/input/keyboard/Makefile differ
+Only in linux-kernel-v2.2/drivers/input/keyboard: phytium-keypad.c
+Files linux/drivers/input/serio/Kconfig and linux-kernel-v2.2/drivers/input/serio/Kconfig differ
+Files linux/drivers/input/serio/Makefile and linux-kernel-v2.2/drivers/input/serio/Makefile differ
+Only in linux-kernel-v2.2/drivers/input/serio: phytium-ps2.c
+Files linux/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c and linux-kernel-v2.2/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c differ
+Files linux/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h and linux-kernel-v2.2/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h differ
+Files linux/drivers/irqchip/irq-gic-v3-its.c and linux-kernel-v2.2/drivers/irqchip/irq-gic-v3-its.c differ
+Only in linux-kernel-v2.2/drivers/irqchip: irq-phytium-ixic.c
+Files linux/drivers/irqchip/Kconfig and linux-kernel-v2.2/drivers/irqchip/Kconfig differ
+Files linux/drivers/irqchip/Makefile and linux-kernel-v2.2/drivers/irqchip/Makefile differ
+Files linux/drivers/mailbox/Kconfig and linux-kernel-v2.2/drivers/mailbox/Kconfig differ
+Files linux/drivers/mailbox/Makefile and linux-kernel-v2.2/drivers/mailbox/Makefile differ
+Only in linux-kernel-v2.2/drivers/mailbox: phytium-mailbox.c
+Files linux/drivers/media/platform/Kconfig and linux-kernel-v2.2/drivers/media/platform/Kconfig differ
+Files linux/drivers/media/platform/Makefile and linux-kernel-v2.2/drivers/media/platform/Makefile differ
+Only in linux-kernel-v2.2/drivers/media/platform: phytium-jpeg
+Files linux/drivers/mfd/Kconfig and linux-kernel-v2.2/drivers/mfd/Kconfig differ
+Files linux/drivers/mfd/Makefile and linux-kernel-v2.2/drivers/mfd/Makefile differ
+Only in linux-kernel-v2.2/drivers/mfd: phytium_px210_i2s_lsd.c
+Only in linux-kernel-v2.2/drivers/mfd: phytium_px210_i2s_mmd.c
+Files linux/drivers/mmc/host/Kconfig and linux-kernel-v2.2/drivers/mmc/host/Kconfig differ
+Files linux/drivers/mmc/host/Makefile and linux-kernel-v2.2/drivers/mmc/host/Makefile differ
+Only in linux-kernel-v2.2/drivers/mmc/host: phytium-mci.c
+Only in linux-kernel-v2.2/drivers/mmc/host: phytium-mci.h
+Only in linux-kernel-v2.2/drivers/mmc/host: phytium-mci-pci.c
+Only in linux-kernel-v2.2/drivers/mmc/host: phytium-mci-plat.c
+Only in linux-kernel-v2.2/drivers/mmc/host: phytium-sdci.c
+Only in linux-kernel-v2.2/drivers/mmc/host: phytium-sdci.h
+Files linux/drivers/mtd/nand/raw/Kconfig and linux-kernel-v2.2/drivers/mtd/nand/raw/Kconfig differ
+Files linux/drivers/mtd/nand/raw/Makefile and linux-kernel-v2.2/drivers/mtd/nand/raw/Makefile differ
+Only in linux-kernel-v2.2/drivers/mtd/nand/raw: phytium_nand.c
+Only in linux-kernel-v2.2/drivers/mtd/nand/raw: phytium_nand.h
+Only in linux-kernel-v2.2/drivers/mtd/nand/raw: phytium_nand_pci.c
+Only in linux-kernel-v2.2/drivers/mtd/nand/raw: phytium_nand_plat.c
+Only in linux-kernel-v2.2/drivers/mtd/spi-nor: boya.c
+Files linux/drivers/mtd/spi-nor/core.c and linux-kernel-v2.2/drivers/mtd/spi-nor/core.c differ
+Files linux/drivers/mtd/spi-nor/core.h and linux-kernel-v2.2/drivers/mtd/spi-nor/core.h differ
+Files linux/drivers/mtd/spi-nor/Makefile and linux-kernel-v2.2/drivers/mtd/spi-nor/Makefile differ
+Files linux/drivers/net/can/Kconfig and linux-kernel-v2.2/drivers/net/can/Kconfig differ
+Files linux/drivers/net/can/Makefile and linux-kernel-v2.2/drivers/net/can/Makefile differ
+Only in linux-kernel-v2.2/drivers/net/can: phytium
+Files linux/drivers/net/ethernet/cadence/macb.h and linux-kernel-v2.2/drivers/net/ethernet/cadence/macb.h differ
+Files linux/drivers/net/ethernet/cadence/macb_main.c and linux-kernel-v2.2/drivers/net/ethernet/cadence/macb_main.c differ
+Files linux/drivers/net/ethernet/cadence/macb_pci.c and linux-kernel-v2.2/drivers/net/ethernet/cadence/macb_pci.c differ
+Files linux/drivers/net/ethernet/Kconfig and linux-kernel-v2.2/drivers/net/ethernet/Kconfig differ
+Files linux/drivers/net/ethernet/Makefile and linux-kernel-v2.2/drivers/net/ethernet/Makefile differ
+Only in linux-kernel-v2.2/drivers/net/ethernet: phytium
+Files linux/drivers/net/ethernet/stmicro/stmmac/common.h and linux-kernel-v2.2/drivers/net/ethernet/stmicro/stmmac/common.h differ
+Only in linux-kernel-v2.2/drivers/net/ethernet/stmicro/stmmac: dwmac-phytium.c
+Files linux/drivers/net/ethernet/stmicro/stmmac/Kconfig and linux-kernel-v2.2/drivers/net/ethernet/stmicro/stmmac/Kconfig differ
+Files linux/drivers/net/ethernet/stmicro/stmmac/Makefile and linux-kernel-v2.2/drivers/net/ethernet/stmicro/stmmac/Makefile differ
+Files linux/drivers/net/ethernet/stmicro/stmmac/norm_desc.c and linux-kernel-v2.2/drivers/net/ethernet/stmicro/stmmac/norm_desc.c differ
+Files linux/drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c and linux-kernel-v2.2/drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c differ
+Files linux/drivers/net/phy/at803x.c and linux-kernel-v2.2/drivers/net/phy/at803x.c differ
+Files linux/drivers/net/phy/Kconfig and linux-kernel-v2.2/drivers/net/phy/Kconfig differ
+Files linux/drivers/net/phy/Makefile and linux-kernel-v2.2/drivers/net/phy/Makefile differ
+Only in linux-kernel-v2.2/drivers/net/phy: motorcomm.c
+Files linux/drivers/net/phy/phylink.c and linux-kernel-v2.2/drivers/net/phy/phylink.c differ
+Files linux/drivers/net/wireless/Kconfig and linux-kernel-v2.2/drivers/net/wireless/Kconfig differ
+Files linux/drivers/net/wireless/Makefile and linux-kernel-v2.2/drivers/net/wireless/Makefile differ
+Files linux/drivers/net/wireless/realtek/rtw88/bf.c and linux-kernel-v2.2/drivers/net/wireless/realtek/rtw88/bf.c differ
+Files linux/drivers/net/wireless/realtek/rtw88/bf.h and linux-kernel-v2.2/drivers/net/wireless/realtek/rtw88/bf.h differ
+Only in linux-kernel-v2.2/drivers/net/wireless/realtek/rtw88: bitfield.h
+Files linux/drivers/net/wireless/realtek/rtw88/coex.c and linux-kernel-v2.2/drivers/net/wireless/realtek/rtw88/coex.c differ
+Files linux/drivers/net/wireless/realtek/rtw88/coex.h and linux-kernel-v2.2/drivers/net/wireless/realtek/rtw88/coex.h differ
+Only in linux-kernel-v2.2/drivers/net/wireless/realtek/rtw88: compiler.h
+Files linux/drivers/net/wireless/realtek/rtw88/debug.c and linux-kernel-v2.2/drivers/net/wireless/realtek/rtw88/debug.c differ
+Files linux/drivers/net/wireless/realtek/rtw88/debug.h and linux-kernel-v2.2/drivers/net/wireless/realtek/rtw88/debug.h differ
+Files linux/drivers/net/wireless/realtek/rtw88/efuse.c and linux-kernel-v2.2/drivers/net/wireless/realtek/rtw88/efuse.c differ
+Files linux/drivers/net/wireless/realtek/rtw88/fw.c and linux-kernel-v2.2/drivers/net/wireless/realtek/rtw88/fw.c differ
+Files linux/drivers/net/wireless/realtek/rtw88/fw.h and linux-kernel-v2.2/drivers/net/wireless/realtek/rtw88/fw.h differ
+Files linux/drivers/net/wireless/realtek/rtw88/hci.h and linux-kernel-v2.2/drivers/net/wireless/realtek/rtw88/hci.h differ
+Files linux/drivers/net/wireless/realtek/rtw88/Kconfig and linux-kernel-v2.2/drivers/net/wireless/realtek/rtw88/Kconfig differ
+Files linux/drivers/net/wireless/realtek/rtw88/mac80211.c and linux-kernel-v2.2/drivers/net/wireless/realtek/rtw88/mac80211.c differ
+Files linux/drivers/net/wireless/realtek/rtw88/mac.c and linux-kernel-v2.2/drivers/net/wireless/realtek/rtw88/mac.c differ
+Files linux/drivers/net/wireless/realtek/rtw88/mac.h and linux-kernel-v2.2/drivers/net/wireless/realtek/rtw88/mac.h differ
+Files linux/drivers/net/wireless/realtek/rtw88/main.c and linux-kernel-v2.2/drivers/net/wireless/realtek/rtw88/main.c differ
+Files linux/drivers/net/wireless/realtek/rtw88/main.h and linux-kernel-v2.2/drivers/net/wireless/realtek/rtw88/main.h differ
+Files linux/drivers/net/wireless/realtek/rtw88/Makefile and linux-kernel-v2.2/drivers/net/wireless/realtek/rtw88/Makefile differ
+Files linux/drivers/net/wireless/realtek/rtw88/pci.c and linux-kernel-v2.2/drivers/net/wireless/realtek/rtw88/pci.c differ
+Files linux/drivers/net/wireless/realtek/rtw88/pci.h and linux-kernel-v2.2/drivers/net/wireless/realtek/rtw88/pci.h differ
+Files linux/drivers/net/wireless/realtek/rtw88/phy.c and linux-kernel-v2.2/drivers/net/wireless/realtek/rtw88/phy.c differ
+Files linux/drivers/net/wireless/realtek/rtw88/phy.h and linux-kernel-v2.2/drivers/net/wireless/realtek/rtw88/phy.h differ
+Files linux/drivers/net/wireless/realtek/rtw88/ps.c and linux-kernel-v2.2/drivers/net/wireless/realtek/rtw88/ps.c differ
+Files linux/drivers/net/wireless/realtek/rtw88/ps.h and linux-kernel-v2.2/drivers/net/wireless/realtek/rtw88/ps.h differ
+Files linux/drivers/net/wireless/realtek/rtw88/regd.c and linux-kernel-v2.2/drivers/net/wireless/realtek/rtw88/regd.c differ
+Files linux/drivers/net/wireless/realtek/rtw88/regd.h and linux-kernel-v2.2/drivers/net/wireless/realtek/rtw88/regd.h differ
+Files linux/drivers/net/wireless/realtek/rtw88/reg.h and linux-kernel-v2.2/drivers/net/wireless/realtek/rtw88/reg.h differ
+Files linux/drivers/net/wireless/realtek/rtw88/rtw8723d.c and linux-kernel-v2.2/drivers/net/wireless/realtek/rtw88/rtw8723d.c differ
+Files linux/drivers/net/wireless/realtek/rtw88/rtw8723de.c and linux-kernel-v2.2/drivers/net/wireless/realtek/rtw88/rtw8723de.c differ
+Files linux/drivers/net/wireless/realtek/rtw88/rtw8723d.h and linux-kernel-v2.2/drivers/net/wireless/realtek/rtw88/rtw8723d.h differ
+Only in linux-kernel-v2.2/drivers/net/wireless/realtek/rtw88: rtw8723ds.c
+Only in linux-kernel-v2.2/drivers/net/wireless/realtek/rtw88: rtw8723du.c
+Files linux/drivers/net/wireless/realtek/rtw88/rtw8821c.c and linux-kernel-v2.2/drivers/net/wireless/realtek/rtw88/rtw8821c.c differ
+Files linux/drivers/net/wireless/realtek/rtw88/rtw8821ce.c and linux-kernel-v2.2/drivers/net/wireless/realtek/rtw88/rtw8821ce.c differ
+Files linux/drivers/net/wireless/realtek/rtw88/rtw8821c.h and linux-kernel-v2.2/drivers/net/wireless/realtek/rtw88/rtw8821c.h differ
+Only in linux-kernel-v2.2/drivers/net/wireless/realtek/rtw88: rtw8821cs.c
+Files linux/drivers/net/wireless/realtek/rtw88/rtw8821c_table.c and linux-kernel-v2.2/drivers/net/wireless/realtek/rtw88/rtw8821c_table.c differ
+Files linux/drivers/net/wireless/realtek/rtw88/rtw8821c_table.h and linux-kernel-v2.2/drivers/net/wireless/realtek/rtw88/rtw8821c_table.h differ
+Only in linux-kernel-v2.2/drivers/net/wireless/realtek/rtw88: rtw8821cu.c
+Files linux/drivers/net/wireless/realtek/rtw88/rtw8822b.c and linux-kernel-v2.2/drivers/net/wireless/realtek/rtw88/rtw8822b.c differ
+Files linux/drivers/net/wireless/realtek/rtw88/rtw8822be.c and linux-kernel-v2.2/drivers/net/wireless/realtek/rtw88/rtw8822be.c differ
+Files linux/drivers/net/wireless/realtek/rtw88/rtw8822b.h and linux-kernel-v2.2/drivers/net/wireless/realtek/rtw88/rtw8822b.h differ
+Only in linux-kernel-v2.2/drivers/net/wireless/realtek/rtw88: rtw8822bs.c
+Only in linux-kernel-v2.2/drivers/net/wireless/realtek/rtw88: rtw8822bu.c
+Files linux/drivers/net/wireless/realtek/rtw88/rtw8822c.c and linux-kernel-v2.2/drivers/net/wireless/realtek/rtw88/rtw8822c.c differ
+Files linux/drivers/net/wireless/realtek/rtw88/rtw8822ce.c and linux-kernel-v2.2/drivers/net/wireless/realtek/rtw88/rtw8822ce.c differ
+Files linux/drivers/net/wireless/realtek/rtw88/rtw8822c.h and linux-kernel-v2.2/drivers/net/wireless/realtek/rtw88/rtw8822c.h differ
+Only in linux-kernel-v2.2/drivers/net/wireless/realtek/rtw88: rtw8822cs.c
+Files linux/drivers/net/wireless/realtek/rtw88/rtw8822c_table.c and linux-kernel-v2.2/drivers/net/wireless/realtek/rtw88/rtw8822c_table.c differ
+Only in linux-kernel-v2.2/drivers/net/wireless/realtek/rtw88: rtw8822cu.c
+Files linux/drivers/net/wireless/realtek/rtw88/rx.c and linux-kernel-v2.2/drivers/net/wireless/realtek/rtw88/rx.c differ
+Only in linux-kernel-v2.2/drivers/net/wireless/realtek/rtw88: sar.c
+Only in linux-kernel-v2.2/drivers/net/wireless/realtek/rtw88: sar.h
+Only in linux-kernel-v2.2/drivers/net/wireless/realtek/rtw88: sch_generic.h
+Only in linux-kernel-v2.2/drivers/net/wireless/realtek/rtw88: sdio.c
+Only in linux-kernel-v2.2/drivers/net/wireless/realtek/rtw88: sdio.h
+Only in linux-kernel-v2.2/drivers/net/wireless/realtek/rtw88: sdio_ids.h
+Files linux/drivers/net/wireless/realtek/rtw88/tx.c and linux-kernel-v2.2/drivers/net/wireless/realtek/rtw88/tx.c differ
+Files linux/drivers/net/wireless/realtek/rtw88/tx.h and linux-kernel-v2.2/drivers/net/wireless/realtek/rtw88/tx.h differ
+Only in linux-kernel-v2.2/drivers/net/wireless/realtek/rtw88: usb.c
+Only in linux-kernel-v2.2/drivers/net/wireless/realtek/rtw88: usb.h
+Files linux/drivers/net/wireless/realtek/rtw88/util.c and linux-kernel-v2.2/drivers/net/wireless/realtek/rtw88/util.c differ
+Files linux/drivers/net/wireless/realtek/rtw88/util.h and linux-kernel-v2.2/drivers/net/wireless/realtek/rtw88/util.h differ
+Files linux/drivers/net/wireless/realtek/rtw88/wow.c and linux-kernel-v2.2/drivers/net/wireless/realtek/rtw88/wow.c differ
+Only in linux-kernel-v2.2/drivers/net/wireless: rtl8821cs
+Only in linux-kernel-v2.2/drivers/of: configfs.c
+Files linux/drivers/of/Kconfig and linux-kernel-v2.2/drivers/of/Kconfig differ
+Files linux/drivers/of/Makefile and linux-kernel-v2.2/drivers/of/Makefile differ
+Files linux/drivers/pci/controller/Kconfig and linux-kernel-v2.2/drivers/pci/controller/Kconfig differ
+Files linux/drivers/pci/controller/Makefile and linux-kernel-v2.2/drivers/pci/controller/Makefile differ
+Only in linux-kernel-v2.2/drivers/pci/controller: pcie-phytium-ep.c
+Only in linux-kernel-v2.2/drivers/pci/controller: pcie-phytium-ep.h
+Only in linux-kernel-v2.2/drivers/pci/controller: pcie-phytium-register.h
+Files linux/drivers/pci/hotplug/pciehp_ctrl.c and linux-kernel-v2.2/drivers/pci/hotplug/pciehp_ctrl.c differ
+Files linux/drivers/pci/hotplug/pciehp.h and linux-kernel-v2.2/drivers/pci/hotplug/pciehp.h differ
+Files linux/drivers/pci/hotplug/pciehp_hpc.c and linux-kernel-v2.2/drivers/pci/hotplug/pciehp_hpc.c differ
+Files linux/drivers/pci/msi.c and linux-kernel-v2.2/drivers/pci/msi.c differ
+Files linux/drivers/pci/pcie/portdrv_core.c and linux-kernel-v2.2/drivers/pci/pcie/portdrv_core.c differ
+Files linux/drivers/pci/pcie/portdrv.h and linux-kernel-v2.2/drivers/pci/pcie/portdrv.h differ
+Files linux/drivers/pci/probe.c and linux-kernel-v2.2/drivers/pci/probe.c differ
+Files linux/drivers/pci/quirks.c and linux-kernel-v2.2/drivers/pci/quirks.c differ
+Files linux/drivers/pci/setup-bus.c and linux-kernel-v2.2/drivers/pci/setup-bus.c differ
+Files linux/drivers/pwm/Kconfig and linux-kernel-v2.2/drivers/pwm/Kconfig differ
+Files linux/drivers/pwm/Makefile and linux-kernel-v2.2/drivers/pwm/Makefile differ
+Only in linux-kernel-v2.2/drivers/pwm: pwm-phytium.c
+Files linux/drivers/pwm/sysfs.c and linux-kernel-v2.2/drivers/pwm/sysfs.c differ
+Only in linux-kernel-v2.2/drivers/remoteproc: homo_remoteproc.c
+Files linux/drivers/remoteproc/Kconfig and linux-kernel-v2.2/drivers/remoteproc/Kconfig differ
+Files linux/drivers/remoteproc/Makefile and linux-kernel-v2.2/drivers/remoteproc/Makefile differ
+Files linux/drivers/rtc/Kconfig and linux-kernel-v2.2/drivers/rtc/Kconfig differ
+Files linux/drivers/rtc/Makefile and linux-kernel-v2.2/drivers/rtc/Makefile differ
+Only in linux-kernel-v2.2/drivers/rtc: rtc-sd3068.c
+Files linux/drivers/spi/Kconfig and linux-kernel-v2.2/drivers/spi/Kconfig differ
+Files linux/drivers/spi/Makefile and linux-kernel-v2.2/drivers/spi/Makefile differ
+Only in linux-kernel-v2.2/drivers/spi: spi-phytium.c
+Only in linux-kernel-v2.2/drivers/spi: spi-phytium-dma.c
+Only in linux-kernel-v2.2/drivers/spi: spi-phytium.h
+Only in linux-kernel-v2.2/drivers/spi: spi-phytium-pci.c
+Only in linux-kernel-v2.2/drivers/spi: spi-phytium-plat.c
+Only in linux-kernel-v2.2/drivers/spi: spi-phytium-qspi.c
+Files linux/drivers/tee/optee/core.c and linux-kernel-v2.2/drivers/tee/optee/core.c differ
+Files linux/drivers/tty/serial/Kconfig and linux-kernel-v2.2/drivers/tty/serial/Kconfig differ
+Files linux/drivers/tty/serial/Makefile and linux-kernel-v2.2/drivers/tty/serial/Makefile differ
+Only in linux-kernel-v2.2/drivers/tty/serial: phytium-uart.c
+Files linux/drivers/usb/host/xhci-pci.c and linux-kernel-v2.2/drivers/usb/host/xhci-pci.c differ
+Files linux/drivers/usb/host/xhci-plat.c and linux-kernel-v2.2/drivers/usb/host/xhci-plat.c differ
+Files linux/drivers/usb/Kconfig and linux-kernel-v2.2/drivers/usb/Kconfig differ
+Files linux/drivers/usb/Makefile and linux-kernel-v2.2/drivers/usb/Makefile differ
+Only in linux-kernel-v2.2/drivers/usb: phytium
+Files linux/drivers/w1/masters/Kconfig and linux-kernel-v2.2/drivers/w1/masters/Kconfig differ
+Files linux/drivers/w1/masters/Makefile and linux-kernel-v2.2/drivers/w1/masters/Makefile differ
+Only in linux-kernel-v2.2/drivers/w1/masters: phytium_w1.c
+Files linux/.gitignore and linux-kernel-v2.2/.gitignore differ
+Files linux/include/acpi/acpi_drivers.h and linux-kernel-v2.2/include/acpi/acpi_drivers.h differ
+Files linux/include/clocksource/arm_arch_timer.h and linux-kernel-v2.2/include/clocksource/arm_arch_timer.h differ
+Files linux/include/linux/acpi.h and linux-kernel-v2.2/include/linux/acpi.h differ
+Files linux/include/linux/cpuhotplug.h and linux-kernel-v2.2/include/linux/cpuhotplug.h differ
+Files linux/include/linux/i3c/master.h and linux-kernel-v2.2/include/linux/i3c/master.h differ
+Files linux/include/linux/pci_ids.h and linux-kernel-v2.2/include/linux/pci_ids.h differ
+Files linux/include/linux/phy.h and linux-kernel-v2.2/include/linux/phy.h differ
+Files linux/include/linux/phylink.h and linux-kernel-v2.2/include/linux/phylink.h differ
+Files linux/include/sound/hdaudio.h and linux-kernel-v2.2/include/sound/hdaudio.h differ
+Files linux/include/uapi/linux/serial_core.h and linux-kernel-v2.2/include/uapi/linux/serial_core.h differ
+Files linux/Makefile and linux-kernel-v2.2/Makefile differ
+Files linux/net/netfilter/nf_tables_api.c and linux-kernel-v2.2/net/netfilter/nf_tables_api.c differ
+Files linux/scripts/dtc/include-prefixes/arm64/Makefile and linux-kernel-v2.2/scripts/dtc/include-prefixes/arm64/Makefile differ
+Only in linux-kernel-v2.2/scripts/dtc/include-prefixes/arm64: phytium
+Files linux/scripts/Makefile.dtbinst and linux-kernel-v2.2/scripts/Makefile.dtbinst differ
+Files linux/scripts/Makefile.lib and linux-kernel-v2.2/scripts/Makefile.lib differ
+Files linux/sound/hda/hdac_controller.c and linux-kernel-v2.2/sound/hda/hdac_controller.c differ
+Files linux/sound/hda/hdac_stream.c and linux-kernel-v2.2/sound/hda/hdac_stream.c differ
+Files linux/sound/pci/hda/hda_controller.c and linux-kernel-v2.2/sound/pci/hda/hda_controller.c differ
+Only in linux-kernel-v2.2/sound/pci/hda: hda_phytium.c
+Only in linux-kernel-v2.2/sound/pci/hda: hda_phytium.h
+Files linux/sound/pci/hda/Kconfig and linux-kernel-v2.2/sound/pci/hda/Kconfig differ
+Files linux/sound/pci/hda/Makefile and linux-kernel-v2.2/sound/pci/hda/Makefile differ
+Only in linux-kernel-v2.2/sound/soc/codecs: es8336.c
+Only in linux-kernel-v2.2/sound/soc/codecs: es8336.h
+Only in linux-kernel-v2.2/sound/soc/codecs: es8388.c
+Only in linux-kernel-v2.2/sound/soc/codecs: es8388.h
+Files linux/sound/soc/codecs/Kconfig and linux-kernel-v2.2/sound/soc/codecs/Kconfig differ
+Files linux/sound/soc/codecs/Makefile and linux-kernel-v2.2/sound/soc/codecs/Makefile differ
+Files linux/sound/soc/Kconfig and linux-kernel-v2.2/sound/soc/Kconfig differ
+Files linux/sound/soc/Makefile and linux-kernel-v2.2/sound/soc/Makefile differ
+Only in linux-kernel-v2.2/sound/soc: phytium
+lizhaoxing@inspur-NF5280M5:~$ 
+
+
+n file included from /sonic/src/sonic-linux-kernel/linux-5.10.140/include/linux/bitmap.h:9,
+                 from /sonic/src/sonic-linux-kernel/linux-5.10.140/include/linux/cpumask.h:12,
+                 from /sonic/src/sonic-linux-kernel/linux-5.10.140/include/linux/smp.h:13,
+                 from /sonic/src/sonic-linux-kernel/linux-5.10.140/include/linux/lockdep.h:14,
+                 from /sonic/src/sonic-linux-kernel/linux-5.10.140/include/linux/mutex.h:17,
+                 from /sonic/src/sonic-linux-kernel/linux-5.10.140/include/linux/notifier.h:14,
+                 from /sonic/src/sonic-linux-kernel/linux-5.10.140/include/linux/clk.h:14,
+                 from /sonic/src/sonic-linux-kernel/linux-5.10.140/drivers/net/ethernet/phytium/phytmac_v2.c:4:
+In function 'memcpy',
+    inlined from 'phytmac_get_regs' at /sonic/src/sonic-linux-kernel/linux-5.10.140/drivers/net/ethernet/phytium/phytmac_v2.c:334:2:
+/sonic/src/sonic-linux-kernel/linux-5.10.140/include/linux/string.h:393:4: error: call to '__write_overflow' declared with attribute error: detected write beyond size of object passed as 1st parameter
+  393 |    __write_overflow();
+      |    ^~~~~~~~~~~~~~~~~~
+In function 'memcpy',
+    inlined from 'phytmac_get_mac_addr' at /sonic/src/sonic-linux-kernel/linux-5.10.140/drivers/net/ethernet/phytium/phytmac_v2.c:105:2:
+/sonic/src/sonic-linux-kernel/linux-5.10.140/include/linux/string.h:393:4: error: call to '__write_overflow' declared with attribute error: detected write beyond size of object passed as 1st parameter
+  393 |    __write_overflow();
+      |    ^~~~~~~~~~~~~~~~~~
+make[5]: *** [/sonic/src/sonic-linux-kernel/linux-5.10.140/scripts/Makefile.build:291: drivers/net/ethernet/phytium/phytmac_v2.o] Error 1
+make[4]: *** [/sonic/src/sonic-linux-kernel/linux-5.10.140/scripts/Makefile.build:508: drivers/net/ethernet/phytium] Error 2
+make[3]: *** [/sonic/src/sonic-linux-kernel/linux-5.10.140/scripts/Makefile.build:508: drivers/net/ethernet] Error 2
+make[3]: *** Waiting for unfinished jobs....
+
