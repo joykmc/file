@@ -472,3 +472,4 @@ make[4]: *** [/sonic/src/sonic-linux-kernel/linux-5.10.140/scripts/Makefile.buil
 make[3]: *** [/sonic/src/sonic-linux-kernel/linux-5.10.140/scripts/Makefile.build:508: drivers/net/ethernet] Error 2
 make[3]: *** Waiting for unfinished jobs....
 
+http://security.debian.org/pool/updates/main/l/linux-5.10/linux-5.10_5.10.209-2~deb10u1.dsc
