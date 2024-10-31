@@ -19,3 +19,57 @@ do
 done
 root@sonic:/home/admin# 
 
+
+import time
+import signal
+from watchdog.observers import Observer
+from watchdog.events import FileSystemEventHandler
+
+class SysfsEventHandler(FileSystemEventHandler):
+    def __init__(self, watch_file):
+        super().__init__()
+        self.watch_file = watch_file
+
+    def on_created(self, event):
+        if event.src_path == self.watch_file:
+            print(f"File {self.watch_file} has been created.")
+            self.handle_create_event()
+
+    def on_deleted(self, event):
+        if event.src_path == self.watch_file:
+            print(f"File {self.watch_file} has been deleted.")
+            self.handle_delete_event()
+
+    def handle_create_event(self):
+        print("Executing create event action")
+
+    def handle_delete_event(self):
+        print("Executing delete event action")
+
+def start_monitoring(sysfs_path):
+    event_handler = SysfsEventHandler(sysfs_path)
+    observer = Observer()
+
+    # 设置监控路径为 sysfs 文件所在目录
+    observer.schedule(event_handler, path=sysfs_path.rsplit("/", 1)[0], recursive=False)
+    observer.start()
+    print(f"Started monitoring {sysfs_path}")
+
+    # 定义退出处理函数
+    def graceful_exit(signum, frame):
+        print("Gracefully stopping observer...")
+        observer.stop()
+
+    # 捕捉 SIGINT (Ctrl+C) 和 SIGTERM 信号
+    signal.signal(signal.SIGINT, graceful_exit)
+    signal.signal(signal.SIGTERM, graceful_exit)
+
+    try:
+        observer.join()  # 等待 observer 线程结束
+    finally:
+        print("Stopped monitoring.")
+
+if __name__ == "__main__":
+    sysfs_path = "/sys/switch/transceiver/eth1/tx_disable"  # 监控的 sysfs 文件路径
+    start_monitoring(sysfs_path)
+
