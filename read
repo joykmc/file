@@ -520,3 +520,29 @@ int main(int argc, char *argv[]) {
 
     return 0;
 }
+
+
+
+
+
+ 14)               |  i2c_smbus_read_byte_data() {
+ 14)               |    i2c_smbus_xfer() {
+ 14) ! 722.951 us  |      i2c_smbus_xfer_emulated();
+ 14) ! 723.536 us  |    }
+ 14) ! 723.949 us  |  }
+ 14)               |  i2c_smbus_read_byte_data() {
+ 14)               |    i2c_smbus_xfer() {
+ 14) ! 790.201 us  |      i2c_smbus_xfer_emulated();
+ 14) ! 790.798 us  |    }
+ 14) ! 791.201 us  |  }
+ 14)               |  i2c_smbus_read_byte_data() {
+ 14)               |    i2c_smbus_xfer() {
+ 14) ! 790.717 us  |      i2c_smbus_xfer_emulated();
+ 14) ! 791.287 us  |    }
+ 14) ! 791.709 us  |  }
+ 14)               |  i2c_smbus_read_byte_data() {
+ 14)               |    i2c_smbus_xfer() {
+ 14) ! 791.221 us  |      i2c_smbus_xfer_emulated();
+ 14) ! 791.788 us  |    }
+ 14) ! 792.191 us  |  }
+
