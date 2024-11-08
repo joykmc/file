@@ -22,6 +22,23 @@ def read_eeprom(path, offset, fixed_length):
 # 创建线程并读取每个 eeprom
 threads = []
 for i in range(1, 129):
+    present_path = f"/sys_switch/transceiver/eth{i}/present"
+    #eeprom_path = f"/sys_switch/transceiver/eth{i}/eeprom"
+
+    # �~@�~_�并读�~O~V present �~V~G件
+    if os.path.exists(present_path):
+        try:
+            with open(present_path, 'r') as file:
+                present_content = file.read().strip()
+                print(f"�~F~E容 ({present_path}): {present_content}")
+        except IOError as e:
+            print(f"�~W| �~U读�~O~V�~V~G件 {present_path}: {e}")
+    else:
+        print(f"�~V~G件 {present_path} �~M�~X�~\�")
+
+    if present_content == "0":
+        continue
+
     eeprom_path = f"/sys_switch/transceiver/eth{i}/eeprom"
     thread = threading.Thread(target=read_eeprom, args=(eeprom_path, offset, fixed_length))
     threads.append(thread)

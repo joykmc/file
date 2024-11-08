@@ -19,7 +19,9 @@ for i in range(1, 129):
             print(f"无法读取文件 {present_path}: {e}")
     else:
         print(f"文件 {present_path} 不存在")
-
+    
+    if present_content == "0":
+        continue
     # 检查并读取 eeprom 文件的固定长度内容
     if os.path.exists(eeprom_path):
         try:
