@@ -1,0 +1,2778 @@
+#!/usr/bin/python3
+
+"""
+    hwmgrd
+    Baidu hardware peripheral information update daemon for SONiC
+"""
+try:
+    import os
+    import gc
+    import sys
+    import time
+    import signal
+    import threading
+    import multiprocessing
+    import sched
+    import socket
+    import redis
+    import re
+    import json
+    import string
+    import ast
+    import copy
+    import difflib
+    import traceback
+    import argparse
+    from random import randint
+    from collections import OrderedDict
+    from swsscommon import swsscommon
+    from sonic_py_common import daemon_base
+    from sonic_py_common.logger import Logger_SC
+    from sonic_py_common.daemon_base import DaemonBase
+    from platform_baidu_base.device import E_NONE
+    from platform_baidu_base.device import E_UNKNOWN
+    from platform_baidu_base.device import E_UNSUPPORT
+    from platform_baidu_base.device import IS_UNSUPPORT
+    from platform_baidu_base.device import Value
+    from platform_baidu_base.device import Attribute
+    from platform_baidu_base.chassis import ChassisBaidu
+    from sonic_platform.chassis import Chassis
+    from swsscommon.swsscommon import SonicV2Connector, ConfigDBConnector
+    from portconfig import parse_port_config_file
+except ImportError as e:
+    raise ImportError (str(e) + " - required module not found")
+
+#
+# Constants ====================================================================
+#
+
+SYSLOG_IDENTIFIER = "hwmgrd"
+
+DRV_SYS_SWITCH_PATH = '/sys_switch/'
+
+SFF_PREFIX      = 'sfp'
+SFF_MODULE_NAME = "sfputil"
+SFF_CLASS_NAME  = "SfpUtil"
+
+CHASSIS_MODULE_NAME = "chassis"
+CHASSIS_CLASS_NAME  = "ChassisBaidu"
+
+STATUS_INSERTED = '1'
+STATUS_REMOVED  = '0'
+
+SWITCH_TABLE_NAME   = 'SWITCH'
+BREAKOUT_TABLE_NAME = 'BREAKOUT_CFG'
+# DB_TABLEs
+SELECT_TIMEOUT_MSECS = 1000
+
+# driver update timer is TIMER_UPDATE seconds,
+# alarm update timer is TIMER_ALARM seconds,
+# every live file will be update less than TIME_UPDATE seconds
+# every static file will be check at DOUBLE_CHECK_TIME
+# when device plugin, access after TIME_DEVICE_READY seconds,
+TIMER_UPDATE        = 5
+TIMER_ALARM         = 2
+TIMER_MONIT         = 20
+
+TIME_UPDATE         = 60
+# BIN-16372:pending check interval adjust to 5m for TH3 devices.
+TIME_CHECK          = 100
+#BIN-12444:protection time for static device info
+TIME_DOUBLE_CHECK_1 = 30
+TIME_DOUBLE_CHECK_2 = 50
+TIME_DEVICE_READY   = 0.5
+
+TIME_MONIT_ALARM    = 30
+TIME_MONIT_UPDATE   = 60
+# Global logger class instance
+logger = Logger_SC(SYSLOG_IDENTIFIER)
+
+installed_file = '/var/tmp/hwmgrd.installed'
+#
+# basic device data which no need copy to /tmp/switch ==========================
+#
+
+##
+monit_files_sff = [
+        'eeprom_0x50',
+        'eeprom_0x51',
+        'number',
+        'lpmode',
+        'power',
+        'reset',
+        'tx_disable',
+        'module_type',
+        ]
+
+ignore_files_common= [
+    'led',
+    'debug',
+    'threshold',
+    'loglevel',
+    ]
+
+attr_type_live   = 'live'
+attr_type_static = 'static'
+
+#
+# live driver files =============================================================
+#    'fan/%d/pwm',
+#    'fan/%d/speed',
+#    'psu/%d/data',
+#    'sff/%d/diagnostic',
+#    'thermal/temp',
+#
+live_attrs = [
+    'eeprom_0x51',  # for sff dom info update
+    'eeprom_0x50',  # for sff(qsfp) dom info update
+    'pwm',          # fan pwm
+    'speed',        # fan speed
+    'data',         # psu data
+    'temp',         # thermal temp
+    'alarm',        # fan/psu/thermal alarm
+    ]
+
+# configDB for hwmgr, psu, fan, sff, thermal
+config_files = [
+    'hwmgr_update_sec',
+    'present_scan_100ms',
+    'alarm_update_sec',
+]
+
+all_devs = [
+    'cpld',
+    'mainboard',
+    'fan',
+    'psu',
+    'thermal',
+    'linecard',
+    SFF_PREFIX
+]
+
+# pluggable device
+pluggable_devs = [
+    'psu',
+    SFF_PREFIX,
+    'fan',
+    'linecard',
+]
+
+live_devs = [
+    'psu',
+    SFF_PREFIX,
+    'fan',
+    'linecard',
+    'thermal',
+    'temp',
+    'sensor'
+]
+
+# alarm device
+alarm_fast_devs = [
+    'psu',
+    SFF_PREFIX
+]
+
+alarm_slow_devs = [
+    'fan',
+    'thermal'
+]
+
+driver_monitor = None
+monitor_thread = []
+monitor_device = []
+alarm_device   = []
+
+db_subscribe = None
+lock = threading.Lock()
+monit_lock = threading.Lock()
+
+#
+# inotify class ================================================================
+#
+def is_s3ip_sysfs():
+    if "/sys_switch/" == DRV_SYS_SWITCH_PATH:
+        return True
+    else:
+        return False
+
+NETLINK_KOBJECT_UEVENT = 15
+
+class HwmgrdTimer(threading.Thread):
+    """
+    A timer that runs a function after a specified interval using a monotonic clock.
+    """
+
+    def __init__(self, interval, function, args=(), kwargs=None):
+        """
+        Initializes the timer.
+
+        :param interval: The time interval after which the function is executed.
+        :param function: The function to execute.
+        :param args: Arguments to pass to the function.
+        :param kwargs: Keyword arguments to pass to the function.
+        """
+        super(HwmgrdTimer, self).__init__(daemon=True)  # Set as daemon thread
+        self.interval = interval
+        self.function = function
+        self.args = args
+        self.kwargs = kwargs or {}
+        self.finished = threading.Event()
+
+    def run(self):
+        """
+        Runs the timer and executes the function after the specified interval.
+        """
+        start_time = time.monotonic()
+        while not self.finished.is_set():
+            elapsed_time = time.monotonic() - start_time
+            if elapsed_time >= self.interval:
+                self.function()
+                break
+            else:
+                time.sleep(self.interval - elapsed_time)
+            #self.finished.wait(self.interval - elapsed_time)
+
+    def cancel(self):
+        """
+        Cancels the timer.
+        """
+        self.finished.set()
+
+class HwmgrdStats(object):
+    def __init__(self, name, lasttime=0):
+        self.stats = { \
+            #curr, last, max
+            'take'    :[int(0xFFFFFFFFFFFF), 0, 0],
+            'pass'    :[int(0xFFFFFFFFFFFF), 0, 0],
+            'post'    :[int(0xFFFFFFFFFFFF), 0, 0]}
+
+        self.name  = name
+        self.count = 0
+        self.lock  = threading.Lock()
+
+    def __str__(self):
+        return str({self.name:self.stats})
+
+    def get_curr(self, item):
+        if item in self.stats:
+            return self.stats[item][1]
+        else:
+            return None
+
+    def get_peak(self, item):
+        if item in self.stats:
+            return self.stats[item][2]
+        else:
+            return None
+
+    def record(self, item):
+        self.count += 1
+        self.refesh()
+
+        if item in ['pass', 'take']:
+            curr = time.monotonic()
+            last = self.stats[item][0]
+
+            if curr >= last:
+                self.stats[item][1] = int((curr - last) * 1000)
+                self.stats[item][2] = max(self.stats[item][1],
+                                        self.stats[item][2])
+            self.stats[item][0] = curr
+        elif item in ['post']:
+            self.stats[item][2] = max(self.stats[item][1], 
+                                      self.stats[item][2])
+            self.stats[item][0] = self.stats[item][1]
+            self.stats[item][1] = 0
+
+    def update(self, item):
+        if item in ['pass', 'take']:
+            with self.lock:
+                self.stats[item][0] = time.monotonic()
+        elif item in ['post']:
+            with self.lock:
+                self.stats[item][1] += 1
+
+    def clear(self):
+        self.stats['take'][2] = 0
+        self.stats['pass'][2] = 0
+        self.stats['post'][2] = 0
+
+    def refesh(self):
+        if 0 == (self.count % 1000):
+            return self.clear()
+
+class HwmgrdDict(object):
+
+    def __init__(self, margin):
+        self.name = "driver_file_dict"
+        self.margin = margin
+        self.driver_file_dict = { \
+            'live':{}, 
+            'static':{}, 
+            'pend':{}}
+        self.driver_file_dict_lock = threading.Lock()
+
+    def get_group_devices(self, group):
+        with self.driver_file_dict_lock:
+            try:
+                return list(self.driver_file_dict[group].keys())
+            except Exception as err:
+                return []
+
+    def get_dev_time(self, group, dev):
+        with self.driver_file_dict_lock:
+            try:
+                return self.driver_file_dict[group][dev]
+            except Exception as err:
+                return None
+
+    def add_dev_data(self, group, dev, data):
+        with self.driver_file_dict_lock:
+            try:
+                curtime = int(time.monotonic())
+                self.driver_file_dict[group][dev] = curtime
+            except Exception as err:
+                return False
+            else:
+                return True
+
+    def add_group_dev(self, group, dev):
+        with self.driver_file_dict_lock:
+            try:
+                devname = dev.get_name()
+                curtime = int(time.monotonic())
+                nxttime = randint(curtime, curtime + TIME_DOUBLE_CHECK_1 + self.margin) 
+                self.driver_file_dict[group][dev] = (curtime, nxttime)
+                logger.log_notice('hwmgrd core: {} add {}:{}-{}.'.\
+                    format(group, devname, nxttime, curtime))
+            except Exception as err:
+                return False
+            else:
+                return True
+
+    def del_group_dev(self, group, dev):
+        with self.driver_file_dict_lock:
+            try:
+                if dev in self.driver_file_dict[group]:
+                    self.driver_file_dict[group].pop(dev)
+                    logger.log_notice('hwmgrd core: {} pop {}.'.\
+                        format(group, dev.name))
+            except Exception as err:
+                return False
+            else:
+                return True
+
+    def update_dev_time(self, group, dev):
+        try:
+            if dev in self.driver_file_dict[group]:
+                curtime = int(time.monotonic())
+                nxttime = randint(curtime + TIME_UPDATE - self.margin,
+                    curtime + TIME_UPDATE)
+                self.driver_file_dict[group][dev] = (curtime, nxttime)
+                logger.log_debug('hwmgrd core: {} update {}:{}.'.\
+                    format(group, dev.name, nxttime))
+        except Exception as err:
+            return False
+        else:
+            return True
+
+    def get_dev_passtime(self, group, dev):
+
+        try:
+            if dev in self.driver_file_dict[group]:
+                curtime = int(time.monotonic())
+                devtime = self.driver_file_dict[group][dev]
+                if curtime >= devtime[1]:
+                    return curtime - devtime[0]
+                else:
+                    return -1
+            else:
+                return -1
+        except Exception as err:
+            return -1
+
+
+    def clear(self, group):
+        with self.driver_file_dict_lock:
+            try:
+                self.driver_file_dict[group] = {}
+            except Exception as err:
+                return False
+            else:
+                return True
+
+    def clear_group(self, group):
+        with self.driver_file_dict_lock:
+            try:
+                self.driver_file_dict = { \
+                    'live':{},
+                    'static':{},
+                    'pend':{} \
+                }
+            except Exception as err:
+                return False
+            else:
+                return True
+
+class ChassisChangeMonitor(object):
+
+    def __init__(self, chassis):
+        self.chassis = chassis
+
+    def start(self):
+        pass
+
+    def stop(self):
+        pass
+
+    def restart(self):
+        self.stop()
+        self.start()
+
+    def __enter__(self):
+        logger.log_notice('monitor: init')
+        self.start()
+        return self
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        logger.log_error('exit')
+        self.stop()
+
+    def __iter__(self):
+        global driver_monitor
+        global monitor_thread
+        while True:
+            try:
+                with monit_lock:
+                    # wait for event done until timeout
+                    # if thread is not finished, check next round
+                    # until it is done.
+                    logger.log_info('monitor: check monitor_thread({}).'.format(len(monitor_thread)))
+                    for i in range(len(monitor_thread) - 1, -1, -1):
+                        t = monitor_thread[i]
+                        if t:
+                            t.join(timeout=0.1)
+                            if t.is_alive():
+                                logger.log_info('monitor: {} is still alive({}).'.format(\
+                                    t.name, i))
+                            else:
+                                del monitor_thread[i]
+                                logger.log_notice('monitor: {} is done({}).'.format(\
+                                    t.name, i))
+                        else:
+                            del monitor_thread[i]
+                            logger.log_debug('monitor: monitor_thread({}) remove {}.'.format(\
+                                len(monitor_thread), i))
+
+                for item in driver_monitor.next_events():
+                    yield item
+            except socket.error as err:
+                logger.log_error('except.err={}({})'.format(\
+                        str(err), traceback.format_exc()))
+                self.restart()
+            except Exception as err:
+                logger.log_error('except.err={}({})'.format(\
+                        str(err), traceback.format_exc()))
+                pass
+
+
+    def next_events(self):
+        try:
+            ret, changed = self.chassis.get_change_event()
+        except Exception as err:
+            logger.log_error('except.err={}({})'.format(\
+                    str(err), traceback.format_exc()))
+            raise Exception("get_change_event except") from err
+
+        logger.log_notice('monitor: chassis changed.{}'.format(changed))
+
+        event = {}
+        if ret and changed:
+            for type, change in changed.items():
+                if type not in pluggable_devs:
+                    continue
+
+                for index, status in change.items():
+                    try:
+                        #name = '%s%d' % (deviceid, index)
+                        # get device attr
+                        status = change[index]
+                        dev = self.chassis.get_device(type, int(index))
+                        if not dev:
+                            logger.log_notice('monitor: get changed dev failed.{}.'.format((type, index)))
+                            continue
+                        else:
+                            logger.log_debug('monitor: get changed dev success.{}.'.format(dev))
+
+                        event[u'SUBSYSTEM']     = u'switch'
+                        event[u'DEVPATH']       = u'{}:{}'.format(type, index)
+                        if status == STATUS_REMOVED:
+                            event[u'ACTION']    = u'remove'
+                        elif status == STATUS_INSERTED:
+                            event[u'ACTION']    = u'add'
+                        elif type == 'sfp':
+                            event[u'ACTION']    = u'change'
+                        else:
+                            event[u'ACTION']    = u'change'
+                        logger.log_notice('monitor: yield event.{}.'.format(event))
+                        yield event
+                        event = {}
+                    except Exception as err:
+                        logger.log_debug('except.err={}({})'.format(\
+                                str(err), traceback.format_exc()))
+                        pass
+#
+# Daemon =======================================================================
+#
+
+class DaemonHwmgrdS3ip(DaemonBase):
+    def __init__(self, log_identifier, silent=False, loglvl=None, logput='syslog', logdev=None):
+        super(DaemonHwmgrdS3ip, self).__init__(log_identifier)
+
+        self.silent = silent
+        self.silent_cnt = 0
+        self.loglvl = loglvl
+        self.logput = logput
+        self.logdev = logdev
+        self.stop_event = threading.Event()
+        # live file min update time
+        self.update_timer = None
+        self.update_times = TIME_UPDATE
+
+        # driver_file_dict
+        #   live
+        #       file2:time
+        #   static
+        #       file1:time
+        self.driver_file_dict = {'lasttime':int(time.monotonic()) + TIME_UPDATE,
+            'live':{}, 'static':{}, 'pend':{}}
+        self.driver_file_dict_lock = threading.Lock()
+
+        self.dev_dict = HwmgrdDict(10)
+
+        swss_sdk = SonicV2Connector()
+
+        #self.state_db = swsscommon.DBConnector("STATE_DB", 0)
+        self.state_db = redis.Redis(port=int(swss_sdk.get_db_port("STATE_DB")), db = swsscommon.STATE_DB)
+        self.config_db = swsscommon.DBConnector("CONFIG_DB", 0)
+        self.appl_db_connector = swsscommon.DBConnector("APPL_DB", 0)
+        self.app_port_tbl = swsscommon.ProducerStateTable(self.appl_db_connector, "PORT_TABLE")
+
+        # for alarm log
+        self.dev_alarm = {}
+        self.dev_alarm_lock = threading.Lock()
+
+        # for media settings
+        self.media_settings = ''
+        self.g_media_settings_dict = {}
+        self.port_cfg = {}
+
+        # for port speed ability
+        self.g_speed_ability_dict = {}
+
+        # for hwmgrd statistcs
+        self.stats = {'alarm'   :HwmgrdStats('alarm stats'),
+                      'update'  :HwmgrdStats('update stats'),
+                      'monit'   :HwmgrdStats('monit stats'),
+                      'pend'    :HwmgrdStats('pend check stats')}
+        '''
+        key   = "{}|{}".format(SWITCH_TABLE_NAME, SYSLOG_IDENTIFIER.title())
+        filed = "startup"
+        value  = self.state_db.hget(key, filed)
+        if value and str(value) == 'True':
+            self.silent = True
+        else:
+            value = True
+            self.state_db.hset(key, filed, value)
+        '''
+        #
+        # SFF class, for use sonic sfp* python get transceiver's info or dom
+        #
+        try:
+            self.sfputil = self.load_platform_util(SFF_MODULE_NAME, SFF_CLASS_NAME)
+            if hasattr(self.sfputil, 'logger'):
+                '''
+                sfputil_logger = self.sfputil.logger(SYSLOG_IDENTIFIER)
+                sfputil_logger.open(debug, 'syslog')
+                '''
+                if self.loglvl:
+                    self.sfputil.logger.loglvl = self.loglvl
+                    if self.logput in ['console', 'logfile', 'syslog']:
+                        self.sfputil.logger.logput = self.logput
+
+                    self.chassis = Chassis(loglvl=self.loglvl, logput=self.logput, ensemble=True)
+                else:
+                    self.chassis = Chassis(ensemble=True)
+
+        except Exception as err:
+            logger.log_error('except.err={}({})'.format(\
+                    str(err), traceback.format_exc()))
+            sys.exit(1)
+
+    # get device with titled form fpath
+    def get_device_from_fpath(self, fpath):
+        device = [ e for e in all_devs if e in fpath ]
+        if len(device) == 0:
+            return None
+        else:
+            device = device[0]
+
+            if device in pluggable_devs:
+                try:
+                    index = re.search(r'\d+', fpath).group()
+                except Exception as err:
+                    logger.log_error('{} except.err={}({})'.format(\
+                            fpath, str(err), traceback.format_exc()))
+                    return None
+                return ('%s%s'%(device, index)).title()
+            else:
+                return device.title()
+
+    # faster alarm device update
+    def get_device_live_step(self, dev):
+        devname = dev.name
+        with self.dev_alarm_lock:
+            if devname in self.dev_alarm:
+                step = self.update_times
+            else:
+                step = self.update_times
+
+        return randint(step - 10, step)
+
+    # Signal handler
+    def signal_handler(self, sig, frame):
+        if sig == signal.SIGHUP:
+            logger.log_warning("Caught SIGHUP - ignoring ...")
+        elif sig == signal.SIGINT:
+            logger.log_warning("Caught SIGINT - exiting ...")
+            self.update_timer.cancel()
+            self.config_sub_thread.stop()
+            self.stop_event.set()
+        elif sig == signal.SIGTERM:
+            logger.log_warning("Caught SIGTERM - exiting ...")
+            self.update_timer.cancel()
+            self.stop_event.set()
+        else:
+            logger.log_warning("Caught unhandled signal '" + sig + "'")
+
+    # Wait for device driver is init done
+    def wait_for_device_driver_init_done(self):
+        pass
+
+    def get_key_filed(self, dev, attr):
+        # eg:
+        #    attr_path = /sys_switch/xxx              >>>> key = SWITCH,        filed = xxx
+        #    attr_path = /sys_switch/mainboard/xxx    >>>> key = MAINBOARD,     filed = xxx
+        #    attr_path = /sys_switch/psu/xxx          >>>> key = PSU,               filed = xxx
+        #    attr_path = /sys_switch/psu/1/xxx        >>>> key = PSU_TABLE|Psu1,    filed = xxx
+        #    attr_path = /sys_switch/eth/1/xxx        >>>> key = PSU_TABLE|Psu1,    filed = xxx
+        #
+
+        devname = dev.name
+        devtype = dev.type
+        key = '%s_TABLE|%s' % (devtype.upper(), devname.title())
+
+        # if input is attr name, get attr first
+        if isinstance(attr, str):
+            attr = dev.get_attr(attr)
+
+        if attr.dbname:
+            filed = attr.dbname
+        else:
+            filed = attr.name.lower()
+
+        type    = 'live' if attr.dynamic else 'static'
+
+        return key, filed, type
+
+    def get_value(self, fpath):
+        value = ''
+        error = 'OK'
+
+        if os.path.exists(fpath):
+            for r in range(1, 4):
+                try:
+                    with open(fpath) as f:
+                        # no need strip, because data format
+                        value = '{}'.format(f.read())
+                except Exception as err:
+                    logger.log_debug('{} get_value except retry-{}.err={}({})'.format(\
+                            fpath, r, str(err), traceback.format_exc()))
+                    error = str(err)
+                else:
+                    break
+        else:
+            error = 'File Not Exists.'
+
+        return value, error
+
+    def post_sff_to_db(self, dev, attr_dict, opt):
+
+        devname = dev.name
+        filed   = list(attr_dict.keys())[0]
+        logger.log_debug('post_sff_to_db: {} {} {}:{}'.format(dev.name, opt, filed, attr_dict))
+
+        # sff use sonic native keys table
+        #    fpath = /sys/switch/sff/1/0x50         >>>> key = TRANSCEIVER_INFO|Ethernet1, filed = xxx
+        #    fpath = /sys/switch/sff/1/0x51         >>>> key = TRANSCEIVER_DOM_SENSOR|Ethernet1, filed = xxx
+
+        if not SFF_PREFIX in devname:
+            return False
+
+        # for add info and dom, it must have value even if the value is str NONE(E_NONE).
+        if opt != 'remove' and attr_dict[filed] is None:
+            return False
+
+        fv_dict = {}
+        # info\dom\flag should be a dict except DAC cable
+        if isinstance(attr_dict[filed], dict):
+            for k, v in attr_dict[filed].items():
+                if isinstance(v, Attribute):
+                    fv_dict[k] = str(v.get_value())
+                else:
+                    fv_dict[k] = str(v)
+        else:
+            logger.log_debug('{}:{} is {}.'.format(devname, filed, attr_dict[filed]))
+
+        if opt != 'remove' and len(fv_dict) == 0:
+            logger.log_notice('post_sff_to_db: {} {} {} is null:{}'.format(dev.name, opt, filed, attr_dict))
+
+        physical_port = dev.get_index() - 1
+        logical_port_list = self.sfputil.get_physical_to_logical(physical_port)
+
+        if logical_port_list is None:
+            logger.log_notice('physical_to_logical:{}:{}.'.format(physical_port, str(self.sfputil.physical_to_logical)))
+
+        for logical_port_name in logical_port_list:
+            logger.log_debug('{}:PhyPort{}.'.format(logical_port_name, physical_port))
+
+            try:
+
+                if opt == 'remove':
+                    logger.log_notice('post_sff_to_db: state_db.delete {}.'.format(\
+                        'TRANSCEIVER_*|{}'.format(logical_port_name)))
+                    self.state_db.delete('TRANSCEIVER_INFO|{}'.format(logical_port_name))
+                    self.state_db.delete('TRANSCEIVER_DOM_SENSOR|{}'.format(logical_port_name))
+                    continue
+
+                if filed == 'info' and any([op in opt for op in ['add', 'check']]):
+                    key = 'TRANSCEIVER_INFO|{}'.format(logical_port_name)
+
+                    if opt == 'check':
+                        chkret = True
+                        if len(fv_dict) == 0:
+                            return False
+                        for (f,v) in fv_dict.items():
+                            old_value = self.state_db.hget(key, f).decode()
+                            new_value = str(v)
+                            old_value = str(old_value)
+
+                            logger.log_notice('post_sff_to_db: state_db.hset {}:{}:{}'.format(key, f, v))
+                            self.state_db.hset(key, f, str(v))
+
+                            if any([s in old_value for s in ['None', E_NONE, E_UNKNOWN]]) or old_value != new_value:
+                                logger.log_notice('post_dev_to_db: state_db check failed.{}:old_value={}, new_value={}.'.format(\
+                                    (key, f), old_value, new_value))
+                                chkret = False
+                            else:
+                                logger.log_info('post_dev_to_db: state_db check success.{}:old_value={}, new_value={}.'.format(\
+                                    (key, f), old_value, new_value))
+
+                        if chkret is False:
+                            return False
+
+                    if opt == 'add':
+
+                        self.state_db.hset(key, 'presence', str(True))
+
+                        for (f,v) in fv_dict.items():
+                            logger.log_notice('post_sff_to_db: state_db.hset {}:{}:{}'.format(key, f, v))
+                            self.state_db.hset(key, f, str(v))
+
+                        if self.silent is False:
+                            if 'media_type' in fv_dict and fv_dict['media_type']:
+                                media_type = fv_dict['media_type']
+                                self.notify_media_type(physical_port, media_type, logical_port_name)
+                                self.notify_media_setting(physical_port, fv_dict, logical_port_name)
+                                if not self.chassis.is_enable('sfp:sw_init'):
+                                    self.notify_breakout_mode(physical_port, fv_dict, logical_port_name)
+                            else:
+                                raise Exception('get_transceiver_media_type failed.fv_dict={}'.format(fv_dict))
+
+
+                if any([f in filed for f in ['dom', 'flags']]) and any([op in opt for op in ['add', 'update']]):
+                    key = 'TRANSCEIVER_DOM_SENSOR|{}'.format(logical_port_name)
+                    # DAC should not show dom info
+                    """
+                    if 'media_type' in fv_dict and fv_dict['media_type']:
+                        media_type = fv_dict['media_type']
+                        if media_type in ['ACC', 'DAC'] or media_type is None:
+                            if self.state_db.exists(key):
+                                logger.log_notice('post_sff_eeprom_to_db: state_db.delete {}.media_type={}.'.format(\
+                                    key, str(media_type)))
+                                self.state_db.delete(key)
+                        elif 'sff_type' in fv_dict and fv_dict['sff_type']:
+                            sff_type = fv_dict['sff_type']
+                            # DOM with:sff8436Dom sff8472Dom sffcmisDom
+                            if any([t in sff_type.lower() for t in ['8636', 'cmis']]):
+                                for (f,v) in fv_dict.items():
+                                    logger.log_debug('state_db.hset {}:{}:{}'.format(key, f, v))
+                                    self.state_db.hset(key, f, v)
+                    """
+                    media_type = dev.media_type
+                    sff_type   = dev.sff_type
+
+                    if len(fv_dict) == 0 and self.state_db.exists(key):
+                        self.state_db.delete(key)
+
+                    if sff_type and any([t in sff_type.lower() for t in ['8636', 'cmis']]):
+                        for (f,v) in fv_dict.items():
+                            logger.log_info('post_sff_to_db: state_db.hset {}:{}:{}'.format(key, f, v))
+                            self.state_db.hset(key, f, v)
+                    else:
+                        logger.log_error('post_sff_to_db: state_db.hset {} failed.unknown sff_type:{}'.format(key, sff_type))
+                    '''
+                    if len(fv_dict) == 0 and self.state_db.exists(key):
+                        self.state_db.delete(key)
+
+                    if media_type in ['ACC', 'DAC'] or media_type is None:
+                        if self.state_db.exists(key):
+                            logger.log_notice('post_sff_to_db: state_db.delete {}.media_type={}.'.format( \
+                                key, media_type))
+                            self.state_db.delete(key)
+                    elif sff_type and any([t in sff_type.lower() for t in ['8636']]):
+                        for (f,v) in fv_dict.items():
+                            logger.log_info('post_sff_to_db: state_db.hset {}:{}:{}'.format(key, f, v))
+                            self.state_db.hset(key, f, v)
+                    elif sff_type and any([t in sff_type.lower() for t in ['cmis']]):
+                        # This disgusting code is designed to handle the display of port dom info in split mode 
+                        index = self.get_breakout_index(logical_port_name)
+                        if index and index != 0:
+                            for (f,v) in fv_dict.items():
+                                match = re.search(r'\d', f)
+                                if match is not None:
+                                    try:
+                                        keyinfo = 'TRANSCEIVER_INFO|{}'.format(logical_port_name)
+
+                                        host_lane_assign  = \
+                                            self.state_db.hget(keyinfo, 'host_lane_assign')
+                                        media_lane_assign = \
+                                            self.state_db.hget(keyinfo, 'media_lane_assign')
+
+                                        host_lane_group   = \
+                                            self.state_db.hget(keyinfo, 'host_lane_group')
+                                        media_lane_group  = \
+                                            self.state_db.hget(keyinfo, 'media_lane_group')
+
+                                        host_lane_group = json.loads(host_lane_group)
+                                        host_lane_group = host_lane_group[str(index)]
+                                        media_lane_group = json.loads(media_lane_group)
+                                        media_lane_group = media_lane_group[str(index)]
+
+                                        lane = int(match.group(0))
+                                        if 'host' in f and lane not in host_lane_group:
+                                            if self.state_db.exists(key):
+                                                self.state_db.hdel(key, f)
+                                            continue
+
+                                        if any([t in f for t in ['media', 'rx', 'tx']]) and \
+                                            lane not in media_lane_group:
+                                            if self.state_db.exists(key):
+                                                self.state_db.hdel(key, f)
+                                            continue
+                                    except Exception as err:
+                                        logger.log_notice('post_sff_to_db: state_db.hset {}:{}:{} '.format(\
+                                            key, f, v))
+
+                                logger.log_info('post_sff_to_db: state_db.hset {}:{}:{}'.format(key, f, v))
+                                self.state_db.hset(key, f, v)
+                        else:
+                            for (f,v) in fv_dict.items():
+                                logger.log_info('post_sff_to_db: state_db.hset {}:{}:{}'.format(key, f, v))
+                                self.state_db.hset(key, f, v)
+                    else:
+                        logger.log_error('post_sff_to_db: state_db.hset {} failed.unknown sff_type:{}'.format(key, sff_type))
+                    '''
+
+            except Exception as err:
+                logger.log_error('post_sff_to_db:{}:PhyPort{} except.err={}({})'.format(\
+                        logical_port_name, physical_port, str(err), traceback.format_exc()))
+                return False
+
+        logger.log_info('post_sff_to_db: {} {} {}.done.'.format(devname, opt, filed))
+        return True
+
+    def post_dev_to_db(self, dev, opt):
+
+        devname =  dev.name
+        logger.log_info('post_dev_to_db: {}:{} run.'.format(opt, devname))
+
+        # handling for TRANSCEIVER_*, SFF_TABLE should not have eeprom_
+        '''
+        attrs_dict = dev.dump(sync=True)[devname]
+
+        for k, v in attrs_dict.items():
+            key, filed, type = self.get_key_filed(dev, k)
+            if opt == 'add':
+                value = v
+                logger.log_info('post_dev_to_db: state_db set {}'.format((key, filed, value)))
+                self.state_db.hset(key, filed, v)
+            elif opt == 'remove':
+                logger.log_info('post_dev_to_db: state_db del {}'.format((key, filed)))
+                self.state_db.hdel(key, filed)
+            elif opt == 'update' and type == 'dynamic':
+                value = v
+                logger.log_info('post_dev_to_db: state_db set {}'.format((key, filed, value)))
+                self.state_db.hset(key, filed, value)
+            elif opt == 'check' and type == 'static':
+                self.state_db.hset(key, filed, v)
+                new_value = v
+                old_value = self.state_db.hget(key, filed)
+                new_value = re.split('[{}]', str(new_value))
+                old_value = re.split('[{}]', str(old_value))
+                if old_value != new_value:
+                    logger.log_notice('post_dev_to_db: state_db check failed.{}'.format((key, filed)))
+                    logger.log_debug('old_value={}'.format(old_value))
+                    logger.log_debug('new_value={}'.format(new_value)) 
+                    return False
+                else:
+                    logger.log_notice('post_dev_to_db: state_db check succed.{}'.format((key, filed)))
+
+            #  ST for info and dom attr of sfp
+            if SFF_PREFIX in devname and any([attr in k for attr in ['info', 'dom']]):
+                ret = self.post_sff_to_db(dev, {k:v}, opt)
+                if not ret:
+                    logger.log_error('post_dev_to_db: {} {} {} failed.'.format(devname, opt, k))
+        '''
+        # all attrs of the device dumped with not sync because static attrs are unnecessary
+        attrs_dict = dev.dump(sync=False, raw=True, nest=False)[devname]
+
+        for k, v in attrs_dict.items():
+
+            # attrs will updated by their dynamic flag, static will not do I/O operation.
+            key, filed, type = self.get_key_filed(dev, v)
+            value = None
+            logger.log_debug('post_dev_to_db: {}:{}:{}.'.format(opt, devname, (key, filed, type)))
+            if opt == 'add':
+                # if add, force to update
+                value = v.get_value(sync=True, dynamic=False)
+                logger.log_notice('post_dev_to_db: state_db set {}'.format((key, filed, value)))
+                self.state_db.hset(key, filed, str(value))
+            elif opt == 'remove':
+                logger.log_info('post_dev_to_db: state_db del {}'.format((key, filed)))
+                self.state_db.hdel(key, filed)
+            elif opt == 'update' and type == 'live':
+
+                """
+                if SFF_PREFIX in devname and any([attr in k for attr in ['flags']]):
+                    #should'nt update here, updating when alarm check
+                    value = v.get_value(sync=False, dynamic=False)
+                    if value is E_NONE:
+                        value = v.get_value(sync=True, dynamic=True)
+                elif SFF_PREFIX in devname and any([attr in k for attr in ['info', 'dom']]):
+                    value = v.get_value(sync=True, dynamic=True)
+                else:
+                    value = v.get_value(sync=True, dynamic=True)
+                    # if update, update by dynamic
+                    logger.log_info('post_dev_to_db: state_db set {}'.format((key, filed, value)))
+                    self.state_db.hset(key, filed, str(value))
+                """
+
+                if SFF_PREFIX in devname and any([attr in k for attr in ['flags']]):
+                    #should'nt update here, updating when alarm check
+                    value = v.get_value(sync=False, dynamic=False)
+                    if value is E_NONE:
+                        value = v.get_value(sync=True, dynamic=True)
+                else:
+                    value = v.get_value(sync=True, dynamic=True)
+                # if update, update by dynamic
+                logger.log_info('post_dev_to_db: state_db set {}'.format((key, filed, value)))
+                self.state_db.hset(key, filed, str(value))
+
+            elif opt == 'check' and type == 'static':
+                # if check, force to update
+                value = v.get_value(sync=True, dynamic=False)
+                logger.log_notice('post_dev_to_db: state_db set {}'.format((key, filed, value)))
+                self.state_db.hset(key, filed, str(value))
+                new_value = value
+                old_value = self.state_db.hget(key, filed).decode()
+                new_value = re.split('[{}]', str(new_value))
+                old_value = re.split('[{}]', str(old_value))
+                if any([s in old_value for s in ['None', E_NONE, E_UNKNOWN]]) or old_value != new_value:
+                    logger.log_info('post_dev_to_db: state_db check failed.{}'.format((key, filed)))
+                    logger.log_debug('old_value={}'.format(old_value))
+                    logger.log_debug('new_value={}'.format(new_value))
+                    return False
+                else:
+                    logger.log_notice('post_dev_to_db: state_db check succed.{}'.format((key, filed)))
+            else:
+                continue
+
+            # Post-Processing
+            if SFF_PREFIX in devname and any([attr in k for attr in ['info', 'dom', 'flags']]):
+                ret = self.post_sff_to_db(dev, {k:value}, opt)
+                if not ret:
+                    logger.log_error('post_dev_to_db: {} {} {} failed.'.format(devname, opt, k))
+                    return False
+
+        logger.log_info('post_dev_to_db: {}:{} done.'.format(opt, devname))
+        return True
+
+    def scan_dev_attrs(self, dev, action='update', passtime=0):
+
+        devname = dev.name
+
+        logger.log_debug('scan_dev_attrs: {}:{} run.'.format(action, devname))
+
+        try:
+            if action == 'check':
+                if passtime >= TIME_DOUBLE_CHECK_2:
+                    if self.post_dev_to_db(dev, 'check'):
+                        logger.log_notice('scan_dev_attrs: double check2 ok.'
+                            'time={} dev={}.'.format(passtime, devname))
+                        self.dev_dict.del_group_dev('static', dev)
+                    else:
+                        logger.log_warning('double check ng.'
+                            'time={} dev={}.'.format(passtime, devname))
+                        self.dev_dict.update_dev_time('static', dev)
+                elif passtime >= TIME_DOUBLE_CHECK_1:
+                    if self.post_dev_to_db(dev, 'check'):
+                        logger.log_notice('scan_dev_attrs: double check1 ok.'
+                            'time={} dev={}.'.format(passtime, devname))
+                        self.dev_dict.del_group_dev('static', dev)
+
+            if action == 'update' and passtime > 0:
+                self.dev_dict.update_dev_time('live', dev)
+                #elif passtime > self.get_device_live_step(dev):
+                logger.log_notice('scan_dev_attrs: db update.passtime={} dev={}.'.format(\
+                    passtime, devname))
+                self.stats['update'].update('post')
+                self.post_dev_to_db(dev, 'update')
+                if not any([ d in devname for d in alarm_fast_devs]):
+                    self.dev_alarm_log(dev)
+
+            if action == 'add':
+                self.dev_dict.add_group_dev('static', dev)
+
+                if any([d in devname for d in live_devs]):
+                    self.dev_dict.add_group_dev('live', dev)
+
+                self.post_dev_to_db(dev, 'add')
+
+                # in any case, insure new dev is not pend
+                self.dev_dict.del_group_dev('pend', dev)
+
+            if action == 'remove':
+                if self.post_dev_to_db(dev, 'remove'):
+                    self.dev_dict.del_group_dev('live', dev)
+                    self.dev_dict.del_group_dev('static', dev)
+                    self.dev_dict.del_group_dev('pend', dev)
+                else:
+                    logger.log_warning('post_dev_to_db remove False.')
+
+        except Exception as err:
+            if dev and dev.get_presence():
+                logger.log_error('scan_dev_attrs {} except.err={}({})'.format(\
+                        devname, str(err), traceback.format_exc()))
+
+        logger.log_debug('scan_dev_attrs: {}:{} done.'.format(action, devname))
+
+    # explug means, exclude pluggable devices.
+    # when hwmgrd initing, should be explug, because
+    # pluggable devices will add by plugin event when monitor startup
+    def init_dev_sync_dict(self, dev, explug=False):
+
+        def init_dev(dev):
+            try:
+                logger.log_debug('init_dev_sync_dict: init {}.'.format(dev.name))
+                if dev is not self.chassis:
+                    if self.logdev:
+                        if self.logdev == 'all':
+                            dev.set_log(self.loglvl, self.logput)
+                        elif dev.name in self.logdev:
+                            dev.set_log(self.loglvl, self.logput)
+
+                dev.init_attrs_static()
+                self.pluggable_dev_log(dev, 'add')
+                dev.init_attrs_dynamic()
+                self.dev_alarm_log(dev, True)
+                self.scan_dev_attrs(dev, 'add')
+
+            except Exception as err:
+                if dev and dev.get_presence():
+                    logger.log_error('{} init except.err={}({})'.format(\
+                            dev.name, str(err), traceback.format_exc()))
+
+        devices = []
+        devices.append(dev)
+        if dev is self.chassis:
+            try:
+                # Just to align with non s3ip version databases 
+                value = dev.get_attr_value('fan/number')
+                logger.log_info('init_dev_sync_dict: state_db set {}'.format(('FAN', 'number', value)))
+                self.state_db.hset('FAN', 'number', str(value))
+                value = dev.get_attr_value('psu/number')
+                logger.log_info('init_dev_sync_dict: state_db set {}'.format(('PSU', 'number', value)))
+                self.state_db.hset('PSU', 'number', str(value))
+                value = dev.get_attr_value('thermal/number')
+                logger.log_info('init_dev_sync_dict: state_db set {}'.format(('THERMAL', 'number', value)))
+                self.state_db.hset('THERMAL', 'number', str(value))
+            except Exception as err:
+                logger.log_error('{} init except.err={}({})'.format(\
+                        dev.name, str(err), traceback.format_exc()))
+            devices.extend(self.chassis.get_devices())
+
+        logger.log_debug('init_dev_sync_dict: init {}.'.format(devices))
+
+        threads = []
+        for d in devices:
+            if d.get_presence():
+                devname = d.name
+                #clear alarm
+                with self.dev_alarm_lock:
+                    if devname in self.dev_alarm:
+                        del self.dev_alarm[devname]
+
+                if explug is True and any([p in devname for p in pluggable_devs]):
+                    continue
+                logger.log_debug('init_dev_sync_dict: add dev with explug={}.{}'.format(explug, devname))
+                t = threading.Thread(target=init_dev, args=(d,))
+                t.setName('init_dev_sync_dict_{}'.format(devname))
+                t.setDaemon(True)
+                threads.append(t)
+                t.start()
+
+        for t in threads:
+            t.join()
+
+        logger.log_debug('init_dev_sync_dict: done.')
+
+    def deinit_dev_sync_dict(self, dev):
+
+        devname = dev.name
+        # deinit we can remove all keys
+        logger.log_notice('deinit_dev_sync_dict: deinit {} ...'.format(devname))
+
+        try:
+            devices = []
+            devices.append(dev)
+            if dev is self.chassis:
+                try:
+                    # Just to align with non s3ip version databases 
+                    self.state_db.delete('FAN')
+                    self.state_db.delete('PSU')
+                    self.state_db.delete('THERMAL')
+                except Exception as err:
+                    logger.log_error('{} deinit except.err={}({})'.format(\
+                            dev.name, str(err), traceback.format_exc()))
+                devices.extend(self.chassis.get_devices())
+
+            for dev in devices:
+                #clear alarm
+                with self.dev_alarm_lock:
+                    if devname in self.dev_alarm:
+                        del self.dev_alarm[devname]
+
+                self.scan_dev_attrs(dev, 'remove')
+                self.pluggable_dev_log(dev, 'remove')
+
+                logger.log_notice(devname + ' remove')
+
+                if SFF_PREFIX in devname:
+                    physical_port = int(dev.get_index()) - 1
+                    logical_port_list = self.sfputil.get_physical_to_logical(physical_port)
+                    for logical_port_name in logical_port_list:
+                        fvs = swsscommon.FieldValuePairs([('media_type', 'not present')])
+                        self.app_port_tbl.set(logical_port_name, fvs)
+
+                #dev.deinit_attrs()
+
+        except Exception as err:
+            logger.log_error('{} except.err={}({})'.format(\
+                    dev.name, str(err), traceback.format_exc()))
+
+        logger.log_notice('deinit_dev_sync_dict: done.deinit {}.'.format(devname))
+
+    def update_sysfs_sync_dict(self, dev, action):
+        with lock:
+            if action == 'remove':
+                self.dev_dict.del_group_dev('live', dev)
+                self.dev_dict.del_group_dev('static', dev)
+
+    def check_hwmgrd_update_dict(self):
+        path = DRV_SYS_SWITCH_PATH
+        logger.log_info('check_hwmgrd_update_dict: walk root from {}.'.format(path))
+
+        def pend_recover(op, fpath):
+            with lock:
+                if not fpath in self.driver_file_dict['pend'].keys():
+                    logger.log_warning( \
+                        'driver_file_dict abnormal, pending {} it.time={} fpath={}.'.format( \
+                            op, self.driver_file_dict['lasttime'], fpath))
+                    self.driver_file_dict['pend'][fpath] = op
+                elif op == self.driver_file_dict['pend'][fpath]:
+                    logger.log_warning( \
+                        'driver_file_dict abnormal, recover {} it.time={} fpath={}.'.format( \
+                            op, self.driver_file_dict['lasttime'], fpath))
+                    self.scan_dev_attrs(fpath, \
+                        self.driver_file_dict['pend'][fpath], locked=True)
+                else:
+                    logger.log_warning( \
+                        'pending abnormal, remove pending.op={}:{} fpath={}.'.format( \
+                            op, self.driver_file_dict['pend'][fpath], fpath))
+                    del self.driver_file_dict['pend'][fpath]
+
+        def pend_remove(fpath):
+            with lock:
+                if fpath in self.driver_file_dict['pend'].keys():
+                    logger.log_warning( \
+                        'pending abnormal, remove pending.op={} fpath={}.'.format( \
+                            self.driver_file_dict['pend'][fpath], fpath))
+                    del self.driver_file_dict['pend'][fpath]
+
+        def is_root_pluggable(root):
+            if root.count('/') == 4 and \
+                any(dev in root for dev in pluggable_devs):
+                return True
+            else:
+                return False
+
+        def is_file_pluggable(file):
+            if file.count('/') == 5 and \
+                any(dev in file for dev in pluggable_devs):
+                return True
+            else:
+                return False
+
+        with lock:
+            pend_devices = self.dev_dict.get_group_devices('live') + self.dev_dict.get_group_devices('static')
+            pend_devices = list(filter(lambda dev: dev.is_pluggable(), pend_devices))
+            pend_check_devices = copy.deepcopy(pend_devices)
+
+        for (root, dirs, files) in os.walk(path):
+            # /sys_switch/sff(fan psu linecard)/x
+            if is_root_pluggable(root):
+                for d_name in dirs:
+                    dpath = os.path.join(root, d_name)
+                    logger.log_debug('check dev sysfs {}'.format(dpath))
+
+                    try:
+                        # for live files check whether it is in driver_file_dict
+                        if any([d_name in d for d in pluggable_devs]):
+                            # if real present dev is not in driver_file_dict, 1st pending it.
+                            # if 2nd DOUBLE_CHECK_TIME_2 checking, it is still pending, recover it.
+                            if not dpath in pend_devices:
+                                pend_recover('add', dpath)
+                            # if real present dev is in driver_file_dict, ensure it is not pending.
+                            else:
+                                pend_check_devices.remove(dpath)
+                                pend_remove(dpath)
+
+                        # for static files check whether it is in state_db
+                        else:
+                            key, filed = self.get_key_filed(dpath)
+                            value  = self.state_db.hget(key, filed)
+                            logger.log_debug('check state_db:({}|{}:{})'.format(key, filed, str(value)))
+                            # if real present dev is not in state_db, 1st pending it.
+                            # if 2nd DOUBLE_CHECK_TIME_2 check, it is still pending, recover it.
+                            if value is None:
+                                pend_recover('add', dpath)
+                            # if real present dev is in state_db, ensure it is not pending.
+                            else:
+                                pend_remove(dpath)
+
+                    except Exception as err:
+                        logger.log_error('{} except.err={}({})'.format(\
+                                fpath, str(err), traceback.format_exc()))
+
+        if len(pend_check_devices) != 0:
+            logger.log_notice('check_sysfs_sync_dict: '
+                'hwmgrd update_dict abnormal, residual:{}'.format(pend_check_devices))
+            for dpath in pend_check_devices:
+                pend_recover('remove', dpath)
+
+        logger.log_info('check_sysfs_sync_dict: done.')
+
+    def check_db_sync_dict(self):
+        logger.log_info('check_db_sync_dict: run.')
+
+        def pend_recover(keys):
+            with lock:
+                if not fpath in self.driver_file_dict['pend'].keys():
+                    logger.log_warning( \
+                        'state_db abnormal, pending remove it.time={} fpath={}.'.format( \
+                        self.driver_file_dict['lasttime'], fpath))
+                    self.driver_file_dict['pend'][fpath] = self.driver_file_dict['lasttime']
+                else:
+                    logger.log_warning( \
+                        'state_db abnormal, recover remove it.time={} fpath={}.'.format( \
+                        self.driver_file_dict['lasttime'], fpath))
+                    for key in keys:
+                        logger.log_notice('check_db_sync_dict: state_db del {}'.format(key))
+                        self.state_db.delete(key)
+                    del self.driver_file_dict['pend'][fpath]
+
+        def pend_remove():
+            with lock:
+                if fpath in self.driver_file_dict['pend'].keys():
+                    logger.log_warning( \
+                        'pending abnormal, remove pending.time={} fpath={}.'.format(\
+                        self.driver_file_dict['pend'][fpath], fpath))
+                    del self.driver_file_dict['pend'][fpath]
+
+        with lock:
+            monitor_files = self.driver_file_dict['live'].keys() + \
+                self.driver_file_dict['static'].keys()
+
+        #S1:clear sff state_db
+        key_pattern = 'TRANSCEIVER_INFO|*'
+        keys = self.state_db.keys(key_pattern)
+        if keys is not None:
+            for key in keys:
+                logical_port_name = key.split('TRANSCEIVER_INFO|')[1]
+                if self.sfputil.is_valid_sfputil_port(logical_port_name) == 0:
+                    logger.log_warning('invalid logical_port.name={}'.format(logical_port_name))
+                    continue
+
+                logger.log_debug('check state_db {}'.format(key))
+
+                physical_port_list = self.sfputil.get_logical_to_physical(logical_port_name)
+                for physical_port in physical_port_list:
+                    fpath = os.path.join(DRV_SYS_SWITCH_PATH, 'sff/eth{}'.format(physical_port + 1))
+                    logger.log_debug('check sysfs {}'.format(fpath))
+                    if not os.path.exists(fpath):
+                        db_keys = []
+                        db_keys.append('TRANSCEIVER_INFO|{}'.format(logical_port_name))
+                        db_keys.append('TRANSCEIVER_DOM_SENSOR|{}'.format(logical_port_name))
+                        db_keys.append('SFF_TABLE|Sff{}'.format(str(physical_port + 1)))
+                        pend_recover(db_keys)
+                    else:
+                        pend_remove()
+
+        #S2:clear fan state_db
+        key_pattern = 'FAN_TABLE|*'
+        keys = self.state_db.keys(key_pattern)
+        if keys is not None:
+            for key in keys:
+                logger.log_debug('check state_db {}'.format(key))
+                fan_index = key.split('FAN_TABLE|Fan')[1]
+                fpath = os.path.join(DRV_SYS_SWITCH_PATH, 'fan/fan{}'.format(fan_index))
+                logger.log_debug('check sysfs {}'.format(fpath))
+                if not os.path.exists(fpath):
+                    db_keys = []
+                    db_keys.append('FAN_TABLE|Fan{}'.format(fan_index))
+                    pend_recover(db_keys)
+                else:
+                    pend_remove()
+
+        #S3:clear psu state_db
+        key_pattern = 'PSU_TABLE|*'
+        keys = self.state_db.keys(key_pattern)
+        if keys is not None:
+            for key in keys:
+                logger.log_debug('check state_db {}'.format(key))
+                psu_index = key.split('PSU_TABLE|Psu')[1]
+                fpath = os.path.join(DRV_SYS_SWITCH_PATH, 'psu/psu{}'.format(psu_index))
+                logger.log_debug('check sysfs {}'.format(fpath))
+                if not os.path.exists(fpath):
+                    db_keys = []
+                    db_keys.append('PSU_TABLE|Psu{}'.format(psu_index))
+                    pend_recover(db_keys)
+                else:
+                    pend_remove()
+
+        logger.log_info("check_db_sync_dict: done.")
+
+    def load_port_config_file(self):
+        logger.log_info("load_port_config_file: load port config file ...")
+
+        try:
+            port_config_file_path = self.get_path_to_port_config_file()
+            self.sfputil.read_porttab_mappings(port_config_file_path)
+        except Exception as err:
+            logger.log_error('except.err={}({})'.format(\
+                str(err), traceback.format_exc()))
+            pass
+
+        logger.log_info("load_port_config_file: done.")
+
+    def load_port_speed_lanes_config(self):
+        port_keys = self.config_db.keys("{}|*".format(swsscommon.CFG_PORT_TABLE_NAME))
+        for key in port_keys:
+            logical_port = key.split('|')[1]
+            speed = self.config_db.hget(key, 'speed')
+            lanes = self.config_db.hget(key, 'lanes')
+            if lanes:
+                self.port_cfg[logical_port] = (int(speed), len(lanes.split(',')))
+
+    def load_media_settings(self):
+        (platform_path, hwsku_path) = self.get_path_to_platform_and_hwsku()
+
+        media_settings_file_path = os.path.join(hwsku_path, "media_settings.json")
+        if not os.path.isfile(media_settings_file_path):
+            logger.log_notice("load_media_settings: No media file exists")
+            return {}
+
+        with open(media_settings_file_path, "r") as media_file:
+            self.media_settings = media_file.read()
+            self.g_media_settings_dict = json.loads(self.media_settings)
+
+    def load_port_speed_ability(self):
+        ports = {}
+        port_alias_map={}
+
+        (platform_path, hwsku_path) = self.get_path_to_platform_and_hwsku()
+        speed_ability_file_path = os.path.join(hwsku_path, "port_speed_ability.ini")
+        if not os.path.isfile(speed_ability_file_path):
+            logger.log_notice("load_port_speed_ability: No port speed ability exist")
+            return {}
+        (self.g_speed_ability_dict ,port_alias_map) = parse_port_config_file(speed_ability_file_path, ports, port_alias_map)
+
+    def check_port_in_range(self, range_str, physical_port):
+        range_separator = '-'
+        range_list = range_str.split(range_separator)
+        start_num = int(range_list[0].strip())
+        end_num = int(range_list[1].strip())
+        if start_num <= physical_port <= end_num:
+            return True
+        return False
+
+    def get_media_settings_value(self, physical_port, key):
+        range_separator = '-'
+        comma_separator = ','
+        media_dict = {}
+        default_dict = {}
+
+        # Keys under global media settings can be a list or range or list of ranges
+        # of physical port numbers. Below are some examples
+        # 1-32
+        # 1,2,3,4,5
+        # 1-4,9-12
+
+        if "GLOBAL_MEDIA_SETTINGS" in self.g_media_settings_dict:
+            for keys in self.g_media_settings_dict["GLOBAL_MEDIA_SETTINGS"]:
+                if comma_separator in keys:
+                    port_list = keys.split(comma_separator)
+                    for port in port_list:
+                        if range_separator in port:
+                            if self.check_port_in_range(port, physical_port):
+                                media_dict = self.g_media_settings_dict["GLOBAL_MEDIA_SETTINGS"][keys]
+                                break
+                        elif str(physical_port) == port:
+                            media_dict = self.g_media_settings_dict["GLOBAL_MEDIA_SETTINGS"][keys]
+                            break
+
+                elif range_separator in keys:
+                    if self.check_port_in_range(keys, physical_port):
+                        media_dict = self.g_media_settings_dict["GLOBAL_MEDIA_SETTINGS"][keys]
+
+                # If there is a match in the global profile for a media type,
+                # fetch those values
+                if key[0] in media_dict:
+                    return media_dict[key[0]]
+                elif key[1] in media_dict:
+                    return media_dict[key[1]]
+                elif key[2] in media_dict:
+                    return media_dict[key[2]]
+                elif "Default" in media_dict:
+                    default_dict = media_dict['Default']
+
+        media_dict = {}
+
+        if "PORT_MEDIA_SETTINGS" in self.g_media_settings_dict:
+            for keys in self.g_media_settings_dict["PORT_MEDIA_SETTINGS"]:
+                if comma_separator in keys:
+                    port_list = keys.split(comma_separator)
+                    for port in port_list:
+                        if range_separator in port:
+                            if self.check_port_in_range(port, physical_port):
+                                media_dict = self.g_media_settings_dict["PORT_MEDIA_SETTINGS"][keys]
+                                break
+                        elif str(physical_port) == port:
+                            media_dict = self.g_media_settings_dict["PORT_MEDIA_SETTINGS"][keys]
+                            break
+                elif range_separator in keys:
+                    if self.check_port_in_range(keys, physical_port):
+                        media_dict = self.g_media_settings_dict["PORT_MEDIA_SETTINGS"][keys]
+                        break
+                elif int(keys) == physical_port:
+                    media_dict = self.g_media_settings_dict["PORT_MEDIA_SETTINGS"][keys]
+                    break
+
+            if len(media_dict) == 0:
+                if default_dict != 0:
+                    return default_dict
+                else:
+                    logger.log_error("No values for physical port '{}'".format(physical_port))
+                return {}
+            if key[0] in media_dict:
+                return media_dict[key[0]]
+            elif key[1] in media_dict:
+                return media_dict[key[1]]
+            elif key[2] in media_dict:
+                return media_dict[key[2]]
+            elif "Default" in media_dict:
+                return media_dict['Default']
+            elif len(default_dict) != 0:
+                return default_dict
+            else:
+                return {}
+        else:
+            if default_dict != 0:
+                return default_dict
+
+
+    def get_media_settings_key(self, logical_port_name, transceiver_dict):
+        sup_compliance_str = '10/40G Ethernet Compliance Code'
+        sup_len_str = 'Length Cable Assembly(m)'
+        vendor_name_str = transceiver_dict['manufacturer']
+        vendor_pn_str = transceiver_dict['model']
+        vendor_key = vendor_name_str.upper() + '-' + vendor_pn_str
+
+        media_len = ''
+        if transceiver_dict['cable_type'] == sup_len_str:
+            media_len = transceiver_dict['cable_length']
+
+        media_compliance_dict_str = transceiver_dict['specification_compliance']
+        media_compliance_dict = ast.literal_eval(media_compliance_dict_str)
+        media_compliance_code = ''
+        media_type = ''
+
+        if sup_compliance_str in media_compliance_dict:
+            media_compliance_code = media_compliance_dict[sup_compliance_str]
+
+        media_type = transceiver_dict['type_abbrv_name']
+
+        media_key = ''
+
+        if len(media_type) != 0:
+            media_key += media_type
+        if len(media_compliance_code) != 0:
+            media_key += '-' + media_compliance_code
+            if len(media_len) != 0:
+                media_key += '-' + media_len + 'M'
+
+        speed_key = ''
+        (speed, lanes) = self.port_cfg[logical_port_name]
+
+        signaling = 'NRZ'
+        if speed // lanes > 25000:
+            signaling = 'PAM4'
+
+        speed_key = str(speed // 1000) + "G-" + signaling
+
+        return [vendor_key, media_key, speed_key]
+
+
+    def get_media_val_str_from_dict(self, media_dict):
+        media_str = ''
+        lane_str = 'lane'
+        lane_separator = ','
+        tmp_dict = {}
+
+        for keys in media_dict:
+            lane_num = int(keys.strip()[len(lane_str):])
+            tmp_dict[lane_num] = media_dict[keys]
+
+        for key in range(0, len(tmp_dict)):
+            media_str += tmp_dict[key]
+            if key != list(tmp_dict.keys())[-1]:
+                media_str += lane_separator
+        return media_str
+
+
+    def get_media_val_str(self, num_logical_ports, lane_dict, logical_idx):
+        lane_str = "lane"
+        logical_media_dict = {}
+        num_lanes_on_port = len(lane_dict)
+
+        # The physical ports has more than one logical port meaning it is
+        # in breakout mode. So fetch the corresponding lanes from the file
+        media_val_str = ''
+        if (num_logical_ports > 1) and \
+           (num_lanes_on_port >= num_logical_ports):
+            num_lanes_per_logical_port = num_lanes_on_port // num_logical_ports
+            start_lane = logical_idx * num_lanes_per_logical_port
+
+            for lane_idx in range(start_lane, start_lane +
+                                  num_lanes_per_logical_port):
+                lane_idx_str = lane_str + str(lane_idx)
+                logical_lane_idx_str = lane_str + str(lane_idx - start_lane)
+                logical_media_dict[logical_lane_idx_str] = lane_dict[lane_idx_str]
+
+            media_val_str = self.get_media_val_str_from_dict(logical_media_dict)
+        else:
+            media_val_str = self.get_media_val_str_from_dict(lane_dict)
+        return media_val_str
+
+
+    def notify_media_setting(self, physical_port, transceiver_dict, logical_port_name=None):
+        if len(self.media_settings) == 0:
+            return
+
+        logical_port_list = self.sfputil.get_physical_to_logical(physical_port)
+        num_logical_ports = len(logical_port_list)
+
+        if num_logical_ports == 0:
+            logger.log_notice('notify_media_setting: physical_port {} with no logical_port'.format(physical_port))
+            return
+
+        for logical_port in logical_port_list:
+
+            if not self.sfputil.get_presence(physical_port):
+                logger.log_notice("notify_media_setting: Media {} presence not detected during notify".format(physical_port))
+                continue
+
+            # if specified logical port, only set this port
+            if logical_port_name is not None and logical_port != logical_port_name:
+                continue
+            logical_idx = logical_port_list.index(logical_port)
+
+            key = self.get_media_settings_key(logical_port, transceiver_dict)
+            media_dict = self.get_media_settings_value(physical_port, key)
+
+            if(len(media_dict) == 0):
+                logger.log_error("Error in obtaining media setting")
+                return
+
+            fvs = swsscommon.FieldValuePairs(len(media_dict))
+
+            index = 0
+            for media_key in media_dict:
+                if type(media_dict[media_key]) is dict:
+                    media_val_str = self.get_media_val_str(num_logical_ports,
+                                                        media_dict[media_key],
+                                                        logical_idx)
+                else:
+                    media_val_str = media_dict[media_key]
+                fvs[index] = (str(media_key), str(media_val_str))
+                index += 1
+
+            logger.log_notice('notify_media_setting:{} set media_val_str:{}'.format(\
+                logical_port, str(fvs)))
+            # may cause hwmgrd be terminated on arm spec if without lock
+            with lock:
+                self.app_port_tbl.set(logical_port, fvs)
+
+    def notify_media_type(self, physical_port, media_type, logical_port_name=None):
+        # if specified logical port, only set this port
+        if logical_port_name is not None:
+            logical_port_list = [logical_port_name]
+        else:
+            logical_port_list = self.sfputil.get_physical_to_logical(physical_port)
+            if logical_port_list is None or len(logical_port_list) == 0:
+                logger.log_notice('notify_media_type:physical_port {} with no logical_port'.format(physical_port))
+                return
+
+        media_type = 'copper' if media_type in ['ACC', 'DAC'] else 'fiber'
+        fvs = swsscommon.FieldValuePairs([('media_type', media_type)])
+
+        for logical_port in logical_port_list:
+            logger.log_notice('notify_media_type:{} set media_type:{}'.format(\
+                logical_port, media_type))
+            # may cause hwmgrd be terminated on arm spec if without lock
+            with lock:
+                self.app_port_tbl.set(logical_port, fvs)
+
+    def get_breakout_mode(self, physical_port):
+
+        logical_port_list = self.sfputil.get_physical_to_logical(physical_port)
+        if logical_port_list:
+            breakmode_port_first = logical_port_list[0]
+
+            logger.log_info('get_breakout_mode:port{} get breakout_mode on {}.'.\
+                format(physical_port, breakmode_port_first))
+
+            app_port_tbl = swsscommon.Table(self.appl_db_connector, swsscommon.APP_PORT_TABLE_NAME)
+            (status, fvs) = app_port_tbl.get(breakmode_port_first)
+            if status:
+                port_table_dict = dict(fvs)
+                if "exist_mode" in port_table_dict:
+                    newmode = port_table_dict.get("exist_mode")
+                    return newmode
+
+        return None
+
+    def get_breakout_index(self, logical_port_name):
+
+        app_port_tbl = swsscommon.Table(self.appl_db_connector, swsscommon.APP_PORT_TABLE_NAME)
+        (status, fvs) = app_port_tbl.get(logical_port_name)
+        if status:
+            port_table_dict = dict(fvs)
+            if "alias" in port_table_dict:
+                aliasname = port_table_dict.get("alias")
+                index = 0
+                if aliasname and ':' in aliasname:
+                    index = int(aliasname.split(':')[1])
+                    if index in [1, 2, 3, 4]:
+                        return index
+                    elif index in [5, 6]:
+                        return index - 4
+
+                return index
+
+        return None
+
+    def notify_breakout_mode(self, physical_port, transceiver_dict=None, logical_port_name=None):
+
+        if self.sfputil.get_presence(physical_port):
+            logical_port_list = self.sfputil.get_physical_to_logical(physical_port)
+            if logical_port_list:
+                breakmode_port_first = logical_port_list[0]
+
+                if logical_port_name and logical_port_name != breakmode_port_first:
+                    logger.log_debug('notify_breakout_mode:{} skip setting breakout_mode as {}.'.\
+                        format(logical_port_name, breakmode_port_first))
+                    return
+
+                logger.log_notice('notify_breakout_mode:port{} notify breakout_mode by {}.'.\
+                    format(physical_port, breakmode_port_first))
+
+                app_port_tbl = swsscommon.Table(self.appl_db_connector, swsscommon.APP_PORT_TABLE_NAME)
+                (status, fvs) = app_port_tbl.get(breakmode_port_first)
+                if status:
+                    port_table_dict = dict(fvs)
+                    if "exist_mode" in port_table_dict:
+                        newmode = port_table_dict.get("exist_mode")
+                        oldmode = self.sfputil.get_transceiver_breakout_mode(physical_port, transceiver_dict, wait=4)
+
+                        # try to set breakout mode even if don't know current mode
+                        '''
+                        if oldmode is None:
+                            # may not support
+                            return
+                        '''
+                        if oldmode is False:
+                            logger.log_error('notify_breakout_mode:{} get breakout_mode:{} failed.'.\
+                                format(breakmode_port_first, newmode))
+                            return
+                        elif oldmode == newmode:
+                            # for restart hwmgrd, no need to set breakout_mode again
+                            logger.log_notice('notify_breakout_mode:{} set breakout_mode:{} already.'.\
+                                format(breakmode_port_first, newmode))
+                            return
+
+                        ret = self.sfputil.set_transceiver_breakout_mode(physical_port, newmode, transceiver_dict, wait=None)
+                        if ret is None:
+                            logger.log_notice('notify_breakout_mode:{} set breakout_mode:{} skipped.'.\
+                                format(breakmode_port_first, newmode))
+                        elif ret is True:
+                            logger.log_notice('notify_breakout_mode:{} set breakout_mode:{} succed.'.\
+                                format(breakmode_port_first, newmode))
+                        else:
+                            logger.log_warning('notify_breakout_mode:{} set breakout_mode:{} failed.'.\
+                                format(breakmode_port_first, newmode))
+                else:
+                    logger.log_warning('notify_breakout_mode:{} get app_port_tbl failed.{}'.\
+                        format(breakmode_port_first, status))
+
+    def is_speed_supported(self, logical_port, speed):
+        if logical_port in self.g_speed_ability_dict:
+            ability_list = self.g_speed_ability_dict[logical_port]['speed_ability'].split(',')
+            need_reboot_list = self.g_speed_ability_dict[logical_port]['speed_need_reboot'].split(',')
+
+            if str(speed) in ability_list and str(speed) not in need_reboot_list:
+                return True
+        return False
+
+
+    # Wait for port config is done
+    def wait_for_port_config_done(self):
+        sel = swsscommon.Select()
+        sst = swsscommon.SubscriberStateTable(self.appl_db_connector, swsscommon.APP_PORT_TABLE_NAME)
+        sel.addSelectable(sst)
+
+        # Make sure this daemon started after all port configured
+        while not self.stop_event.is_set():
+            (state, c) = sel.select(SELECT_TIMEOUT_MSECS)
+            if state == swsscommon.Select.TIMEOUT:
+                continue
+            if state != swsscommon.Select.OBJECT:
+                logger.log_warning("sel.select() did not return swsscommon.Select.OBJECT")
+                continue
+
+            (key, op, fvp) = sst.pop()
+            if key in ["PortConfigDone", "PortInitDone"]:
+                break
+
+
+    # Initialize daemon
+    def init(self):
+        logger.log_notice("init: Start daemon init ...")
+
+        warmstart = swsscommon.WarmStart()
+        warmstart.initialize("hwmgrd", "pmon")
+        warmstart.checkWarmStart("hwmgrd", "pmon", False)
+        is_warm_start = warmstart.isWarmStart()
+
+        # Make sure this daemon started after all device driver init done
+        logger.log_notice("init: Wait for driver init...")
+        self.wait_for_device_driver_init_done()
+        logger.log_notice("init: Wait for driver init done.")
+
+        # Load port info
+        logger.log_notice("init: Loading port config file ...")
+        self.load_port_config_file()
+        logger.log_notice("init: Loading port config file done.")
+
+        # Load media settings
+        logger.log_notice("init: Loading media settings file ...")
+        self.load_media_settings()
+        logger.log_notice("init: Loading media settings file done.")
+
+        # Load port speed ability
+        logger.log_notice("init: Loading port speed ability file ...")
+        self.load_port_speed_ability()
+        logger.log_notice("init: Loading port speed ability file done.")
+
+        # Make sure this daemon started after all port configured
+        logger.log_notice("init: Wait for port config...")
+        self.wait_for_port_config_done()
+        logger.log_notice("init: Wait for port config is done.")
+
+        # Load port cfg
+        logger.log_notice("init: Loading port speed lanes config ...")
+        self.load_port_speed_lanes_config()
+        logger.log_notice("init: Loading port speed lanes config done.")
+
+        # first time add /sys/switch/* to stateDB and clear state_db unused key
+        logger.log_notice("init: init sync dict ...")
+        self.init_dev_sync_dict(self.chassis, True)
+        self.clear_unused_key()
+        logger.log_notice("init: init sync dict done.")
+
+        logger.log_notice("init: Start daemon init done")
+
+    # Deinitialize daemon
+    def deinit(self):
+        logger.log_notice("deinit: Start daemon deinit ...")
+
+        # Stop the subscribe
+
+        # Remove all the information from DB and then exit
+        logger.log_notice("deinit: Remove device info from statedb ...")
+        self.deinit_dev_sync_dict(self.chassis)
+        logger.log_notice("deinit: Remove device info from statedb done.")
+        logger.log_notice("deinit: Start daemon deinit done.")
+
+    # device alarm log
+    def dev_alarm_log(self, dev, sync=False):
+
+        try:
+            devname = dev.name
+            ret, out = dev.is_abnormal(sync)
+            self.stats['alarm'].update('post')
+            logger.log_notice("{} is_abnormal:{}:{}".format(devname, ret, out))
+            if dev.get_presence():
+                log_warning = False
+                cur_out = {}
+                if ret:
+                    cur_out = dict(filter(lambda t:\
+                        any([c in t[1] for c in ['assert', 'critical', 'warning']]),
+                        out.items()))
+                    '''
+                    for k, v in out.items():
+                        if any([c in v for c in ['assert', 'critical', 'warning']]):
+                            cur_out[k] = v
+                    '''
+                    msg = '{} is alarm: <{}>'.format(devname.title(), cur_out)
+                else:
+                    msg = '{} is normal.'.format(devname.title())
+
+                with self.dev_alarm_lock:
+                    if ret:
+                        if devname in self.dev_alarm:
+                            old_out = self.dev_alarm[devname]
+                            self.dev_alarm[devname] = cur_out
+                            if old_out != cur_out:
+                                log_warning = True
+                        else:
+                            self.dev_alarm[devname] = cur_out
+                            log_warning = True
+                    elif devname in self.dev_alarm:
+                        del self.dev_alarm[devname]
+                        log_warning = True
+
+                if log_warning is True:
+                    logger.log_warning(msg.strip())
+
+        except Exception as err:
+            if dev.get_presence():
+                logger.log_error('{} alarm check except.err={}({})'.format(\
+                        devname, str(err), traceback.format_exc()))
+            else:
+                logger.log_notice('{} alarm check except.err=unpresent.'.format(devname))
+            # raise for caller try
+            #raise Exception, err, sys.exc_info()[2]
+
+
+    # plugable device log
+    def pluggable_dev_log(self, dev, action):
+        devname = dev.name
+
+        #just log of pluggable devices
+        if not any([d in devname for d in pluggable_devs]):
+            return
+
+        try:
+            if action == 'add' and dev.get_presence() and self.silent is False:
+                logout = '%s is plugged in.' % devname.title()
+
+                vendor = 'N/A'
+                sn     = 'N/A'
+
+                if 'sfp' in devname:
+                    sync = False
+                else:
+                    sync = True
+
+                for r in range(1, 11):
+                    try:
+                        if any([d in devname for d in ['fan', 'psu']]):
+                            if dev.has_attr('vendor'):
+                                vendor  = dev.get_attr_value('vendor', sync)
+
+                            if dev.has_attr('SN'):
+                                sn = dev.get_attr_value('SN', sync)
+
+                        if SFF_PREFIX in devname:
+                            if dev.has_attr('info'):
+                                #dev.get_attr('info').update()
+                                if dev.has_attr('info/manufacturer'):
+                                    vendor = dev.get_attr_value('info/manufacturer', sync)
+                                    if vendor:
+                                        vendor = vendor.rstrip('\x00')
+                                if dev.has_attr('info/serial'):
+                                    sn = dev.get_attr_value('info/serial', sync)
+
+                        if vendor is None or sn is None:
+                            raise Exception('not ready.{}:{}.'.format(vendor, sn))
+                        '''
+                        if IS_UNSUPPORT(vendor) or IS_UNSUPPORT(sn):
+                            raise Exception('invalid unsupport.{}:{}.'.format(vendor, sn))
+                        '''
+                        if len(vendor) == 0 or len(sn) == 0:
+                            raise Exception('invalid size.{}:{}'.format(vendor, sn))
+
+                        break
+                    except Exception as err:
+                        if r > 3:
+                            sync = True
+                        elif r > 9:
+                            logger.log_error('{} get vendor/sn failed.retry-{}.err={}.'.format(\
+                                    devname, r, str(err)))
+                        else:
+                            logger.log_notice('{} get vendor/sn failed.retry-{} with sync={}.err={}.'.format(\
+                                    devname, r, sync, str(err)))
+
+                    time.sleep(0.5)
+
+                logout += ' vendor: {} serial_number: {}'.format(vendor, sn)
+                logger.log_warning(logout)
+
+                # add for xcvr sw init control
+                if SFF_PREFIX in devname:
+
+                    def plugin_notify(dev):
+
+                        physical_port = dev.get_index() - 1
+                        logical_port_list = self.sfputil.get_physical_to_logical(physical_port)
+
+                        if logical_port_list is not None:
+ 
+                            for logical_port_name in logical_port_list:
+                                logger.log_debug('{}:PhyPort{}.'.format(logical_port_name, physical_port))
+
+                                try:
+                                    info_dict = dev.get_attr_value('info', False)
+                                    if isinstance(info_dict, dict):
+                                        fv_dict = {k:str(v) for k, v in info_dict.items()}
+                                    else:
+                                        raise Exception('get info dict failed.')
+
+                                    if 'media_type' in fv_dict and fv_dict['media_type']:
+                                        media_type = fv_dict['media_type']
+                                        self.notify_media_type(physical_port, media_type, logical_port_name)
+                                        self.notify_media_setting(physical_port, fv_dict, logical_port_name)
+                                    else:
+                                        raise Exception('get media_type failed.')
+
+                                except Exception as err:
+                                    logger.log_error('plugin_notify:{}:PhyPort{} except.err={}({})'.format(\
+                                            logical_port_name, physical_port, str(err), traceback.format_exc()))
+                        else:
+                            logger.log_notice('plugin_notify:get logical_port_list is failed.{}:{}.'.format(physical_port,
+                                self.sfputil.physical_to_logical))
+
+
+                    def plugin_init(dev):
+                        brmode = self.get_breakout_mode(dev.index -1)
+                        if self.chassis.is_enable('sfp:sw_init'):
+                            for r in range(2):
+                                try:
+                                    ret, out = dev.sw_init(brmode)
+                                    if ret:
+                                        logger.log_notice('{} software init with {} over({}).'.\
+                                            format(devname, brmode, out))
+
+                                        if not dev.tx_disable(False):
+                                            logger.log_notice('{} tx enable failed.'.format(devname))
+                                        else:
+                                            logger.log_notice('{} tx enable success.'.format(devname))
+                                        break
+                                except Exception as err:
+                                    ret = False
+                                    out = str(err)
+
+                                logger.log_error('{} software init with {} failed, retry({}).'.\
+                                    format(devname, brmode, out))
+
+                                if dev.set_attr_value('low_power_mode', int(True)):
+                                    continue
+                                else:
+                                    logger.log_error('{} software init with {} retry failed(set lpmode err).'.\
+                                        format(devname, brmode))
+                                    break
+
+                            if not ret:
+                                logger.log_warning('{} software init with {} failed({}).'.\
+                                    format(devname, brmode, out))
+                        else:
+                            for r in range(1):
+                                try:
+                                    ret, out = dev.hw_init(brmode)
+                                    if ret:
+                                        logger.log_notice('{} hardware init with {} over({}).'.\
+                                            format(devname, brmode, out))
+
+                                        if not dev.tx_disable(False):
+                                            logger.log_notice('{} tx enable failed.'.format(devname))
+                                        else:
+                                            logger.log_notice('{} tx enable success.'.format(devname))
+                                        break
+                                except Exception as err:
+                                    ret = False
+                                    out = str(err)
+
+                                logger.log_error('{} hardware init with {} failed, retry({}).'.\
+                                    format(devname, brmode, out))
+
+                            if not ret:
+                                logger.log_warning('{} hardware init with {} failed({}).'.\
+                                    format(devname, brmode, out))
+
+                            #notify_breakout_mode after hw_init
+                            physical_port = dev.get_index() - 1
+                            logical_port_list = self.sfputil.get_physical_to_logical(physical_port)
+
+                            if logical_port_list is not None:
+                                for logical_port_name in logical_port_list:
+
+                                    info_dict = dev.get_attr_value('info', False)
+                                    if isinstance(info_dict, dict):
+                                        fv_dict = {k:str(v) for k, v in info_dict.items()}
+                                    else:
+                                        raise Exception('get info dict failed.')
+
+                                    self.notify_breakout_mode(physical_port, fv_dict, logical_port_name)
+
+
+                    #sfp module plugin processing
+                    plugin_notify(dev)
+                    time.sleep(0.5)
+                    plugin_init(dev)
+
+            elif action == 'remove':
+                logout = '%s is pulled out.' % devname.title()
+                logger.log_warning(logout)
+
+                # add for xcvr sw init control
+                if SFF_PREFIX in devname:
+                    if self.chassis.is_enable('sfp:sw_init'):
+                        ret, out = dev.sw_deinit()
+                        if ret:
+                            logger.log_notice('{} software deinit succeed.'.\
+                                format(devname))
+                        else:
+                            logger.log_warning('{} software deinit failed({}).'.\
+                                format(devname, out))
+        except Exception as err:
+            logger.log_error('{} {} except.err={}({})'.format(\
+                    devname, action, str(err), traceback.format_exc()))
+            # raise for caller try
+            raise Exception("pluggable_dev_log except.") from err
+
+    def delete_unused_key(self, path):
+        # eg:
+        #    path = /sys/switch/psu              >>>> key = PSU
+        #    path = /sys/switch/linecard         >>>> key = LINECARD
+        #    path = /sys/switch/linecard/1       >>>> skip this path
+        logger.log_notice('delete_unused_key: path={}'.format(path))
+
+        # Get all pattern keys
+        key = path.replace(DRV_SYS_SWITCH_PATH, '').upper()
+        if '/' in key:
+            return
+        key_pattern = '%s_TABLE|%s*' %(key, key.title())
+        keys = self.state_db.keys(key_pattern)
+
+        # Remove current key from pattern keys
+        dirs = []
+        for (root, dirs, files) in os.walk(path):
+            break
+        for d in dirs:
+            k = '%s_TABLE|%s%s' % (key, key.title(), d)
+            if k in keys:
+                keys.remove(k)
+
+        # Remove unused key from STATE_DB
+        for key in keys:
+            self.state_db.delete(key)
+
+    def clear_unused_key(self):
+        #S1:clear sff state_db
+        key_pattern = 'TRANSCEIVER_INFO|*'
+        keys = self.state_db.keys(key_pattern)
+        if keys is not None:
+            for key in keys:
+                logical_port_name = key.decode().split('TRANSCEIVER_INFO|')[1]
+                if self.sfputil.is_valid_sfputil_port(logical_port_name) == 0:
+                    logger.log_warning("invalid logical_port.name={}".format(logical_port_name))
+                    continue
+
+                physical_port_list = self.sfputil.get_logical_to_physical(logical_port_name)
+                for physical_port in physical_port_list:
+                    with lock:
+                        sfp = self.chassis.get_sfp(physical_port + 1)
+                        if sfp and not sfp.get_presence():
+                            key = 'TRANSCEIVER_INFO|{}'.format(logical_port_name)
+                            logger.log_notice("clear_unused_key: state_db del {}".format(key))
+                            self.state_db.delete(key)
+                            key = 'TRANSCEIVER_DOM_SENSOR|{}'.format(logical_port_name)
+                            logger.log_notice("clear_unused_key: state_db del {}".format(key))
+                            self.state_db.delete(key)
+                            logger.log_notice("clear_unused_key: state_db del {}".format(key))
+                            key = 'SFF_TABLE|Sff{}'.format(str(physical_port + 1))
+                            self.state_db.delete(key)
+
+        #S2:clear fan state_db
+        key_pattern = 'FAN_TABLE|*'
+        keys = self.state_db.keys(key_pattern)
+        if keys is not None:
+            for key in keys:
+                fan_index = key.decode().split('FAN_TABLE|Fan')[1]
+                with lock:
+                    fan = self.chassis.get_fan(int(fan_index))
+                    if fan and not fan.get_presence():
+                        key = 'FAN_TABLE|Fan{}'.format(str(fan_index))
+                        logger.log_notice("clear_unused_key: state_db del {}".format(key))
+                        self.state_db.delete(key)
+
+        #S3:clear psu state_db
+        key_pattern = 'PSU_TABLE|*'
+        keys = self.state_db.keys(key_pattern)
+        if keys is not None:
+            for key in keys:
+                psu_index = key.decode().split('PSU_TABLE|Psu')[1]
+                with lock:
+                    psu = self.chassis.get_psu(int(psu_index))
+                    if psu and not psu.get_presence():
+                        key = 'PSU_TABLE|Psu{}'.format(str(psu_index))
+                        logger.log_notice("clear_unused_key: state_db del {}".format(key))
+                        self.state_db.delete(key)
+
+    # Uevent helper
+    def change_handler(self, dev, action, event):
+        # Use system command line monitor uevent
+        # 'udevadm monitor --kernel --property'
+        logger.log_info('change_handler: run.action={} path={} event={}'.format( \
+            action, dev.name, event))
+
+        if action == 'add':
+            # sleep for device ready
+            self.init_dev_sync_dict(dev)
+        elif action == 'remove':
+            self.deinit_dev_sync_dict(dev)
+        elif action == 'change':
+            # baidu driver change uevent just for 'alarm'
+            path = os.path.join(path, 'alarm')
+            # dev_alarm_log before parsing for fast update time when abnormal
+            self.scan_dev_attrs(dev, 'change')
+            self.dev_alarm_log(dev)
+        logger.log_info('change_handler: done.action={} dev={} event={}'.format( \
+            action, dev.name, event))
+
+    # monit timer handler
+    def monit(self):
+        files = []
+
+        try:
+            thread_name = threading.current_thread().getName()
+            thread_id   = int(thread_name.split('-')[-1], 10)
+
+            global monitor_device
+
+            logger.log_info("monit_timer: {} scan.{}。".format( \
+                threading.current_thread().getName(), len(monitor_device)))
+
+            alarm_diff  = 0
+            update_diff = 0
+            if self.silent is False:
+                try:
+                    key   = "{}|{}".format(SWITCH_TABLE_NAME, SYSLOG_IDENTIFIER.title())
+                    filed = "alarm_timer_keepalive"
+                    value = self.state_db.hget(key, filed)
+                    alarm_diff = abs(int(time.monotonic()) - int(value))
+                    if alarm_diff > TIME_MONIT_ALARM:
+                        logger.log_notice("monit_timer:alarm_timer may stop.delay {}.".format(alarm_diff))
+                except Exception as err:
+                    logger.log_error("alarm_timer keepalive except.err={}".format(str(err)))
+
+                try:
+                    key   = "{}|{}".format(SWITCH_TABLE_NAME, SYSLOG_IDENTIFIER.title())
+                    filed = "update_timer_keepalive"
+                    value = self.state_db.hget(key, filed)
+                    update_diff = abs(int(time.monotonic()) - int(value))
+                    if update_diff > TIME_MONIT_UPDATE:
+                        logger.log_notice("monit_timer:update_timer may stop.delay {}.".format(update_diff))
+                except Exception as err:
+                    logger.log_error("update_timer keepalive except.err={}".format(str(err)))
+            elif len(monitor_device) == 0:
+                self.silent_cnt += 1
+                if self.silent_cnt > 3:
+                    self.silent = False
+                    self.silent_cnt = 0
+                    logger.log_warning("monit_timer: set self.silent {}.".format(self.silent))
+
+            logger.log_info("monit_timer: scan done.diff:alarm({}),update({}).".format(alarm_diff, update_diff))
+
+        except Exception as err:
+            logger.log_error("monit_timer scan except.err={}({})".format(\
+                str(err), traceback.format_exc()))
+
+        self.monit_timer = HwmgrdTimer(TIMER_MONIT, self.monit)
+        self.monit_timer.start()
+
+
+    # alarm timer handler
+    def alarm(self):
+        files = []
+        taketime = 0
+        try:
+            thread_name = threading.current_thread().getName()
+            thread_id   = int(thread_name.split('-')[-1], 10)
+
+            self.stats['alarm'].record('pass')
+            self.stats['alarm'].update('take')
+
+            logger.log_info("alarm_timer: {} scan.{}.".format( \
+                threading.current_thread().getName(), self.stats['alarm']))
+
+            if self.stats['alarm'].get_curr('pass') > 10000 :
+                logger.log_notice("alarm_timer delayed.{}.".format(self.stats['alarm']))
+
+
+            sys.setrecursionlimit(10000)
+            devs = self.dev_dict.get_group_devices('live')
+            threads = []
+            for dev in devs:
+                if dev.get_presence() and any([ d in dev.name for d in alarm_fast_devs]):
+                    t = threading.Thread(target=self.dev_alarm_log, args=(dev,), kwargs={'sync':True})
+                    t.setName('dev_alarm_check_{}'.format(dev.get_name()))
+                    t.setDaemon(True)
+                    threads.append(t)
+                    t.start()
+
+            for t in threads:
+                t.join()
+
+            gc.collect()
+
+            self.stats['alarm'].record('take')
+            self.stats['alarm'].record('post')
+            logger.log_info("alarm_timer: scan done.{}.".format(self.stats['alarm']))
+            taketime  = self.stats['alarm'].get_curr('take')
+
+        except Exception as err:
+            logger.log_error("alarm_timer scan except.err={}({})".format(\
+                str(err), traceback.format_exc()))
+
+        self.alarm_timer = HwmgrdTimer(max(0, TIMER_ALARM - taketime//1000), self.alarm)
+        self.alarm_timer.start()
+
+        try:
+            key   = "{}|{}".format(SWITCH_TABLE_NAME, SYSLOG_IDENTIFIER.title())
+            filed = "alarm_timer_keepalive"
+            value = int(time.monotonic())
+            self.state_db.hset(key, filed, str(value))
+
+        except Exception as err:
+            logger.log_error("alarm_timer keepalive except.err={}({})".format(\
+                str(err), traceback.format_exc()))
+
+
+    # Update timer handler
+    def update(self):
+        files = []
+        taketime = 0
+
+        try:
+            thread_name = threading.current_thread().getName()
+            thread_id   = int(thread_name.split('-')[-1], 10)
+
+            self.stats['update'].record('pass')
+            self.stats['update'].update('take')
+
+            logger.log_info("update_timer: {} scan.{}.".format( \
+                threading.current_thread().getName(), self.stats['update']))
+
+            if self.stats['update'].get_curr('pass') > 30000:
+                logger.log_notice("update_timer delayed.{}".format(self.stats['update']))
+
+            #sys.setrecursionlimit(10000)
+            threads = []
+            devs = self.dev_dict.get_group_devices('static')
+            for d in devs:
+                '''
+                # priority monitor processing
+                for i in range(10):
+                    if len(monitor_thread) != 0:
+                        time.sleep(0.1)
+                    else:
+                        break
+                '''
+                # priority monitor processing
+                if d.get_presence():
+                    passtime = self.dev_dict.get_dev_passtime('static', d)
+                    if passtime >= TIME_DOUBLE_CHECK_1 or passtime >= TIME_DOUBLE_CHECK_2:
+                        if self.logdev:
+                            if self.logdev == 'all':
+                                d.set_log(self.loglvl, self.logput)
+                            elif d.name in self.logdev:
+                                d.set_log(self.loglvl, self.logput)
+                        t = threading.Thread(target=self.scan_dev_attrs, args=(d, 'check', passtime, ))
+                        t.setName('scan_dev_attrs_%s' % (d.get_name()))
+                        t.setDaemon(True)
+                        threads.append(t)
+                        t.start()
+
+            for t in threads:
+                t.join()
+
+            threads = []
+            devs = self.dev_dict.get_group_devices('live')
+            for d in devs:
+                '''
+                # priority monitor processing
+                for i in range(10):
+                    if len(monitor_thread) != 0:
+                        time.sleep(0.1)
+                    else:
+                        break
+                '''
+                # priority monitor processing
+                if d.get_presence():
+                    passtime = self.dev_dict.get_dev_passtime('live', d)
+                    if passtime >= 0:
+                        if self.logdev:
+                            if self.logdev == 'all':
+                                d.set_log(self.loglvl, self.logput)
+                            elif d.name in self.logdev:
+                                d.set_log(self.loglvl, self.logput)
+
+                        t = threading.Thread(target=self.scan_dev_attrs, args=(d, 'update', passtime, ))
+                        t.setName('scan_dev_attrs_%s' % (d.get_name()))
+                        t.setDaemon(True)
+                        threads.append(t)
+                        t.start()
+
+            for t in threads:
+                t.join()
+
+            self.stats['update'].record('take')
+            self.stats['update'].record('post')
+            logger.log_info("update_timer: scan done.{}".format(self.stats['update']))
+            taketime  = self.stats['update'].get_curr('take')
+
+        except Exception as err:
+            logger.log_error("update_timer scan except.err={}({})".format(\
+                str(err), traceback.format_exc()))
+
+        self.update_timer = HwmgrdTimer(max(1, TIMER_UPDATE - taketime//1000), self.update)
+        self.update_timer.start()
+
+        try:
+            key   = "{}|{}".format(SWITCH_TABLE_NAME, SYSLOG_IDENTIFIER.title())
+            filed = "update_timer_keepalive"
+            value = int(time.monotonic())
+            self.state_db.hset(key, filed, str(value))
+        except Exception as err:
+            logger.log_error("update_timer keepalive except.err={}({})".format(\
+                str(err), traceback.format_exc()))
+
+    # Monitor driver uevent
+    def monitor_chassis(self):
+        global driver_monitor
+        global monitor_thread
+        global monitor_device
+        global monit_lock
+        def event_handler(event, timeout_event):
+            # baidu switch drivers post event with 'switch'
+
+            try:
+                dev_p  = str(event['DEVPATH']).split(':')
+                action = str(event['ACTION'])
+                type   = dev_p[0]
+                index  = dev_p[1]
+                timeout  = 60
+                wait   = 0
+                devname = None
+                # if add and remove event start almost the same time
+                # remove thread may done first, so remove should wait add thread done
+                while(True):
+                    with monit_lock:
+                        if not dev_p in monitor_device:
+                            monitor_device.append(dev_p)
+                            break
+                    time.sleep(0.5)
+                    wait += 1
+                    logger.log_notice("monitor: {} wait {} for {} processing in {}".format(\
+                        threading.current_thread().getName(), wait, dev_p, monitor_device))
+                    if wait == timeout:
+                        logger.log_warning("monitor: {} wait timeout for {} processing in {}".format(\
+                            threading.current_thread().getName(), dev_p, monitor_device))
+                        break
+
+                dev_f  = self.chassis.get_device(type, int(index))
+                if dev_f:
+                    devname = dev_f.name
+                    logger.log_info("monitor: run.action={} dev={}.".format( \
+                        action, dev_f.name))
+                    self.stats['monit'].update('post')
+                    self.change_handler(dev_f, action, str(event))
+                else:
+                    logger.log_error("monitor: run done.action={} dev=None.".format( \
+                        action))
+
+            except Exception as err:
+                logger.log_error('monitor: except.err={}({})'.format(\
+                    str(err), traceback.format_exc()))
+            finally:
+                with monit_lock:
+                    if dev_p in monitor_device:
+                        monitor_device.remove(dev_p)
+                logger.log_info("monitor: run done.action={} dev={}.monitor_thread({}), monitor_device({}).".format(\
+                    action, devname, len(monitor_thread), len(monitor_device)))
+
+        with ChassisChangeMonitor(self.chassis) as driver_monitor:
+
+            try:
+                self.stats['monit'].record('pass')
+                self.stats['monit'].update('take')
+
+                logger.log_notice("monitor: {} scan.{}.".format( \
+                    multiprocessing.current_process(), self.stats['monit']))
+
+                #sys.setrecursionlimit(10000)
+                for plug_event in driver_monitor:
+                    if plug_event['SUBSYSTEM'] == 'switch':
+                        logger.log_notice("monitor: run.event={}.".format(plug_event))
+                        dev_p  = str(plug_event['DEVPATH']).split(':')
+                        action = str(plug_event['ACTION'])
+                        type   = dev_p[0]
+                        index  = dev_p[1]
+                        timeout_event = threading.Event()
+                        t = threading.Thread(target=event_handler, args=(plug_event, timeout_event,))
+                        t.setName('monitor_thread_{}_{}'.format(action, dev_p))
+                        t.setDaemon(True)
+
+                        with monit_lock:
+                            monitor_thread.append(t)
+                            logger.log_info("monitor: monitor_thread({}) add {}, monitor_device({}) add {}.".format(\
+                                len(monitor_thread), t.name, len(monitor_device), dev_p))
+                        t.start()
+
+                self.stats['monit'].record('post')
+                self.stats['monit'].record('take')
+                logger.log_notice("monitor: scan done.{}".format(self.stats['monit']))
+
+            except Exception as err:
+                logger.log_error("monitor: scan except.err={}({})".format(\
+                    str(err), traceback.format_exc()))
+
+    def config_init(self):
+        try:
+            switch_keys = self.config_db.keys("{}*".format(SWITCH_TABLE_NAME))
+            for key in switch_keys:
+                if SYSLOG_IDENTIFIER.title() in key:
+                    fvs = self.config_db.hgetall(key)
+                    for field, value in fvs.items():
+                        # key is SWITCH|Hmgrd
+                        if field == 'timer_update':
+                            global TIMER_UPDATE
+                            v = int(value)
+                            if v != TIMER_UPDATE:
+                                TIMER_UPDATE = v
+                                logger.log_notice('config_init:TIMER_UPDATE set to {}'.format(TIMER_UPDATE))
+                        elif field == 'timer_alarm':
+                            global TIMER_ALARM
+                            v = int(value)
+                            if v != TIMER_ALARM:
+                                TIMER_ALARM = v
+                                logger.log_notice('config_init:TIMER_ALARM set to {}'.format(TIMER_ALARM))
+                        elif field == 'timer_monit':
+                            global TIMER_MONIT
+                            v = int(value)
+                            if v != TIMER_MONIT:
+                                TIMER_MONIT = v
+                                logger.log_notice('config_init:TIMER_MONIT set to {}'.format(TIMER_MONIT))
+                        elif field == 'updatetime':
+                            global TIME_UPDATE
+                            v = int(value)
+                            if v != TIME_UPDATE:
+                                TIME_UPDATE = v
+                                logger.log_notice('config_init:TIME_UPDATE set to {}'.format(TIME_UPDATE))
+                        elif field == 'readytime':
+                            global TIME_DEVICE_READY
+                            v = int(value)
+                            if v != TIME_DEVICE_READY:
+                                TIME_DEVICE_READY = v
+                                logger.log_notice('config_init:TIME_DEVICE_READY set to {}'.format(TIME_DEVICE_READY))
+                        elif field == 'monit_update_timer':
+                            global TIME_MONIT_UPDATE
+                            v = int(value)
+                            if v != TIME_MONIT_UPDATE:
+                                TIME_MONIT_UPDATE = v
+                                logger.log_notice('config_init:TIME_MONIT_UPDATE set to {}'.format(TIME_MONIT_UPDATE))
+                        elif field == 'monit_alarm_timer':
+                            global TIME_MONIT_ALARM
+                            v = int(value)
+                            if v != TIME_MONIT_ALARM:
+                                TIME_MONIT_ALARM = v
+                                logger.log_notice('config_init:TIME_MONIT_ALARM set to {}'.format(TIME_MONIT_ALARM))
+                        elif field == 'dbglogdev':
+                            if value == E_NONE:
+                                value = None
+
+                            if self.logdev != value:
+                                self.logdev = value
+                                logger.log_notice('config_init:debug logdev set to {}'.format(self.logdev))
+                        elif field == 'dbgloglvl':
+                            v = int(value, 16)
+                            if v != self.loglvl:
+                                self.loglvl = v
+                                logger.log_notice('config_init:debug loglvl set to {:08x}'.format(self.loglvl))
+                        elif field == 'dbglogput':
+                            if value in ['console', 'syslog', 'logfile'] and self.logput != value:
+                                self.logput = value
+                                logger.log_notice('config_init:debug logput set to {}'.format(self.logput))
+                        elif field == 'startsilent':
+                            if value == 'True':
+                                self.silent = True
+                                logger.log_notice('config_init:start silient set to {}'.format(value))
+        except Exception as err:
+            logger.log_error("config_init except.err={}({})".format(\
+                str(err), traceback.format_exc()))
+
+    def config_handle(self, message):
+        logger.log_notice("config_handle: {} run...message={}.".format( \
+            threading.current_thread().getName(), message))
+        try:
+            key = message['channel'].decode().split(':')[1]
+            # change key to /sys/switch/xxx
+            # key like:
+            #    SWITCH
+            #    SWITCH|Psu
+            #    SWITCH|Fan
+
+            if key.startswith(SWITCH_TABLE_NAME):
+                if SYSLOG_IDENTIFIER.title() in key:
+                    fvs = self.config_db.hgetall(key)
+                    for field, value in fvs.items():
+                        # key is SWITCH|Hmgrd
+                        if field == 'timer_update':
+                            global TIMER_UPDATE
+                            v = int(value)
+                            if v != TIMER_UPDATE:
+                                TIMER_UPDATE = v
+                                logger.log_notice('config_handle:TIMER_UPDATE set to {}'.format(TIMER_UPDATE))
+                        elif field == 'timer_alarm':
+                            global TIMER_ALARM
+                            v = int(value)
+                            if v != TIMER_ALARM:
+                                TIMER_ALARM = v
+                                logger.log_notice('config_handle:TIMER_ALARM set to {}'.format(TIMER_ALARM))
+                        elif field == 'timer_monit':
+                            global TIMER_MONIT
+                            v = int(value)
+                            if v != TIMER_MONIT:
+                                TIMER_MONIT = v
+                                logger.log_notice('config_init:TIMER_MONIT set to {}'.format(TIMER_MONIT))
+                        elif field == 'updatetime':
+                            global TIME_UPDATE
+                            v = int(value)
+                            if v != TIME_UPDATE:
+                                TIME_UPDATE = v
+                                logger.log_notice('config_handle:TIME_UPDATE set to {}'.format(TIME_UPDATE))
+                        elif field == 'readytime':
+                            global TIME_DEVICE_READY
+                            v = int(value)
+                            if v != TIME_DEVICE_READY:
+                                TIME_DEVICE_READY = v
+                                logger.log_notice('config_handle:TIME_DEVICE_READY set to {}'.format(TIME_DEVICE_READY))
+                        elif field == 'monit_update_timer':
+                            global TIME_MONIT_UPDATE
+                            v = int(value)
+                            if v != TIME_MONIT_UPDATE:
+                                TIME_MONIT_UPDATE = v
+                                logger.log_notice('config_handle:TIME_MONIT_UPDATE set to {}'.format(TIME_MONIT_UPDATE))
+                        elif field == 'monit_alarm_timer':
+                            global TIME_MONIT_ALARM
+                            v = int(value)
+                            if v != TIME_MONIT_ALARM:
+                                TIME_MONIT_ALARM = v
+                                logger.log_notice('config_handle:TIME_MONIT_ALARM set to {}'.format(TIME_MONIT_ALARM))
+                        elif field == 'dbglogdev':
+                            if value == E_NONE:
+                                value = None
+
+                            if self.logdev != value:
+                                self.logdev = value
+                                logger.log_notice('config_handle:debug logdev set to {}'.format(self.logdev))
+                        elif field == 'dbgloglvl':
+                            v = int(value, 16)
+                            if v != self.loglvl:
+                                self.loglvl = v
+                                logger.log_notice('config_handle:debug loglvl set to {}'.format(self.loglvl))
+                        elif field == 'dbglogput':
+                            if value in ['console', 'syslog', 'logfile'] and self.logput != value:
+                                self.logput = value
+                                logger.log_notice('config_handle:debug logput set to {}'.format(self.logput))
+            elif key.startswith(swsscommon.CFG_PORT_TABLE_NAME):
+                logical_port = key.split('|')[1]
+                fvs = self.config_db.hgetall(key)
+                if 'speed' in fvs and 'lanes' in fvs:
+                    speed = int(fvs['speed'])
+                    lanes = len(fvs['lanes'].split(','))
+                    if not self.is_speed_supported(logical_port, speed):
+                        logger.log_warning("Port " + (logical_port) + " did not update media setting for "
+                                    "is_speed_supported return false by speed " + str(speed))
+                        return
+                    if (speed, lanes) != self.port_cfg[logical_port]:
+                        self.port_cfg[logical_port] = (speed, lanes)
+                        physical_port_list = self.sfputil.get_logical_to_physical(logical_port)
+                        for physical_port in physical_port_list:
+                            if not self.sfputil.get_presence(physical_port):
+                                continue
+                            else:
+                                fv_dict = self.sfputil.get_transceiver_info_dict(physical_port)
+                                self.notify_media_setting(physical_port, fv_dict)
+            elif key.startswith(BREAKOUT_TABLE_NAME):
+                physical_port = key.split('|')[1]
+                fvs = self.config_db.hgetall(key)
+                if 'default_mode' in fvs and self.sfputil.get_presence(physical_port):
+                    mode = fvs['default_mode']
+                    #self.sfputil.set_transceiver_breakout_mode(physical_port, mode)
+
+        except Exception as err:
+            logger.log_error("config_handle except.err={}({})".format(\
+                str(err), traceback.format_exc()))
+
+
+    def config_psubscribe(self):
+
+        swss_sdk = SonicV2Connector()
+        client = redis.Redis(port=int(swss_sdk.get_db_port("CONFIG_DB")), db = swsscommon.CONFIG_DB)
+        sub = client.pubsub()
+        sub.psubscribe(**{'__keyspace@%d__:%s*' % (swsscommon.CONFIG_DB, SWITCH_TABLE_NAME): self.config_handle})
+        sub.psubscribe(**{'__keyspace@%d__:%s*' % (swsscommon.CONFIG_DB, swsscommon.CFG_PORT_TABLE_NAME): self.config_handle})
+        sub.psubscribe(**{'__keyspace@%d__:%s*' % (swsscommon.CONFIG_DB, BREAKOUT_TABLE_NAME): self.config_handle})
+        self.config_sub_thread = sub.run_in_thread(sleep_time=0.01)
+        self.config_sub_thread.setName('config_subscribe')
+
+    # Run daemon
+    def run(self):
+
+        self.config_init()
+
+        logger.log_warning("Hwmgrd Starting up with silent:{}...".format(self.silent))
+
+        # Start daemon initialization sequence
+        try:
+            self.init()
+            if not os.path.exists(installed_file):
+                with open(installed_file, 'w') as f:
+                    pass
+        except Exception as err:
+            logger.log_error("hwmgrd start failed.err={}({})".format(\
+                str(err), traceback.format_exc()))
+            sys.exit(1)
+
+        # Start update timer
+        logger.log_notice("Start update timer ...")
+        self.update_timer = HwmgrdTimer(TIMER_UPDATE, self.update)
+        self.update_timer.start()
+
+        # Start alarm timer
+        logger.log_notice("Start alarm timer ...")
+        self.alarm_timer = HwmgrdTimer(TIMER_ALARM, self.alarm)
+        self.alarm_timer.start()
+
+        # Start config db subscribe
+        logger.log_notice("Start config subscribe ...")
+        self.config_psubscribe()
+        #process_config = multiprocessing.Process(target=self.config_psubscribe)
+        #process_config.start()
+
+
+        logger.log_notice("Start monit timer ...")
+        self.monit_timer = HwmgrdTimer(TIMER_MONIT, self.monit)
+        self.monit_timer.start()
+
+        # Start driver uevent monitor
+        logger.log_notice("Start driver monitor ...")
+        self.monitor_chassis()
+        #process_monitor = multiprocessing.Process(target=self.monitor_chassis)
+        #process_monitor.start()
+
+        #process_config.join()
+        #process_monitor.join()
+
+        # hwmgrd main task will loop in monitor, should not be here.
+        # Start daemon deinitialization sequence
+        self.deinit()
+
+        logger.log_warning("Hwmgrd Shutting down.")
+
+#
+# Main =========================================================================
+#
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument('-s', '--silent', action='store_true', default=None,
+        help='start without devices plugin alarm')
+    parser.add_argument('-d', dest='loglvl', metavar='hex', help='set drv log level')
+    parser.add_argument('-o', dest='logput', choices=['logfile', 'console', 'syslog'],
+        help='set drv log output')
+    parser.add_argument('-p', dest='logdev', help='open dev output')
+
+    args = parser.parse_args()
+
+    if args.silent is None:
+        if os.path.exists(installed_file):
+            args.silent = True
+        else:
+            args.silent = False
+
+    if args.loglvl is not None:
+        try:
+            args.loglvl = int(args.loglvl, 16)
+        except:
+            print('please input hex int.')
+            sys.exit(1)
+
+    hwmgrd = DaemonHwmgrdS3ip(SYSLOG_IDENTIFIER, args.silent, args.loglvl, args.logput, args.logdev)
+    #hwmgrd = DaemonHwmgrdS3ip(args.silent, 0x10ffffff, 'syslog')
+    hwmgrd.run()
