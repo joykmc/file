@@ -1,0 +1,8 @@
+root@sonic:/home/admin# time python read_perthread.py 
+内容 (/sys_switch/transceiver/eth6/eeprom, 从偏移 128 读取 1 字节): 1e
+
+real	0m0.617s
+user	0m0.022s
+sys	0m0.009s
+root@sonic:/home/admin# 
+

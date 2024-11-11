@@ -1,0 +1,37 @@
+# tracer: function_graph
+#
+# CPU  DURATION                  FUNCTION CALLS
+# |     |   |                     |   |   |   |
+  7)               |  optoe_read_write [optoe]() {
+  7)               |    optoe_eeprom_read [optoe]() {
+  7)               |      i2c_transfer() {
+  7)               |        pca954x_select_chan [merlin_pca954x]() {
+  7) ! 561.409 us  |          i2c_access [fpga_i2c_ocore]();
+  7) ! 562.987 us  |        }
+  7) $ 1023991 us  |        i2c_access [fpga_i2c_ocore]();
+  8) $ 1013279 us  |        } /* i2c_access [fpga_i2c_ocore] */
+  8)               |        pca954x_deselect_mux [merlin_pca954x]() {
+  8)               |          i2c_access [fpga_i2c_ocore]() {
+  7)               |          pci_process_availability_information [merlin_pca954x]() {
+  7)   8.374 us    |            fpga_reset_pac954x [fpga_i2c_core]();
+  7) + 30.537 us   |          }
+  7) ! 557.751 us  |          i2c_access [fpga_i2c_ocore]();
+  7) $ 1024589 us  |        } /* pca954x_deselect_mux [merlin_pca954x] */
+  7) $ 2038439 us  |      }
+  8)               |      i2c_transfer() {
+  8)               |        pca954x_select_chan [merlin_pca954x]() {
+  8)               |          i2c_access [fpga_i2c_ocore]() {
+ 10) ! 558.039 us  |          } /* i2c_access [fpga_i2c_ocore] */
+ 10) ! 561.738 us  |        } /* pca954x_select_chan [merlin_pca954x] */
+ 10) $ 1025043 us  |        i2c_access [fpga_i2c_ocore]();
+ 10)               |        pca954x_deselect_mux [merlin_pca954x]() {
+ 10)               |          i2c_access [fpga_i2c_ocore]() {
+  7) $ 1023995 us  |          } /* i2c_access [fpga_i2c_ocore] */
+  7)               |          pci_process_availability_information [merlin_pca954x]() {
+  7)   8.442 us    |            fpga_reset_pac954x [fpga_i2c_core]();
+  7) + 30.442 us   |          }
+  7) ! 556.983 us  |          i2c_access [fpga_i2c_ocore]();
+  7) $ 1024591 us  |        } /* pca954x_deselect_mux [merlin_pca954x] */
+  7) $ 2050205 us  |      } /* i2c_transfer */
+ 10) $ 4092297 us  |    } /* optoe_eeprom_read [optoe] */
+ 10) $ 4092302 us  |  } /* optoe_read_write [optoe] */

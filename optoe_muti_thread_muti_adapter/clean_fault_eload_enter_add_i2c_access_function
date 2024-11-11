@@ -1,0 +1,31 @@
+# tracer: function
+#
+# entries-in-buffer/entries-written: 20/20   #P:16
+#
+#                                _-----=> irqs-off
+#                               / _----=> need-resched
+#                              | / _---=> hardirq/softirq
+#                              || / _--=> preempt-depth
+#                              ||| /     delay
+#           TASK-PID     CPU#  ||||   TIMESTAMP  FUNCTION
+#              | |         |   ||||      |         |
+          python-240685  [013] ....  2412.593656: optoe_read_write <-kernfs_fop_read_iter
+          python-240685  [013] ....  2412.593657: optoe_eeprom_read <-optoe_read_write
+          python-240685  [013] ....  2412.593657: i2c_transfer <-optoe_eeprom_read
+          python-240685  [013] ....  2412.593659: pca954x_select_chan <-__i2c_mux_master_xfer
+          python-240685  [013] ....  2412.593660: i2c_access <-__i2c_transfer
+          python-240685  [013] ....  2412.594220: i2c_access <-__i2c_transfer
+          python-240685  [013] ....  2413.605864: pca954x_deselect_mux <-__i2c_mux_master_xfer
+          python-240685  [013] ....  2413.605866: i2c_access <-__i2c_transfer
+          python-240685  [013] ....  2414.629865: pci_process_availability_information <-pca954x_deselect_mux.cold
+          python-240685  [013] ....  2414.629876: fpga_reset_pac954x <-pci_dev_avail.cold
+          python-240685  [013] ....  2414.629897: i2c_access <-__i2c_transfer
+          python-240685  [013] ....  2414.632460: i2c_transfer <-optoe_eeprom_read
+          python-240685  [013] ....  2414.632461: pca954x_select_chan <-__i2c_mux_master_xfer
+          python-240685  [013] ....  2414.632461: i2c_access <-__i2c_transfer
+          python-240685  [013] ....  2414.633015: i2c_access <-__i2c_transfer
+          python-240685  [013] ....  2415.653867: pca954x_deselect_mux <-__i2c_mux_master_xfer
+          python-240685  [013] ....  2415.653869: i2c_access <-__i2c_transfer
+          python-240685  [013] ....  2416.677864: pci_process_availability_information <-pca954x_deselect_mux.cold
+          python-240685  [013] ....  2416.677875: fpga_reset_pac954x <-pci_dev_avail.cold
+          python-240685  [013] ....  2416.677896: i2c_access <-__i2c_transfer

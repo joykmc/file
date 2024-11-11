@@ -1,0 +1,86 @@
+
+iroot@sonic:/sys/kernel/debug/tracing# cat trace_pipe 
+  3)               |  optoe_read_write [optoe]() {
+  3)               |    i2c_transfer() {
+  3)               |      pca954x_select_chan [merlin_pca954x]() {
+  3) ! 478.768 us  |      }
+  3)               |      pca954x_deselect_mux [merlin_pca954x]() {
+  3) ! 549.564 us  |      }
+  3) # 1808.689 us |    }
+  3) # 1819.919 us |  }
+
+
+
+
+  6)               |  optoe_read_write [optoe]() {
+  6)               |    i2c_transfer() {
+  6)               |      pca954x_select_chan [merlin_pca954x]() {
+  6) ! 560.006 us  |      }
+  6)               |      pca954x_deselect_mux [merlin_pca954x]() {
+  6) ! 549.445 us  |      }
+  6) # 1889.774 us |    }
+  6)               |    i2c_transfer() {
+  6)               |      pca954x_select_chan [merlin_pca954x]() {
+  6) ! 554.429 us  |      }
+  6)               |      pca954x_deselect_mux [merlin_pca954x]() {
+  6) ! 548.399 us  |      }
+  6) # 1756.223 us |    }
+  6)               |    i2c_transfer() {
+  6)               |      pca954x_select_chan [merlin_pca954x]() {
+  6) ! 555.509 us  |      }
+  6)               |      pca954x_deselect_mux [merlin_pca954x]() {
+  6) ! 549.392 us  |      }
+  6) # 1882.833 us |    }
+  6)               |    i2c_transfer() {
+  6)               |      pca954x_select_chan [merlin_pca954x]() {
+  6) ! 554.024 us  |      }
+  6)               |      pca954x_deselect_mux [merlin_pca954x]() {
+  6) ! 549.361 us  |      }
+  6) # 1755.594 us |    }
+  6) # 7298.014 us |  }
+
+
+
+
+ 12)               |  optoe_read_write [optoe]() {
+ 12)               |    optoe_eeprom_read [optoe]() {
+ 12)               |      i2c_transfer() {
+ 12)               |        pca954x_select_chan [merlin_pca954x]() {
+ 12) ! 565.189 us  |        }
+ 12)               |        pca954x_deselect_mux [merlin_pca954x]() {
+ 12) ! 548.900 us  |        }
+ 12) # 1893.677 us |      }
+ 12) # 1894.551 us |    }
+ 12)               |    optoe_eeprom_write [optoe]() {
+ 12)               |      i2c_transfer() {
+ 12)               |        pca954x_select_chan [merlin_pca954x]() {
+ 12) ! 554.130 us  |        }
+ 12)               |        pca954x_deselect_mux [merlin_pca954x]() {
+ 12) ! 549.571 us  |        }
+ 12) # 1756.259 us |      }
+ 12) # 1756.754 us |    }
+ 12)               |    optoe_eeprom_read [optoe]() {
+ 12)               |      i2c_transfer() {
+ 12)               |        pca954x_select_chan [merlin_pca954x]() {
+ 12) ! 554.834 us  |        }
+ 12)               |        pca954x_deselect_mux [merlin_pca954x]() {
+ 12) ! 548.862 us  |        }
+ 12) # 1880.429 us |      }
+ 12) # 1880.914 us |    }
+ 12)               |    optoe_eeprom_write [optoe]() {
+ 12)               |      i2c_transfer() {
+ 12)               |        pca954x_select_chan [merlin_pca954x]() {
+ 12) ! 555.387 us  |        }
+ 12)               |        pca954x_deselect_mux [merlin_pca954x]() {
+ 12) ! 548.632 us  |        }
+ 12) # 1756.695 us |      }
+ 12) # 1757.197 us |    }
+ 12) # 7301.452 us |  }
+root@sonic:/home/admin/optoe_one_thread_one_adapter# time python /home/admin/read_perthread.py 
+内容 (/sys_switch/transceiver/eth6/eeprom, 从偏移 300 读取 1 字节): 00
+
+real	0m0.036s
+user	0m0.028s
+sys	0m0.000s
+root@sonic:/home/admin/optoe
+

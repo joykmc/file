@@ -1,0 +1,235 @@
+# tracer: function_graph
+#
+# CPU  DURATION                  FUNCTION CALLS
+# |     |   |                     |   |   |   |
+ 12) $ 14337868 us |  } /* optoe_read_write [optoe] */
+ ------------------------------------------
+ 12)  <...>-626303  => python3-626321
+ ------------------------------------------
+
+ 12) $ 14337973 us |  } /* optoe_read_write [optoe] */
+ 13) $ 14338058 us |  } /* optoe_read_write [optoe] */
+ 15)               |    optoe_eeprom_read [optoe]() {
+ 15)               |      i2c_transfer() {
+ 10) $ 14077189 us |  } /* optoe_read_write [optoe] */
+ 15) ! 565.865 us  |        pca954x_select_chan [merlin_pca954x]();
+ 15) $ 1024590 us  |        pca954x_deselect_mux [merlin_pca954x]();
+ 15) $ 2082434 us  |      }
+  0)               |      i2c_transfer() {
+ ------------------------------------------
+ 10) python3-621992 => python3-621566
+ ------------------------------------------
+
+ 10) $ 16137084 us |  } /* optoe_read_write [optoe] */
+ 14) $ 14098758 us |  } /* optoe_read_write [optoe] */
+ 15) ! 558.618 us  |        pca954x_select_chan [merlin_pca954x]();
+ 15)               |        pca954x_deselect_mux [merlin_pca954x]() {
+  0) $ 1028593 us  |        } /* pca954x_deselect_mux [merlin_pca954x] */
+  0) $ 2046872 us  |      }
+  0) $ 4132445 us  |    } /* optoe_eeprom_read [optoe] */
+  0) $ 8260045 us  |  } /* optoe_read_write [optoe] */
+  0)               |  optoe_read_write [optoe]() {
+  0)               |    optoe_eeprom_read [optoe]() {
+  0)               |      i2c_transfer() {
+  0) ! 559.252 us  |        pca954x_select_chan [merlin_pca954x]();
+  1) $ 1020574 us  |        pca954x_deselect_mux [merlin_pca954x]();
+  1) $ 2045985 us  |      } /* i2c_transfer */
+  1)               |      i2c_transfer() {
+  1) ! 554.790 us  |        pca954x_select_chan [merlin_pca954x]();
+  1) $ 1020597 us  |        pca954x_deselect_mux [merlin_pca954x]();
+  1) $ 2046001 us  |      }
+  1) $ 4095997 us  |    } /* optoe_eeprom_read [optoe] */
+  1) $ 8219874 us  |  } /* optoe_read_write [optoe] */
+  1)               |  optoe_read_write [optoe]() {
+  1)               |    optoe_eeprom_read [optoe]() {
+  1)               |      i2c_transfer() {
+  1) ! 557.180 us  |        pca954x_select_chan [merlin_pca954x]();
+  1) $ 1024588 us  |        pca954x_deselect_mux [merlin_pca954x]();
+  1) $ 2046887 us  |      }
+  1)               |      i2c_transfer() {
+  1) ! 557.064 us  |        pca954x_select_chan [merlin_pca954x]();
+  1) $ 1024584 us  |        pca954x_deselect_mux [merlin_pca954x]();
+  1) $ 2045993 us  |      }
+  2) $ 4096150 us  |    } /* optoe_eeprom_read [optoe] */
+  2) $ 8191136 us  |  } /* optoe_read_write [optoe] */
+  2)               |  optoe_read_write [optoe]() {
+  2)               |    optoe_eeprom_read [optoe]() {
+  2)               |      i2c_transfer() {
+  2)               |        pca954x_select_chan [merlin_pca954x]() {
+ ------------------------------------------
+ 10) python3-621566 => python-626969 
+ ------------------------------------------
+
+ 10) ! 556.499 us  |        } /* pca954x_select_chan [merlin_pca954x] */
+ 10) $ 1028586 us  |        pca954x_deselect_mux [merlin_pca954x]();
+ 10) $ 2049981 us  |      } /* i2c_transfer */
+ ------------------------------------------
+ 12) python3-626321 => python-626969 
+ ------------------------------------------
+
+ 12)               |      i2c_transfer() {
+ 12) ! 557.041 us  |        pca954x_select_chan [merlin_pca954x]();
+ 12) $ 1020587 us  |        pca954x_deselect_mux [merlin_pca954x]();
+ 12) $ 2042559 us  |      }
+ 12) $ 4095989 us  |    } /* optoe_eeprom_read [optoe] */
+ 12) $ 8192595 us  |  } /* optoe_read_write [optoe] */
+ 12)               |  optoe_read_write [optoe]() {
+ ------------------------------------------
+ 14) python3-621339 => python-626969 
+ ------------------------------------------
+
+ 14)               |    optoe_eeprom_read [optoe]() {
+ 14)               |      i2c_transfer() {
+ 14) ! 556.014 us  |        pca954x_select_chan [merlin_pca954x]();
+ 14) $ 1024585 us  |        pca954x_deselect_mux [merlin_pca954x]();
+ 14) $ 2045976 us  |      }
+ 14)               |      i2c_transfer() {
+ 14) ! 556.593 us  |        pca954x_select_chan [merlin_pca954x]();
+ 14)               |        pca954x_deselect_mux [merlin_pca954x]() {
+ 11) $ 1020615 us  |        } /* pca954x_deselect_mux [merlin_pca954x] */
+ 11) $ 2046021 us  |      } /* i2c_transfer */
+ 11) $ 4096008 us  |    } /* optoe_eeprom_read [optoe] */
+ 11) $ 8191891 us  |  } /* optoe_read_write [optoe] */
+ 11)               |  optoe_read_write [optoe]() {
+ 11)               |    optoe_eeprom_read [optoe]() {
+ 11)               |      i2c_transfer() {
+ 12)               |        pca954x_select_chan [merlin_pca954x]() {
+ 10) ! 557.094 us  |        } /* pca954x_select_chan [merlin_pca954x] */
+ 10) $ 1024581 us  |        pca954x_deselect_mux [merlin_pca954x]();
+ 10) $ 2041974 us  |      } /* i2c_transfer */
+ 10)               |      i2c_transfer() {
+ 10) ! 552.921 us  |        pca954x_select_chan [merlin_pca954x]();
+ 10)               |        pca954x_deselect_mux [merlin_pca954x]() {
+ 11) $ 1020590 us  |        } /* pca954x_deselect_mux [merlin_pca954x] */
+ 11) $ 2046004 us  |      }
+ 11) $ 4091989 us  |    }
+ 11) $ 8191857 us  |  }
+ 11)               |  optoe_read_write [optoe]() {
+ ------------------------------------------
+ 13) python3-626386 => python-626969 
+ ------------------------------------------
+
+ 13)               |    optoe_eeprom_read [optoe]() {
+ 13)               |      i2c_transfer() {
+ 13) ! 556.015 us  |        pca954x_select_chan [merlin_pca954x]();
+ 13) $ 1028578 us  |        pca954x_deselect_mux [merlin_pca954x]();
+ 13) $ 2049963 us  |      }
+ 13)               |      i2c_transfer() {
+ 13) ! 555.385 us  |        pca954x_select_chan [merlin_pca954x]();
+ 14) $ 1024571 us  |        pca954x_deselect_mux [merlin_pca954x]();
+ 14) $ 2041997 us  |      }
+ 14) $ 4095971 us  |    }
+ 14) $ 8191865 us  |  } /* optoe_read_write [optoe] */
+ 14)               |  optoe_read_write [optoe]() {
+ 15)               |    optoe_eeprom_read [optoe]() {
+ 15)               |      i2c_transfer() {
+ 15) ! 556.153 us  |        pca954x_select_chan [merlin_pca954x]();
+ 15) $ 1024578 us  |        pca954x_deselect_mux [merlin_pca954x]();
+ 15) $ 2045988 us  |      }
+ 15)               |      i2c_transfer() {
+ 15) ! 559.728 us  |        pca954x_select_chan [merlin_pca954x]();
+  0) $ 1024607 us  |        pca954x_deselect_mux [merlin_pca954x]();
+  0) $ 2045993 us  |      }
+  0) $ 4095998 us  |    }
+  0) $ 8191888 us  |  }
+  0)               |  optoe_read_write [optoe]() {
+  0)               |    optoe_eeprom_read [optoe]() {
+  0)               |      i2c_transfer() {
+  0) ! 560.044 us  |        pca954x_select_chan [merlin_pca954x]();
+  0) $ 1024588 us  |        pca954x_deselect_mux [merlin_pca954x]();
+  0) $ 2045845 us  |      }
+  0)               |      i2c_transfer() {
+  0) ! 554.797 us  |        pca954x_select_chan [merlin_pca954x]();
+  0) $ 1024583 us  |        pca954x_deselect_mux [merlin_pca954x]();
+  0) $ 2045992 us  |      }
+  0) $ 4095849 us  |    }
+  0) $ 8191865 us  |  }
+  0)               |  optoe_read_write [optoe]() {
+  0)               |    optoe_eeprom_read [optoe]() {
+  0)               |      i2c_transfer() {
+  1) ! 557.011 us  |        pca954x_select_chan [merlin_pca954x]();
+  1) $ 1028592 us  |        pca954x_deselect_mux [merlin_pca954x]();
+  0) $ 1024592 us  |        } /* pca954x_deselect_mux [merlin_pca954x] */
+  0) $ 2042729 us  |      }
+  0)               |      i2c_transfer() {
+  4) ! 559.690 us  |        pca954x_select_chan [merlin_pca954x]();
+  4) $ 1020592 us  |        pca954x_deselect_mux [merlin_pca954x]();
+  4) $ 2045991 us  |      } /* i2c_transfer */
+  4) $ 4092734 us  |    } /* optoe_eeprom_read [optoe] */
+  4) $ 8191872 us  |  } /* optoe_read_write [optoe] */
+  4)               |  optoe_read_write [optoe]() {
+  4)               |    optoe_eeprom_read [optoe]() {
+  4)               |      i2c_transfer() {
+  4) ! 555.365 us  |        pca954x_select_chan [merlin_pca954x]();
+  4) $ 1020590 us  |        pca954x_deselect_mux [merlin_pca954x]();
+  4) $ 2045986 us  |      }
+  4)               |      i2c_transfer() {
+  4) ! 557.264 us  |        pca954x_select_chan [merlin_pca954x]();
+  5)               |        pca954x_deselect_mux [merlin_pca954x]() {
+  4) $ 1024600 us  |        } /* pca954x_deselect_mux [merlin_pca954x] */
+  4) $ 2046009 us  |      }
+  4) $ 4096007 us  |    }
+  4) $ 8191894 us  |  }
+  4)               |  optoe_read_write [optoe]() {
+  4)               |    optoe_eeprom_read [optoe]() {
+  4)               |      i2c_transfer() {
+  4)               |        pca954x_select_chan [merlin_pca954x]() {
+  6) ! 561.666 us  |        } /* pca954x_select_chan [merlin_pca954x] */
+  6) $ 1024621 us  |        pca954x_deselect_mux [merlin_pca954x]();
+  6) $ 2046028 us  |      } /* i2c_transfer */
+  6)               |      i2c_transfer() {
+  6) ! 562.801 us  |        pca954x_select_chan [merlin_pca954x]();
+  6) $ 1024612 us  |        pca954x_deselect_mux [merlin_pca954x]();
+  6) $ 2045997 us  |      }
+  6) $ 4096054 us  |    } /* optoe_eeprom_read [optoe] */
+  6) $ 8191925 us  |  } /* optoe_read_write [optoe] */
+  6)               |  optoe_read_write [optoe]() {
+ 13)               |    optoe_eeprom_read [optoe]() {
+ 13)               |      i2c_transfer() {
+ 13) ! 558.775 us  |        pca954x_select_chan [merlin_pca954x]();
+  0) $ 1024632 us  |        pca954x_deselect_mux [merlin_pca954x]();
+  0) $ 2046348 us  |      }
+  0)               |      i2c_transfer() {
+  0) ! 556.433 us  |        pca954x_select_chan [merlin_pca954x]();
+  0) $ 1024584 us  |        pca954x_deselect_mux [merlin_pca954x]();
+  0) $ 2045986 us  |      }
+  0) $ 4096350 us  |    }
+  0) $ 8191817 us  |  }
+  0)               |  optoe_read_write [optoe]() {
+  0)               |    optoe_eeprom_read [optoe]() {
+  0)               |      i2c_transfer() {
+  0) ! 556.801 us  |        pca954x_select_chan [merlin_pca954x]();
+  0)               |        pca954x_deselect_mux [merlin_pca954x]() {
+  1) $ 2049967 us  |      } /* i2c_transfer */
+  1)               |      i2c_transfer() {
+  1) ! 556.702 us  |        pca954x_select_chan [merlin_pca954x]();
+  3) $ 1024579 us  |        pca954x_deselect_mux [merlin_pca954x]();
+  3) $ 2041991 us  |      } /* i2c_transfer */
+  3) $ 4095971 us  |    } /* optoe_eeprom_read [optoe] */
+  3) $ 8223880 us  |  } /* optoe_read_write [optoe] */
+  3)               |  optoe_read_write [optoe]() {
+  3)               |    optoe_eeprom_read [optoe]() {
+  3)               |      i2c_transfer() {
+  3) ! 557.365 us  |        pca954x_select_chan [merlin_pca954x]();
+  3) $ 1024584 us  |        pca954x_deselect_mux [merlin_pca954x]();
+  3) $ 2045982 us  |      }
+  3)               |      i2c_transfer() {
+  3) ! 555.639 us  |        pca954x_select_chan [merlin_pca954x]();
+  3) $ 1024588 us  |        pca954x_deselect_mux [merlin_pca954x]();
+  3) $ 2046002 us  |      }
+  3) $ 4095994 us  |    }
+  3) $ 8191874 us  |  }
+  3)               |  optoe_read_write [optoe]() {
+ 14)               |    optoe_eeprom_read [optoe]() {
+ 14)               |      i2c_transfer() {
+ 14) ! 557.409 us  |        pca954x_select_chan [merlin_pca954x]();
+ 14)               |        pca954x_deselect_mux [merlin_pca954x]() {
+  3) $ 1020532 us  |        } /* pca954x_deselect_mux [merlin_pca954x] */
+  3) $ 2078775 us  |      } /* i2c_transfer */
+  3)               |      i2c_transfer() {
+  3) ! 557.766 us  |        pca954x_select_chan [merlin_pca954x]();
+  3) $ 1020589 us  |        pca954x_deselect_mux [merlin_pca954x]();
+  3) $ 2046051 us  |      }
+  3) $ 4128838 us  |    } /* optoe_eeprom_read [optoe] */
+  3) $ 8287870 us  |  }
+  3)               |  optoe_read_write [optoe]() {
