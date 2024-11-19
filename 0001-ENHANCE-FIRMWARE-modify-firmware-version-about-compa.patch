@@ -1,0 +1,60 @@
+From 102819f65eeb2dcb6cefb144786eee7571d3b39e Mon Sep 17 00:00:00 2001
+From: lizhaoxing <lizhaoxing@inspur.com>
+Date: Tue, 19 Nov 2024 10:16:14 +0800
+Subject: [PATCH] [ENHANCE][FIRMWARE] modify firmware version about compare
+ file json
+
+Reviewer:
+	zhangxixin zhanlianpin
+Description:
+	1. modify firmware version about compare file json
+Changes to be committed:
+       modified:   device/inspur/x86_64-inspur_sc6630el_32c-r0/compare_file.json
+       modified:   device/inspur/x86_64-inspur_sc8661sl-r0/compare_file.json
+---
+ .../x86_64-inspur_sc6630el_32c-r0/compare_file.json    |  2 +-
+ .../inspur/x86_64-inspur_sc8661sl-r0/compare_file.json | 10 +++++-----
+ 2 files changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/device/inspur/x86_64-inspur_sc6630el_32c-r0/compare_file.json b/device/inspur/x86_64-inspur_sc6630el_32c-r0/compare_file.json
+index 16edc3c56..9a2ecaada 100644
+--- a/device/inspur/x86_64-inspur_sc6630el_32c-r0/compare_file.json
++++ b/device/inspur/x86_64-inspur_sc6630el_32c-r0/compare_file.json
+@@ -1,5 +1,5 @@
+ {
+-    "BIOS": "3.0.1",
++    "BIOS": "3.0.2",
+     "CPU_CPLD": "3.0.1",
+     "CTRL_CPLD": "3.0.1",
+     "FCB_CPLD": "4.0.1",
+diff --git a/device/inspur/x86_64-inspur_sc8661sl-r0/compare_file.json b/device/inspur/x86_64-inspur_sc8661sl-r0/compare_file.json
+index c2a110716..35c9efbc1 100644
+--- a/device/inspur/x86_64-inspur_sc8661sl-r0/compare_file.json
++++ b/device/inspur/x86_64-inspur_sc8661sl-r0/compare_file.json
+@@ -1,10 +1,10 @@
+ {
+     "BIOS": "4.1.5",
+-    "BMC": "4.4.0",
++    "BMC": "4.4.4",
+     "FPGA_SMB": "3.1.5",
+-    "CPLD_CPU": "3.3.0",
+-    "CPLD_FCB_B": "3.3.0",
+-    "CPLD_FCB_T": "3.3.0",
++    "CPLD_CPU": "3.1.4",
++    "CPLD_FCB_B": "3.1.3",
++    "CPLD_FCB_T": "3.1.3",
+     "CPLD_PIB1_MGMT_LC32CE_CREDO": "2.2.4",
+     "CPLD_PIB1_PWRCTL_LC32CE_CREDO": "2.2.4",
+     "CPLD_PIB2_MGMT_LC32CE_CREDO": "2.2.4",
+@@ -13,7 +13,7 @@
+     "CPLD_PIB3_PWRCTL_LC32CE_CREDO": "2.2.4",
+     "CPLD_PIB4_MGMT_LC32CE_CREDO": "2.2.4",
+     "CPLD_PIB4_PWRCTL_LC32CE_CREDO": "2.2.4",
+-    "CPLD_SMB": "3.3.0",
++    "CPLD_SMB": "3.1.3",
+     "VR_CPU_IR3584_PU22": "2.0.0",
+     "VR_CPU_IR3584_PU276": "2.0.0",
+     "VR_PIB1_XDPE12284C_PU224_LC32CE_CREDO": "2.0",
+-- 
+2.34.1
+
