@@ -1,0 +1,67 @@
+import os
+import multiprocessing
+import time
+from time import sleep
+
+# 配置项：EEPROM 节点路径、偏移和写入内容
+EEPROM_NODE = "/sys/bus/i2c/devices/0-0050/eeprom"
+OFFSET = 0x10  # 偏移地址
+DATA = "TestValue"
+NUM_PROCESSES = 5  # 并行进程数
+LOOP_COUNT = 10  # 每个进程循环的次数
+DELAY = 0.5  # 每次读写之间的延迟（秒）
+
+
+def write_to_eeprom_loop(process_id, loop_count, delay):
+    """
+    单进程循环读写并验证 EEPROM 数据
+    """
+    try:
+        for loop in range(loop_count):
+            print(f"进程 {process_id}, 循环 {loop + 1}/{loop_count} 开始写入数据...")
+
+            # 写入数据
+            with open(EEPROM_NODE, "r+b") as eeprom:
+                eeprom.seek(OFFSET)
+                eeprom.write(DATA.encode())
+                eeprom.flush()
+
+            # 验证写入
+            with open(EEPROM_NODE, "rb") as eeprom:
+                eeprom.seek(OFFSET)
+                read_back = eeprom.read(len(DATA)).decode()
+
+            if read_back == DATA:
+                print(f"进程 {process_id}, 循环 {loop + 1}: 写入验证成功：{read_back}")
+            else:
+                print(f"进程 {process_id}, 循环 {loop + 1}: 写入验证失败：{read_back}")
+
+            # 延迟，避免过于频繁的操作
+            sleep(delay)
+
+    except Exception as e:
+        print(f"进程 {process_id} 遇到错误：{e}")
+
+
+def main():
+    """
+    主函数，创建多个进程并行循环读写 EEPROM
+    """
+    print("启动多进程 EEPROM 循环读写测试...")
+    processes = []
+
+    # 创建并启动子进程
+    for i in range(NUM_PROCESSES):
+        p = multiprocessing.Process(target=write_to_eeprom_loop, args=(i, LOOP_COUNT, DELAY))
+        processes.append(p)
+        p.start()
+
+    # 等待所有子进程完成
+    for p in processes:
+        p.join()
+
+    print("所有进程完成循环测试")
+
+
+if __name__ == "__main__":
+    main()
