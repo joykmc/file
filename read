@@ -546,3 +546,13 @@ int main(int argc, char *argv[]) {
  14) ! 791.788 us  |    }
  14) ! 792.191 us  |  }
 
+
+
+firmwaretool cpld upgrade --fw_path mt_fw/Merlin_CPU_BOARD_CPLD_V3.1.6_20241118_internal.hpm
+firmwaretool cpld upgrade --fw_path Merlin_CPU_MODULE_CPLD_V3.1.1_20240524.hpm 
+firmwaretool cpld upgrade --fw_path Merlin_MAC_BOARD_CPLD_1_V3.1.4_20241009.hpm 
+firmwaretool cpld upgrade --fw_path Merlin_MAC_BOARD_CPLD_2_V3.1.4_20241009.hpm 
+firmwaretool cpld upgrade --fw_path Merlin_SPC4_MAC_MISC_CPLD_V3.1.2_20241114_internal.hpm 
+firmwaretool cpld upgrade --fw_path Merlin_CPU_BOARD_CPLD-FAN_V3.1.1_20241114.hpm 
+firmwaretool fpga upgrade --fw_path Merlin_FPGA_V3.1.16_20240710_os.hpm 
+firmwaretool fpga upgrade --fw_path Merlin_LC_BOARD_CPLD_V3.1.4_20241009.hpm
