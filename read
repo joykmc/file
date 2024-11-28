@@ -556,3 +556,28 @@ firmwaretool cpld upgrade --fw_path Merlin_SPC4_MAC_MISC_CPLD_V3.1.2_20241114_in
 firmwaretool cpld upgrade --fw_path Merlin_CPU_BOARD_CPLD-FAN_V3.1.1_20241114.hpm 
 firmwaretool fpga upgrade --fw_path Merlin_FPGA_V3.1.16_20240710_os.hpm 
 firmwaretool fpga upgrade --fw_path Merlin_LC_BOARD_CPLD_V3.1.4_20241009.hpm
+
+uxos:
+
+ff116ddede4ac712597c72e883aeb09349833a64
+
+baidu:
+ieisystem_202211_merlin
+ec457c043c45bdb01fb3a971c6e240e4033e89ea
+
+jingdong:
+ieisystem_diagos_202205_gaea_JD_CFI
+affb9d8beb7e2dd8c3b13e0cc55e82666d3d39a6
+
+meituan:
+ieisystem_diagos_202205_merlin_MT_CFI
+ec457c043c45bdb01fb3a971c6e240e4033e89ea
+
+
+diagos:
+ieisystem_diagos_202205_merlin
+ff116ddede4ac712597c72e883aeb09349833a64
+
+
+ieisystem_diagos_202205_gaea
+ff116ddede4ac712597c72e883aeb09349833a64
