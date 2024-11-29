@@ -581,3 +581,21 @@ ff116ddede4ac712597c72e883aeb09349833a64
 
 ieisystem_diagos_202205_gaea
 ff116ddede4ac712597c72e883aeb09349833a64
+
+ieisystem_diagos_202205_hertz
+
+
+ warning: unsigned conversion from 'int' to 'unsigned char' changes value from '256' to '0' [-Woverflow]
+   45 | #define FPGA_IIC_MASTER_RST_TRG 0x00100
+      |                                 ^~~~~~~
+/usr/src/linux-headers-5.10.0-18-2-common/include/linux/hwmon-sysfs.h:56:10: note: in definition of macro 'SENSOR_ATTR_2'
+   56 |    .nr = _nr }
+      |          ^~~
+/sonic/platform/centec/sonic-platform-modules-ieit/cn7610el-64qh/modules/daminglake_fpga_misc.c:434:8: note: in expansion of macro 'SENSOR_DEVICE_ATTR_2'
+  434 | static SENSOR_DEVICE_ATTR_2(i2c_master1_rst, 0664, show_bits, store_bits,
+      |        ^~~~~~~~~~~~~~~~~~~~
+/sonic/platform/centec/sonic-platform-modules-ieit/cn7610el-64qh/modules/daminglake_fpga_misc.c:435:29: note: in expansion of macro 'FPGA_IIC_MASTER_RST_TRG'
+  435 |                             FPGA_IIC_MASTER_RST_TRG, BITS_INDEX(0, 1));
+      |                             ^~~~~~~~~~~~~~~~~~~~~~~
+/sonic/platform/centec/sonic-platform-modules-ieit/cn7610el-64qh/modules/daminglake_fpga_misc.h:45:33: warning: unsigned conversion from 'int' to 'unsigned char' changes value from '256' to '0' [-Woverflow]
+   45 | #define FPGA_IIC_MASTER_RST_TRG 0x00100
