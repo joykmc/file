@@ -1,0 +1,4877 @@
+{
+    "s3ip_syfs_paths": [
+        {
+            "path": "cpld",
+            "type": "dir",
+            "value": 3,
+            "description": "cpld"
+        },
+        {
+            "path": "fpga",
+            "type": "dir",
+            "value": 1,
+            "description": "fpga"
+        },
+        {
+            "path": "watchdog",
+            "type": "dir",
+            "value": 0,
+            "description": "watchdog"
+        },
+        {
+            "path": "/sys_switch/watchdog/enable",
+            "type": "path",
+            "value": "/sys/bus/platform/devices/bbd_ctrl_cpld/cpu_wdt_enable",
+            "description": "watchdog enable bit"
+        },
+        {
+            "path": "/sys_switch/watchdog/identify",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/wdt_alias",
+            "description": "watchdog identify"
+        },
+        {
+            "path": "/sys_switch/watchdog/timeleft",
+            "type": "path",
+            "value": "/sys/bus/platform/devices/bbd_ctrl_cpld/cpu_wdt_remain",
+            "description": "watchdog timeleft register"
+        },
+        {
+            "path": "/sys_switch/watchdog/timeout",
+            "type": "path",
+            "value": "/sys/bus/platform/devices/bbd_ctrl_cpld/cpu_wdt_cfg",
+            "description": "watchdog timeleft register"
+        },
+        {
+            "path": "/sys_switch/watchdog/status",
+            "type": "path",
+            "value": "/sys/bus/platform/devices/bbd_ctrl_cpld/cpu_wdt_timeout_sta",
+            "description": "watchdog timeleft register"
+        },
+        {
+            "path": "/sys_switch/watchdog/reset",
+            "type": "path",
+            "value": "/sys/class/gpio/gpio10074",
+            "description": "watchdog reset sysfs"
+        },
+        {
+            "path": "/sys_switch/fpga/number",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/fpga_num",
+            "description": "fpga num"
+        },
+        {
+            "path": "/sys_switch/fpga/fpga1/firmware_version",
+            "type": "path",
+            "value": "/sys/bus/platform/devices/fpga_misc_dev.0/version",
+            "description": "fpga firmware version"
+        },
+        {
+            "path": "/sys_switch/fpga/fpga1/board_version",
+            "type": "path",
+            "value": "/sys/bus/platform/devices/fpga_misc_dev.0/hard_version",
+            "description": "fpga board version"
+        },
+        {
+            "path": "/sys_switch/fpga/fpga1/reg_test",
+            "type": "path",
+            "value": "/sys/bus/platform/devices/fpga_misc_dev.0/rdwr_test",
+            "description": "fpga RW test register"
+        },
+        {
+            "path": "/sys_switch/fpga/fpga1/alias",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/fpga1_alias",
+            "description": "fpga alias name"
+        },
+        {
+            "path": "/sys_switch/fpga/fpga1/type",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/fpga1_type",
+            "description": "fpga chip type"
+        },
+        {
+            "path": "/sys_switch/fpga/fpga1/boot_flash_status",
+            "type": "path",
+            "value": "/sys/bus/platform/devices/fpga_misc_dev.0/golden_version",
+            "description": "fpga boot flash status"
+        },
+        {
+            "path": "/sys_switch/cpld/number",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/cpld_num",
+            "description": "all cpld number"
+        },
+        {
+            "path": "/sys_switch/cpld/cpld1/firmware_version",
+            "type": "path",
+            "value": "/sys/bus/platform/devices/bbd_ctrl_cpld/version",
+            "description": "CPU_BOARD_CPLD firmware version"
+        },
+        {
+            "path": "/sys_switch/cpld/cpld1/board_version",
+            "type": "path",
+            "value": "/sys/bus/platform/devices/bbd_ctrl_cpld/hw_version",
+            "description": "CPU_BOARD_CPLD board version"
+        },
+        {
+            "path": "/sys_switch/cpld/cpld1/reg_test",
+            "type": "path",
+            "value": "/sys/bus/platform/devices/bbd_ctrl_cpld/rdwr_test1",
+            "description": "CPU_BOARD_CPLD RW test register"
+        },
+        {
+            "path": "/sys_switch/cpld/cpld1/alias",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/cpld1_alias",
+            "description": "CPU_BOARD_CPLD alias name"
+        },
+        {
+            "path": "/sys_switch/cpld/cpld1/type",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/cpld1_type",
+            "description": "CPU_BOARD_CPLD chip type"
+        },
+        {
+            "path": "/sys_switch/cpld/cpld1/boot_flash_status",
+            "type": "path",
+            "value": "/sys/bus/platform/devices/bbd_ctrl_cpld/cpld_program_sta",
+            "description": "CPU_BOARD_CPLD boot flash status"
+        },
+        {
+            "path": "/sys_switch/cpld/cpld2/firmware_version",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/cpld1_version",
+            "description": "MAC_BOARD_CPLD_1 firmware version"
+        },
+        {
+            "path": "/sys_switch/cpld/cpld2/board_version",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/na_node",
+            "description": "MAC_BOARD_CPLD_1 board version"
+        },
+        {
+            "path": "/sys_switch/cpld/cpld2/reg_test",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/rw_test_1",
+            "description": "MAC_BOARD_CPLD_1 RW test register"
+        },
+        {
+            "path": "/sys_switch/cpld/cpld2/alias",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/cpld2_alias",
+            "description": "MAC_BOARD_CPLD_1 alias name"
+        },
+        {
+            "path": "/sys_switch/cpld/cpld2/type",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/cpld2_type",
+            "description": "MAC_BOARD_CPLD_1 chip type"
+        },
+        {
+            "path": "/sys_switch/cpld/cpld2/boot_flash_status",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/na_node",
+            "description": "MAC_BOARD_CPLD_1 boot flash status"
+        },
+        {
+            "path": "/sys_switch/cpld/cpld3/firmware_version",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/cpld2_version",
+            "description": "MAC_BOARD_CPLD_2 firmware version"
+        },
+        {
+            "path": "/sys_switch/cpld/cpld3/board_version",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/na_node",
+            "description": "MAC_BOARD_CPLD_2 board version"
+        },
+        {
+            "path": "/sys_switch/cpld/cpld3/reg_test",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/rw_test_2",
+            "description": "MAC_BOARD_CPLD_2 RW test register"
+        },
+        {
+            "path": "/sys_switch/cpld/cpld3/alias",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/cpld3_alias",
+            "description": "MAC_BOARD_CPLD_2 alias name"
+        },
+        {
+            "path": "/sys_switch/cpld/cpld3/type",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/cpld3_type",
+            "description": "MAC_BOARD_CPLD_2 chip type"
+        },
+        {
+            "path": "/sys_switch/cpld/cpld3/boot_flash_status",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/na_node",
+            "description": "MAC_BOARD_CPLD_2 boot flash status"
+        },
+        {
+            "path": "/sys_switch/syseeprom",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/0-0056/eeprom",
+            "description": "ONIE TLV EEPROM"
+        },
+        {
+            "path": "transceiver/eth1/",
+            "type": "dir",
+            "value": 1,
+            "description": "temp"
+        },
+        {
+            "path": "transceiver/eth2/",
+            "type": "dir",
+            "value": 1,
+            "description": "temp"
+        },
+        {
+            "path": "transceiver/eth3/",
+            "type": "dir",
+            "value": 1,
+            "description": "temp"
+        },
+        {
+            "path": "transceiver/eth4/",
+            "type": "dir",
+            "value": 1,
+            "description": "temp"
+        },
+        {
+            "path": "transceiver/eth5/",
+            "type": "dir",
+            "value": 1,
+            "description": "temp"
+        },
+        {
+            "path": "transceiver/eth6/",
+            "type": "dir",
+            "value": 1,
+            "description": "temp"
+        },
+        {
+            "path": "transceiver/eth7/",
+            "type": "dir",
+            "value": 1,
+            "description": "temp"
+        },
+        {
+            "path": "transceiver/eth8/",
+            "type": "dir",
+            "value": 1,
+            "description": "temp"
+        },
+        {
+            "path": "transceiver/eth9/",
+            "type": "dir",
+            "value": 1,
+            "description": "temp"
+        },
+        {
+            "path": "transceiver/eth10/",
+            "type": "dir",
+            "value": 1,
+            "description": "temp"
+        },
+        {
+            "path": "transceiver/eth11/",
+            "type": "dir",
+            "value": 1,
+            "description": "temp"
+        },
+        {
+            "path": "transceiver/eth12/",
+            "type": "dir",
+            "value": 1,
+            "description": "temp"
+        },
+        {
+            "path": "transceiver/eth13/",
+            "type": "dir",
+            "value": 1,
+            "description": "temp"
+        },
+        {
+            "path": "transceiver/eth14/",
+            "type": "dir",
+            "value": 1,
+            "description": "temp"
+        },
+        {
+            "path": "transceiver/eth15/",
+            "type": "dir",
+            "value": 1,
+            "description": "temp"
+        },
+        {
+            "path": "transceiver/eth16/",
+            "type": "dir",
+            "value": 1,
+            "description": "temp"
+        },
+        {
+            "path": "transceiver/eth17/",
+            "type": "dir",
+            "value": 1,
+            "description": "temp"
+        },
+        {
+            "path": "transceiver/eth18/",
+            "type": "dir",
+            "value": 1,
+            "description": "temp"
+        },
+        {
+            "path": "transceiver/eth19/",
+            "type": "dir",
+            "value": 1,
+            "description": "temp"
+        },
+        {
+            "path": "transceiver/eth20/",
+            "type": "dir",
+            "value": 1,
+            "description": "temp"
+        },
+        {
+            "path": "transceiver/eth21/",
+            "type": "dir",
+            "value": 1,
+            "description": "temp"
+        },
+        {
+            "path": "transceiver/eth22/",
+            "type": "dir",
+            "value": 1,
+            "description": "temp"
+        },
+        {
+            "path": "transceiver/eth23/",
+            "type": "dir",
+            "value": 1,
+            "description": "temp"
+        },
+        {
+            "path": "transceiver/eth24/",
+            "type": "dir",
+            "value": 1,
+            "description": "temp"
+        },
+        {
+            "path": "transceiver/eth25/",
+            "type": "dir",
+            "value": 1,
+            "description": "temp"
+        },
+        {
+            "path": "transceiver/eth26/",
+            "type": "dir",
+            "value": 1,
+            "description": "temp"
+        },
+        {
+            "path": "transceiver/eth27/",
+            "type": "dir",
+            "value": 1,
+            "description": "temp"
+        },
+        {
+            "path": "transceiver/eth28/",
+            "type": "dir",
+            "value": 1,
+            "description": "temp"
+        },
+        {
+            "path": "transceiver/eth29/",
+            "type": "dir",
+            "value": 1,
+            "description": "temp"
+        },
+        {
+            "path": "transceiver/eth30/",
+            "type": "dir",
+            "value": 1,
+            "description": "temp"
+        },
+        {
+            "path": "transceiver/eth31/",
+            "type": "dir",
+            "value": 1,
+            "description": "temp"
+        },
+        {
+            "path": "transceiver/eth32/",
+            "type": "dir",
+            "value": 1,
+            "description": "temp"
+        },
+        {
+            "path": "transceiver/eth33/",
+            "type": "dir",
+            "value": 1,
+            "description": "temp"
+        },
+        {
+            "path": "transceiver/eth34/",
+            "type": "dir",
+            "value": 1,
+            "description": "temp"
+        },
+        {
+            "path": "transceiver/eth35/",
+            "type": "dir",
+            "value": 1,
+            "description": "temp"
+        },
+        {
+            "path": "transceiver/eth36/",
+            "type": "dir",
+            "value": 1,
+            "description": "temp"
+        },
+        {
+            "path": "transceiver/eth37/",
+            "type": "dir",
+            "value": 1,
+            "description": "temp"
+        },
+        {
+            "path": "transceiver/eth38/",
+            "type": "dir",
+            "value": 1,
+            "description": "temp"
+        },
+        {
+            "path": "transceiver/eth39/",
+            "type": "dir",
+            "value": 1,
+            "description": "temp"
+        },
+        {
+            "path": "transceiver/eth40/",
+            "type": "dir",
+            "value": 1,
+            "description": "temp"
+        },
+        {
+            "path": "transceiver/eth41/",
+            "type": "dir",
+            "value": 1,
+            "description": "temp"
+        },
+        {
+            "path": "transceiver/eth42/",
+            "type": "dir",
+            "value": 1,
+            "description": "temp"
+        },
+        {
+            "path": "transceiver/eth43/",
+            "type": "dir",
+            "value": 1,
+            "description": "temp"
+        },
+        {
+            "path": "transceiver/eth44/",
+            "type": "dir",
+            "value": 1,
+            "description": "temp"
+        },
+        {
+            "path": "transceiver/eth45/",
+            "type": "dir",
+            "value": 1,
+            "description": "temp"
+        },
+        {
+            "path": "transceiver/eth46/",
+            "type": "dir",
+            "value": 1,
+            "description": "temp"
+        },
+        {
+            "path": "transceiver/eth47/",
+            "type": "dir",
+            "value": 1,
+            "description": "temp"
+        },
+        {
+            "path": "transceiver/eth48/",
+            "type": "dir",
+            "value": 1,
+            "description": "temp"
+        },
+        {
+            "path": "transceiver/eth49/",
+            "type": "dir",
+            "value": 1,
+            "description": "temp"
+        },
+        {
+            "path": "transceiver/eth50/",
+            "type": "dir",
+            "value": 1,
+            "description": "temp"
+        },
+        {
+            "path": "transceiver/eth51/",
+            "type": "dir",
+            "value": 1,
+            "description": "temp"
+        },
+        {
+            "path": "transceiver/eth52/",
+            "type": "dir",
+            "value": 1,
+            "description": "temp"
+        },
+        {
+            "path": "transceiver/eth53/",
+            "type": "dir",
+            "value": 1,
+            "description": "temp"
+        },
+        {
+            "path": "transceiver/eth54/",
+            "type": "dir",
+            "value": 1,
+            "description": "temp"
+        },
+        {
+            "path": "transceiver/eth55/",
+            "type": "dir",
+            "value": 1,
+            "description": "temp"
+        },
+        {
+            "path": "transceiver/eth56/",
+            "type": "dir",
+            "value": 1,
+            "description": "temp"
+        },
+        {
+            "path": "transceiver/eth57/",
+            "type": "dir",
+            "value": 1,
+            "description": "temp"
+        },
+        {
+            "path": "transceiver/eth58/",
+            "type": "dir",
+            "value": 1,
+            "description": "temp"
+        },
+        {
+            "path": "transceiver/eth59/",
+            "type": "dir",
+            "value": 1,
+            "description": "temp"
+        },
+        {
+            "path": "transceiver/eth60/",
+            "type": "dir",
+            "value": 1,
+            "description": "temp"
+        },
+        {
+            "path": "transceiver/eth61/",
+            "type": "dir",
+            "value": 1,
+            "description": "temp"
+        },
+        {
+            "path": "transceiver/eth62/",
+            "type": "dir",
+            "value": 1,
+            "description": "temp"
+        },
+        {
+            "path": "transceiver/eth63/",
+            "type": "dir",
+            "value": 1,
+            "description": "temp"
+        },
+        {
+            "path": "transceiver/eth64/",
+            "type": "dir",
+            "value": 1,
+            "description": "temp"
+        },
+        {
+            "path": "/sys_switch/transceiver/power_on",
+            "type": "path",
+            "value": "/sys/bus/platform/devices/bbd_ctrl_cpld/p3v3_sfp1",
+            "description": "transceiver power on"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth1/eeprom",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/23-0050/eeprom",
+            "description": "port1 QSFP112 eeprom"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth1/power_on",
+            "type": "string",
+            "value": "NA",
+            "description": "port1 QSFP112 power_on"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth1/present",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/23-0053/xcvr_present",
+            "description": "port1 QSFP112 present"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth1/reset",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/23-0053/xcvr_reset",
+            "description": "port1 QSFP112 reset"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth1/low_power_mode",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/23-0053/xcvr_lpmode",
+            "description": "port1 QSFP112 low power mode"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth1/interrupt",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/23-0053/xcvr_intr_status",
+            "description": "port1 QSFP112 interrupt"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth1/plug_record",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port1_plug_record",
+            "description": "port1 QSFP112 xcvr_plug_record"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth1/led_status",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port_led_ctrl_2",
+            "description": "SMB1 PORT CPLD ctrl PORT1 led status"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth1/write_enable",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/23-0053/xcvr_reg_wp",
+            "description": "transceiver SMB port cpld1 register write protect"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth2/eeprom",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/24-0050/eeprom",
+            "description": "port2 QSFP112 eeprom"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth2/power_on",
+            "type": "string",
+            "value": "NA",
+            "description": "port2 QSFP112 power_on"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth2/present",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/24-0053/xcvr_present",
+            "description": "port2 QSFP112 present"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth2/reset",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/24-0053/xcvr_reset",
+            "description": "port2 QSFP112 reset"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth2/low_power_mode",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/24-0053/xcvr_lpmode",
+            "description": "port2 QSFP112 low power mode"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth2/interrupt",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/24-0053/xcvr_intr_status",
+            "description": "port2 QSFP112 interrupt"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth2/plug_record",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port2_plug_record",
+            "description": "port2 QSFP112 xcvr_plug_record"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth2/led_status",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port_led_ctrl_2",
+            "description": "SMB1 PORT CPLD ctrl PORT2 led status"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth2/write_enable",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/23-0053/xcvr_reg_wp",
+            "description": "transceiver SMB port cpld1 register write protect"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth3/eeprom",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/25-0050/eeprom",
+            "description": "port3 QSFP112 eeprom"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth3/power_on",
+            "type": "string",
+            "value": "NA",
+            "description": "port3 QSFP112 power_on"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth3/present",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/25-0053/xcvr_present",
+            "description": "port3 QSFP112 present"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth3/reset",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/25-0053/xcvr_reset",
+            "description": "port3 QSFP112 reset"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth3/low_power_mode",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/25-0053/xcvr_lpmode",
+            "description": "port3 QSFP112 low power mode"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth3/interrupt",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/25-0053/xcvr_intr_status",
+            "description": "port3 QSFP112 interrupt"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth3/plug_record",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port3_plug_record",
+            "description": "port3 QSFP112 xcvr_plug_record"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth3/led_status",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port_led_ctrl_2",
+            "description": "SMB1 PORT CPLD ctrl PORT3 led status"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth3/write_enable",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/23-0053/xcvr_reg_wp",
+            "description": "transceiver SMB port cpld1 register write protect"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth4/eeprom",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/26-0050/eeprom",
+            "description": "port4 QSFP112 eeprom"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth4/power_on",
+            "type": "string",
+            "value": "NA",
+            "description": "port4 QSFP112 power_on"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth4/present",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/26-0053/xcvr_present",
+            "description": "port4 QSFP112 present"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth4/reset",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/26-0053/xcvr_reset",
+            "description": "port4 QSFP112 reset"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth4/low_power_mode",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/26-0053/xcvr_lpmode",
+            "description": "port4 QSFP112 low power mode"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth4/interrupt",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/26-0053/xcvr_intr_status",
+            "description": "port4 QSFP112 interrupt"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth4/plug_record",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port4_plug_record",
+            "description": "port4 QSFP112 xcvr_plug_record"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth4/led_status",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port_led_ctrl_2",
+            "description": "SMB1 PORT CPLD ctrl PORT3 led status"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth4/write_enable",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/23-0053/xcvr_reg_wp",
+            "description": "transceiver SMB port cpld1 register write protect"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth5/eeprom",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/111-0050/eeprom",
+            "description": "port5 QSFP112 eeprom"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth5/power_on",
+            "type": "string",
+            "value": "NA",
+            "description": "port5 power_on"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth5/present",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/27-0053/xcvr_present",
+            "description": "port5 QSFP112 present"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth5/reset",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/27-0053/xcvr_reset",
+            "description": "port5 QSFP112 reset"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth5/low_power_mode",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/27-0053/xcvr_lpmode",
+            "description": "port5 QSFP112 low power mode"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth5/interrupt",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/27-0053/xcvr_intr_status",
+            "description": "port5 QSFP112 interrupt"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth5/plug_record",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port5_plug_record",
+            "description": "port5 QSFP112 xcvr_plug_record"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth5/led_status",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port_led_ctrl_1",
+            "description": "MAC_BOARD_CPLD1 ctrl PORT5 led status"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth5/write_enable",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/23-0053/xcvr_reg_wp",
+            "description": "transceiver MAC_BOARD_CPLD1 register write protect"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth6/eeprom",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/28-0050/eeprom",
+            "description": "port6 QSFP112 eeprom"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth6/power_on",
+            "type": "string",
+            "value": "NA",
+            "description": "port6 QSFP112 power_on"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth6/present",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/28-0053/xcvr_present",
+            "description": "port6 QSFP112 present"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth6/reset",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/28-0053/xcvr_reset",
+            "description": "port6 QSFP112 reset"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth6/low_power_mode",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/28-0053/xcvr_lpmode",
+            "description": "port6 QSFP112 low power mode"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth6/interrupt",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/28-0053/xcvr_intr_status",
+            "description": "port6 QSFP112 interrupt"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth6/plug_record",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port6_plug_record",
+            "description": "port6 QSFP112 xcvr_plug_record"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth6/led_status",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port_led_ctrl_1",
+            "description": "MAC_BOARD_CPLD1 ctrl PORT6 led status"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth6/write_enable",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/23-0053/xcvr_reg_wp",
+            "description": "transceiver MAC_BOARD_CPLD1 register write protect"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth7/eeprom",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/29-0050/eeprom",
+            "description": "port7 QSFP112 eeprom"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth7/power_on",
+            "type": "string",
+            "value": "NA",
+            "description": "port7 QSFP112 power_on"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth7/present",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/29-0053/xcvr_present",
+            "description": "port7 QSFP112 present"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth7/reset",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/29-0053/xcvr_reset",
+            "description": "port7 QSFP112 reset"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth7/low_power_mode",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/29-0053/xcvr_lpmode",
+            "description": "port7 QSFP112 low power mode"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth7/interrupt",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/29-0053/xcvr_intr_status",
+            "description": "port7 QSFP112 interrupt"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth7/plug_record",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port7_plug_record",
+            "description": "port7 QSFP112 xcvr_plug_record"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth7/led_status",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port_led_ctrl_2",
+            "description": "SMB1 PORT CPLD ctrl PORT7 led status"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth7/write_enable",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/23-0053/xcvr_reg_wp",
+            "description": "transceiver SMB port cpld1 register write protect"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth8/eeprom",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/30-0050/eeprom",
+            "description": "port8 QSFP112 eeprom"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth8/power_on",
+            "type": "string",
+            "value": "NA",
+            "description": "port8 QSFP112 power_on"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth8/present",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/30-0053/xcvr_present",
+            "description": "port8 QSFP112 present"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth8/reset",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/30-0053/xcvr_reset",
+            "description": "port8 QSFP112 reset"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth8/low_power_mode",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/30-0053/xcvr_lpmode",
+            "description": "port8 QSFP112 low power mode"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth8/interrupt",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/30-0053/xcvr_intr_status",
+            "description": "port8 QSFP112 interrupt"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth8/plug_record",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port8_plug_record",
+            "description": "port8 QSFP112 xcvr_plug_record"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth8/led_status",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port_led_ctrl_2",
+            "description": "SMB1 PORT CPLD ctrl PORT8 led status"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth8/write_enable",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/23-0053/xcvr_reg_wp",
+            "description": "transceiver SMB port cpld1 register write protect"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth9/eeprom",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/31-0050/eeprom",
+            "description": "port9 QSFP112 eeprom"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth9/power_on",
+            "type": "string",
+            "value": "NA",
+            "description": "port9 QSFP112 power_on"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth9/present",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/31-0053/xcvr_present",
+            "description": "port9 QSFP112 present"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth9/reset",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/31-0053/xcvr_reset",
+            "description": "port9 QSFP112 reset"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth9/low_power_mode",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/31-0053/xcvr_lpmode",
+            "description": "port9 QSFP112 low power mode"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth9/interrupt",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/31-0053/xcvr_intr_status",
+            "description": "port9 QSFP112 interrupt"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth9/plug_record",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port9_plug_record",
+            "description": "port9 QSFP112 xcvr_plug_record"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth9/led_status",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port_led_ctrl_2",
+            "description": "SMB1 PORT CPLD ctrl PORT9 led status"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth9/write_enable",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/23-0053/xcvr_reg_wp",
+            "description": "transceiver SMB port cpld1 register write protect"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth10/eeprom",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/32-0050/eeprom",
+            "description": "port10 QSFP112 eeprom"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth10/power_on",
+            "type": "string",
+            "value": "NA",
+            "description": "port10 QSFP112 power_on"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth10/present",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/32-0053/xcvr_present",
+            "description": "port10 QSFP112 present"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth10/reset",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/32-0053/xcvr_reset",
+            "description": "port10 QSFP112 reset"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth10/low_power_mode",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/32-0053/xcvr_lpmode",
+            "description": "port10 QSFP112 low power mode"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth10/interrupt",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/32-0053/xcvr_intr_status",
+            "description": "port10 QSFP112 interrupt"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth10/plug_record",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port10_plug_record",
+            "description": "port10 QSFP112 xcvr_plug_record"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth10/led_status",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port_led_ctrl_2",
+            "description": "SMB1 PORT CPLD ctrl PORT10 led status"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth10/write_enable",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/23-0053/xcvr_reg_wp",
+            "description": "transceiver SMB port cpld1 register write protect"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth11/eeprom",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/33-0050/eeprom",
+            "description": "port11 QSFP112 eeprom"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth11/power_on",
+            "type": "string",
+            "value": "NA",
+            "description": "port11 QSFP112 power_on"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth11/present",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/33-0053/xcvr_present",
+            "description": "port11 QSFP112 present"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth11/reset",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/33-0053/xcvr_reset",
+            "description": "port11 QSFP112 reset"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth11/low_power_mode",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/33-0053/xcvr_lpmode",
+            "description": "port11 QSFP112 low power mode"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth11/interrupt",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/33-0053/xcvr_intr_status",
+            "description": "port11 QSFP112 interrupt"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth11/plug_record",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port11_plug_record",
+            "description": "port11 QSFP112 xcvr_plug_record"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth11/led_status",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port_led_ctrl_1",
+            "description": "MAC_BOARD_CPLD1 ctrl PORT11 led status"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth11/write_enable",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/23-0053/xcvr_reg_wp",
+            "description": "transceiver MAC_BOARD_CPLD1 register write protect"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth12/eeprom",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/34-0050/eeprom",
+            "description": "port12 QSFP112 eeprom"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth12/power_on",
+            "type": "string",
+            "value": "NA",
+            "description": "port12 QSFP112 power_on"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth12/present",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/34-0053/xcvr_present",
+            "description": "port12 QSFP112 present"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth12/reset",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/34-0053/xcvr_reset",
+            "description": "port12 QSFP112 reset"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth12/low_power_mode",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/34-0053/xcvr_lpmode",
+            "description": "port12 QSFP112 low power mode"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth12/interrupt",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/34-0053/xcvr_intr_status",
+            "description": "port12 QSFP112 interrupt"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth12/plug_record",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port12_plug_record",
+            "description": "port12 QSFP112 xcvr_plug_record"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth12/led_status",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port_led_ctrl_1",
+            "description": "MAC_BOARD_CPLD1 ctrl PORT12 led status"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth12/write_enable",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/23-0053/xcvr_reg_wp",
+            "description": "transceiver MAC_BOARD_CPLD1 register write protect"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth13/eeprom",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/35-0050/eeprom",
+            "description": "port13 QSFP112 eeprom"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth13/power_on",
+            "type": "string",
+            "value": "NA",
+            "description": "port13 QSFP112 power_on"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth13/present",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/35-0053/xcvr_present",
+            "description": "port13 QSFP112 present"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth13/reset",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/35-0053/xcvr_reset",
+            "description": "port13 QSFP112 reset"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth13/low_power_mode",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/35-0053/xcvr_lpmode",
+            "description": "port13 QSFP112 low power mode"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth13/interrupt",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/35-0053/xcvr_intr_status",
+            "description": "port13 QSFP112 interrupt"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth13/plug_record",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port13_plug_record",
+            "description": "port13 QSFP112 xcvr_plug_record"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth13/led_status",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port_led_ctrl_2",
+            "description": "SMB1 PORT CPLD ctrl PORT13 led status"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth13/write_enable",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/23-0053/xcvr_reg_wp",
+            "description": "transceiver SMB port cpld1 register write protect"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth14/eeprom",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/36-0050/eeprom",
+            "description": "port14 QSFP112 eeprom"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth14/power_on",
+            "type": "string",
+            "value": "NA",
+            "description": "port14 QSFP112 power_on"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth14/present",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/36-0053/xcvr_present",
+            "description": "port14 QSFP112 present"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth14/reset",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/36-0053/xcvr_reset",
+            "description": "port14 QSFP112 reset"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth14/low_power_mode",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/36-0053/xcvr_lpmode",
+            "description": "port14 QSFP112 low power mode"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth14/interrupt",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/36-0053/xcvr_intr_status",
+            "description": "port14 QSFP112 interrupt"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth14/plug_record",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port14_plug_record",
+            "description": "port14 QSFP112 xcvr_plug_record"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth14/led_status",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port_led_ctrl_2",
+            "description": "SMB1 PORT CPLD ctrl PORT14 led status"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth14/write_enable",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/23-0053/xcvr_reg_wp",
+            "description": "transceiver SMB port cpld1 register write protect"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth15/eeprom",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/37-0050/eeprom",
+            "description": "port15 QSFP112 eeprom"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth15/power_on",
+            "type": "string",
+            "value": "NA",
+            "description": "port15 QSFP112 power_on"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth15/present",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/37-0053/xcvr_present",
+            "description": "port15 QSFP112 present"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth15/reset",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/37-0053/xcvr_reset",
+            "description": "port15 QSFP112 reset"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth15/low_power_mode",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/37-0053/xcvr_lpmode",
+            "description": "port15 QSFP112 low power mode"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth15/interrupt",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/37-0053/xcvr_intr_status",
+            "description": "port15 QSFP112 interrupt"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth15/plug_record",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port15_plug_record",
+            "description": "port15 QSFP112 xcvr_plug_record"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth15/led_status",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port_led_ctrl_2",
+            "description": "SMB1 PORT CPLD ctrl PORT15 led status"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth15/write_enable",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/23-0053/xcvr_reg_wp",
+            "description": "transceiver SMB port cpld1 register write protect"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth16/eeprom",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/38-0050/eeprom",
+            "description": "port16 QSFP112 eeprom"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth16/power_on",
+            "type": "string",
+            "value": "NA",
+            "description": "port16 QSFP112 power_on"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth16/present",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/38-0053/xcvr_present",
+            "description": "port16 QSFP112 present"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth16/reset",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/38-0053/xcvr_reset",
+            "description": "port16 QSFP112 reset"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth16/low_power_mode",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/38-0053/xcvr_lpmode",
+            "description": "port16 QSFP112 low power mode"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth16/interrupt",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/38-0053/xcvr_intr_status",
+            "description": "port16 QSFP112 interrupt"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth16/plug_record",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port16_plug_record",
+            "description": "port16 QSFP112 xcvr_plug_record"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth16/led_status",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port_led_ctrl_2",
+            "description": "SMB1 PORT CPLD ctrl PORT16 led status"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth16/write_enable",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/23-0053/xcvr_reg_wp",
+            "description": "transceiver SMB port cpld1 register write protect"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth17/eeprom",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/39-0050/eeprom",
+            "description": "port17 QSFP112 eeprom"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth17/power_on",
+            "type": "string",
+            "value": "NA",
+            "description": "port17 QSFP112 power_on"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth17/present",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/39-0053/xcvr_present",
+            "description": "port17 QSFP112 present"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth17/reset",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/39-0053/xcvr_reset",
+            "description": "port17 QSFP112 reset"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth17/low_power_mode",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/39-0053/xcvr_lpmode",
+            "description": "port17 QSFP112 low power mode"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth17/interrupt",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/39-0053/xcvr_intr_status",
+            "description": "port17 QSFP112 interrupt"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth17/plug_record",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port17_plug_record",
+            "description": "port17 QSFP112 xcvr_plug_record"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth17/led_status",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port_led_ctrl_1",
+            "description": "MAC_BOARD_CPLD1 ctrl PORT17 led status"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth17/write_enable",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/23-0053/xcvr_reg_wp",
+            "description": "transceiver MAC_BOARD_CPLD1 register write protect"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth18/eeprom",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/40-0050/eeprom",
+            "description": "port18 QSFP112 eeprom"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth18/power_on",
+            "type": "string",
+            "value": "NA",
+            "description": "port18 QSFP112 power_on"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth18/present",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/40-0053/xcvr_present",
+            "description": "port18 QSFP112 present"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth18/reset",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/40-0053/xcvr_reset",
+            "description": "port18 QSFP112 reset"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth18/low_power_mode",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/40-0053/xcvr_lpmode",
+            "description": "port18 QSFP112 low power mode"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth18/interrupt",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/40-0053/xcvr_intr_status",
+            "description": "port18 QSFP112 interrupt"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth18/plug_record",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port18_plug_record",
+            "description": "port18 QSFP112 xcvr_plug_record"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth18/led_status",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port_led_ctrl_1",
+            "description": "MAC_BOARD_CPLD1 ctrl PORT18 led status"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth18/write_enable",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/23-0053/xcvr_reg_wp",
+            "description": "transceiver MAC_BOARD_CPLD1 register write protect"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth19/eeprom",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/41-0050/eeprom",
+            "description": "port19 QSFP112 eeprom"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth19/power_on",
+            "type": "string",
+            "value": "NA",
+            "description": "port19 QSFP112 power_on"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth19/present",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/41-0053/xcvr_present",
+            "description": "port19 QSFP112 present"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth19/reset",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/41-0053/xcvr_reset",
+            "description": "port19 QSFP112 reset"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth19/low_power_mode",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/41-0053/xcvr_lpmode",
+            "description": "port19 QSFP112 low power mode"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth19/interrupt",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/41-0053/xcvr_intr_status",
+            "description": "port19 QSFP112 interrupt"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth19/plug_record",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port19_plug_record",
+            "description": "port19 QSFP112 xcvr_plug_record"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth19/led_status",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port_led_ctrl_2",
+            "description": "SMB1 PORT CPLD ctrl PORT19 led status"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth19/write_enable",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/23-0053/xcvr_reg_wp",
+            "description": "transceiver SMB port cpld1 register write protect"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth20/eeprom",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/42-0050/eeprom",
+            "description": "port20 QSFP112 eeprom"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth20/power_on",
+            "type": "string",
+            "value": "NA",
+            "description": "port20 QSFP112 power_on"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth20/present",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/42-0053/xcvr_present",
+            "description": "port20 QSFP112 present"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth20/reset",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/42-0053/xcvr_reset",
+            "description": "port20 QSFP112 reset"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth20/low_power_mode",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/42-0053/xcvr_lpmode",
+            "description": "port20 QSFP112 low power mode"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth20/interrupt",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/42-0053/xcvr_intr_status",
+            "description": "port20 QSFP112 interrupt"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth20/plug_record",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port20_plug_record",
+            "description": "port20 QSFP112 xcvr_plug_record"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth20/led_status",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port_led_ctrl_2",
+            "description": "SMB1 PORT CPLD ctrl PORT20 led status"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth20/write_enable",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/23-0053/xcvr_reg_wp",
+            "description": "transceiver SMB port cpld1 register write protect"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth21/eeprom",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/43-0050/eeprom",
+            "description": "port21 QSFP112 eeprom"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth21/power_on",
+            "type": "string",
+            "value": "NA",
+            "description": "port21 QSFP112 power_on"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth21/present",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/43-0053/xcvr_present",
+            "description": "port21 QSFP112 present"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth21/reset",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/43-0053/xcvr_reset",
+            "description": "port21 QSFP112 reset"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth21/low_power_mode",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/43-0053/xcvr_lpmode",
+            "description": "port21 QSFP112 low power mode"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth21/interrupt",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/43-0053/xcvr_intr_status",
+            "description": "port21 QSFP112 interrupt"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth21/plug_record",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port21_plug_record",
+            "description": "port21 QSFP112 xcvr_plug_record"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth21/led_status",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port_led_ctrl_2",
+            "description": "SMB1 PORT CPLD ctrl PORT21 led status"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth21/write_enable",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/23-0053/xcvr_reg_wp",
+            "description": "transceiver SMB port cpld1 register write protect"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth22/eeprom",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/44-0050/eeprom",
+            "description": "port22 QSFP112 eeprom"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth22/power_on",
+            "type": "string",
+            "value": "NA",
+            "description": "port22 QSFP112 power_on"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth22/present",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/44-0053/xcvr_present",
+            "description": "port22 QSFP112 present"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth22/reset",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/44-0053/xcvr_reset",
+            "description": "port22 QSFP112 reset"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth22/low_power_mode",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/44-0053/xcvr_lpmode",
+            "description": "port22 QSFP112 low power mode"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth22/interrupt",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/44-0053/xcvr_intr_status",
+            "description": "port22 QSFP112 interrupt"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth22/plug_record",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port22_plug_record",
+            "description": "port22 QSFP112 xcvr_plug_record"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth22/led_status",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port_led_ctrl_2",
+            "description": "SMB1 PORT CPLD ctrl PORT22 led status"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth22/write_enable",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/23-0053/xcvr_reg_wp",
+            "description": "transceiver SMB port cpld1 register write protect"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth23/eeprom",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/45-0050/eeprom",
+            "description": "port23 QSFP112 eeprom"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth23/power_on",
+            "type": "string",
+            "value": "NA",
+            "description": "port23 QSFP112 power_on"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth23/present",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/45-0053/xcvr_present",
+            "description": "port23 QSFP112 present"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth23/reset",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/45-0053/xcvr_reset",
+            "description": "port23 QSFP112 reset"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth23/low_power_mode",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/45-0053/xcvr_lpmode",
+            "description": "port23 QSFP112 low power mode"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth23/interrupt",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/45-0053/xcvr_intr_status",
+            "description": "port23 QSFP112 interrupt"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth23/plug_record",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port23_plug_record",
+            "description": "port23 QSFP112 xcvr_plug_record"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth23/led_status",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port_led_ctrl_1",
+            "description": "MAC_BOARD_CPLD1 ctrl PORT23 led status"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth23/write_enable",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/23-0053/xcvr_reg_wp",
+            "description": "transceiver MAC_BOARD_CPLD1 register write protect"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth24/eeprom",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/45-0050/eeprom",
+            "description": "port24 QSFP112 eeprom"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth24/power_on",
+            "type": "string",
+            "value": "NA",
+            "description": "port24 QSFP112 power_on"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth24/present",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/45-0053/xcvr_present",
+            "description": "port24 QSFP112 present"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth24/reset",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/45-0053/xcvr_reset",
+            "description": "port24 QSFP112 reset"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth24/low_power_mode",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/45-0053/xcvr_lpmode",
+            "description": "port24 QSFP112 low power mode"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth24/interrupt",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/45-0053/xcvr_intr_status",
+            "description": "port24 QSFP112 interrupt"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth24/plug_record",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port24_plug_record",
+            "description": "port24 QSFP112 xcvr_plug_record"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth24/led_status",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port_led_ctrl_1",
+            "description": "MAC_BOARD_CPLD1 ctrl PORT24 led status"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth24/write_enable",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/23-0053/xcvr_reg_wp",
+            "description": "transceiver MAC_BOARD_CPLD1 register write protect"
+        },
+
+        {
+            "path": "/sys_switch/transceiver/eth25/eeprom",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/47-0050/eeprom",
+            "description": "port25 QSFP112 eeprom"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth25/power_on",
+            "type": "string",
+            "value": "NA",
+            "description": "port25 QSFP112 power_on"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth25/present",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/47-0053/xcvr_present",
+            "description": "port25 QSFP112 present"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth25/reset",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/47-0053/xcvr_reset",
+            "description": "port25 QSFP112 reset"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth25/low_power_mode",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/47-0053/xcvr_lpmode",
+            "description": "port25 QSFP112 low power mode"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth25/interrupt",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/47-0053/xcvr_intr_status",
+            "description": "port25 QSFP112 interrupt"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth25/plug_record",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port25_plug_record",
+            "description": "port25 QSFP112 xcvr_plug_record"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth25/led_status",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port_led_ctrl_2",
+            "description": "SMB1 PORT CPLD ctrl PORT25 led status"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth25/write_enable",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/23-0053/xcvr_reg_wp",
+            "description": "transceiver SMB port cpld1 register write protect"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth26/eeprom",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/48-0050/eeprom",
+            "description": "port26 QSFP112 eeprom"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth26/power_on",
+            "type": "string",
+            "value": "NA",
+            "description": "port26 QSFP112 power_on"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth26/present",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/48-0053/xcvr_present",
+            "description": "port26 QSFP112 present"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth26/reset",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/48-0053/xcvr_reset",
+            "description": "port26 QSFP112 reset"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth26/low_power_mode",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/48-0053/xcvr_lpmode",
+            "description": "port26 QSFP112 low power mode"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth26/interrupt",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/48-0053/xcvr_intr_status",
+            "description": "port26 QSFP112 interrupt"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth26/plug_record",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port26_plug_record",
+            "description": "port26 QSFP112 xcvr_plug_record"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth26/led_status",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port_led_ctrl_2",
+            "description": "SMB1 PORT CPLD ctrl PORT26 led status"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth26/write_enable",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/23-0053/xcvr_reg_wp",
+            "description": "transceiver SMB port cpld1 register write protect"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth27/eeprom",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/49-0050/eeprom",
+            "description": "port27 QSFP112 eeprom"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth27/power_on",
+            "type": "string",
+            "value": "NA",
+            "description": "port27 QSFP112 power_on"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth27/present",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/49-0053/xcvr_present",
+            "description": "port27 QSFP112 present"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth27/reset",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/49-0053/xcvr_reset",
+            "description": "port27 QSFP112 reset"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth27/low_power_mode",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/49-0053/xcvr_lpmode",
+            "description": "port27 QSFP112 low power mode"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth27/interrupt",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/49-0053/xcvr_intr_status",
+            "description": "port27 QSFP112 interrupt"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth27/plug_record",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port27_plug_record",
+            "description": "port27 QSFP112 xcvr_plug_record"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth27/led_status",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port_led_ctrl_2",
+            "description": "SMB1 PORT CPLD ctrl PORT27 led status"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth27/write_enable",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/23-0053/xcvr_reg_wp",
+            "description": "transceiver SMB port cpld1 register write protect"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth28/eeprom",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/50-0050/eeprom",
+            "description": "port28 QSFP112 eeprom"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth28/power_on",
+            "type": "string",
+            "value": "NA",
+            "description": "port28 QSFP112 power_on"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth28/present",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/50-0053/xcvr_present",
+            "description": "port28 QSFP112 present"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth28/reset",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/50-0053/xcvr_reset",
+            "description": "port28 QSFP112 reset"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth28/low_power_mode",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/50-0053/xcvr_lpmode",
+            "description": "port28 QSFP112 low power mode"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth28/interrupt",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/50-0053/xcvr_intr_status",
+            "description": "port28 QSFP112 interrupt"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth28/plug_record",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port28_plug_record",
+            "description": "port28 QSFP112 xcvr_plug_record"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth28/led_status",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port_led_ctrl_2",
+            "description": "SMB1 PORT CPLD ctrl PORT28 led status"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth28/write_enable",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/23-0053/xcvr_reg_wp",
+            "description": "transceiver SMB port cpld1 register write protect"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth29/eeprom",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/51-0050/eeprom",
+            "description": "port29 QSFP112 eeprom"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth29/power_on",
+            "type": "string",
+            "value": "NA",
+            "description": "port29 QSFP112 power_on"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth29/present",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/51-0053/xcvr_present",
+            "description": "port29 QSFP112 present"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth29/reset",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/51-0053/xcvr_reset",
+            "description": "port29 QSFP112 reset"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth29/low_power_mode",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/51-0053/xcvr_lpmode",
+            "description": "port29 QSFP112 low power mode"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth29/interrupt",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/51-0053/xcvr_intr_status",
+            "description": "port29 QSFP112 interrupt"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth29/plug_record",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port29_plug_record",
+            "description": "port29 QSFP112 xcvr_plug_record"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth29/led_status",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port_led_ctrl_1",
+            "description": "MAC_BOARD_CPLD1 ctrl PORT29 led status"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth29/write_enable",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/23-0053/xcvr_reg_wp",
+            "description": "transceiver MAC_BOARD_CPLD1 register write protect"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth30/eeprom",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/52-0050/eeprom",
+            "description": "port30 QSFP112 eeprom"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth30/power_on",
+            "type": "string",
+            "value": "NA",
+            "description": "port30 QSFP112 power_on"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth30/present",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/52-0053/xcvr_present",
+            "description": "port30 QSFP112 present"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth30/reset",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/52-0053/xcvr_reset",
+            "description": "port30 QSFP112 reset"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth30/low_power_mode",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/52-0053/xcvr_lpmode",
+            "description": "port30 QSFP112 low power mode"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth30/interrupt",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/52-0053/xcvr_intr_status",
+            "description": "port30 QSFP112 interrupt"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth30/plug_record",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port30_plug_record",
+            "description": "port30 QSFP112 xcvr_plug_record"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth30/led_status",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port_led_ctrl_1",
+            "description": "MAC_BOARD_CPLD1 ctrl PORT30 led status"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth30/write_enable",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/23-0053/xcvr_reg_wp",
+            "description": "transceiver MAC_BOARD_CPLD1 register write protect"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth31/eeprom",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/53-0050/eeprom",
+            "description": "port31 QSFP112 eeprom"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth31/power_on",
+            "type": "string",
+            "value": "NA",
+            "description": "port31 QSFP112 power_on"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth31/present",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/53-0053/xcvr_present",
+            "description": "port31 QSFP112 present"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth31/reset",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/53-0053/xcvr_reset",
+            "description": "port31 QSFP112 reset"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth31/low_power_mode",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/53-0053/xcvr_lpmode",
+            "description": "port31 QSFP112 low power mode"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth31/interrupt",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/53-0053/xcvr_intr_status",
+            "description": "port31 QSFP112 interrupt"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth31/plug_record",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port31_plug_record",
+            "description": "port31 QSFP112 xcvr_plug_record"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth31/led_status",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port_led_ctrl_2",
+            "description": "SMB1 PORT CPLD ctrl PORT31 led status"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth31/write_enable",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/23-0053/xcvr_reg_wp",
+            "description": "transceiver SMB port cpld1 register write protect"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth32/eeprom",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/54-0050/eeprom",
+            "description": "port32 QSFP112 eeprom"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth32/power_on",
+            "type": "string",
+            "value": "NA",
+            "description": "port32 QSFP112 power_on"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth32/present",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/54-0053/xcvr_present",
+            "description": "port32 QSFP112 present"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth32/reset",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/54-0053/xcvr_reset",
+            "description": "port32 QSFP112 reset"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth32/low_power_mode",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/54-0053/xcvr_lpmode",
+            "description": "port32 QSFP112 low power mode"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth32/interrupt",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/54-0053/xcvr_intr_status",
+            "description": "port32 QSFP112 interrupt"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth32/plug_record",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port32_plug_record",
+            "description": "port32 QSFP112 xcvr_plug_record"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth32/led_status",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port_led_ctrl_2",
+            "description": "SMB1 PORT CPLD ctrl PORT32 led status"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth32/write_enable",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/23-0053/xcvr_reg_wp",
+            "description": "transceiver SMB port cpld1 register write protect"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth33/eeprom",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/55-0050/eeprom",
+            "description": "port33 QSFP112 eeprom"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth33/power_on",
+            "type": "string",
+            "value": "NA",
+            "description": "port33 QSFP112 power_on"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth33/present",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/55-0053/xcvr_present",
+            "description": "port33 QSFP112 present"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth33/reset",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/55-0053/xcvr_reset",
+            "description": "port33 QSFP112 reset"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth33/low_power_mode",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/55-0053/xcvr_lpmode",
+            "description": "port33 QSFP112 low power mode"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth33/interrupt",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/55-0053/xcvr_intr_status",
+            "description": "port33 QSFP112 interrupt"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth33/plug_record",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port33_plug_record",
+            "description": "port33 QSFP112 xcvr_plug_record"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth33/led_status",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port_led_ctrl_2",
+            "description": "SMB1 PORT CPLD ctrl PORT33 led status"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth33/write_enable",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/55-0053/xcvr_reg_wp",
+            "description": "transceiver SMB port cpld1 register write protect"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth34/eeprom",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/56-0050/eeprom",
+            "description": "port34 QSFP112 eeprom"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth34/power_on",
+            "type": "string",
+            "value": "NA",
+            "description": "port34 QSFP112 power_on"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth34/present",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/56-0053/xcvr_present",
+            "description": "port34 QSFP112 present"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth34/reset",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/56-0053/xcvr_reset",
+            "description": "port34 QSFP112 reset"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth34/low_power_mode",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/56-0053/xcvr_lpmode",
+            "description": "port34 QSFP112 low power mode"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth34/interrupt",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/56-0053/xcvr_intr_status",
+            "description": "port34 QSFP112 interrupt"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth34/plug_record",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port34_plug_record",
+            "description": "port34 QSFP112 xcvr_plug_record"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth34/led_status",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port_led_ctrl_2",
+            "description": "SMB1 PORT CPLD ctrl PORT34 led status"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth34/write_enable",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/55-0053/xcvr_reg_wp",
+            "description": "transceiver SMB port cpld1 register write protect"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth35/eeprom",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/57-0050/eeprom",
+            "description": "port35 QSFP112 eeprom"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth35/power_on",
+            "type": "string",
+            "value": "NA",
+            "description": "port35 QSFP112 power_on"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth35/present",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/57-0053/xcvr_present",
+            "description": "port35 QSFP112 present"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth35/reset",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/57-0053/xcvr_reset",
+            "description": "port35 QSFP112 reset"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth35/low_power_mode",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/57-0053/xcvr_lpmode",
+            "description": "port35 QSFP112 low power mode"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth35/interrupt",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/57-0053/xcvr_intr_status",
+            "description": "port35 QSFP112 interrupt"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth35/plug_record",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port35_plug_record",
+            "description": "port35 QSFP112 xcvr_plug_record"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth35/led_status",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port_led_ctrl_1",
+            "description": "MAC_BOARD_CPLD1 ctrl PORT35 led status"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth35/write_enable",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/55-0053/xcvr_reg_wp",
+            "description": "transceiver MAC_BOARD_CPLD1 register write protect"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth36/eeprom",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/58-0050/eeprom",
+            "description": "port36 QSFP112 eeprom"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth36/power_on",
+            "type": "string",
+            "value": "NA",
+            "description": "port36 QSFP112 power_on"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth36/present",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/58-0053/xcvr_present",
+            "description": "port36 QSFP112 present"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth36/reset",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/58-0053/xcvr_reset",
+            "description": "port36 QSFP112 reset"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth36/low_power_mode",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/58-0053/xcvr_lpmode",
+            "description": "port36 QSFP112 low power mode"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth36/interrupt",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/58-0053/xcvr_intr_status",
+            "description": "port36 QSFP112 interrupt"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth36/plug_record",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port36_plug_record",
+            "description": "port36 QSFP112 xcvr_plug_record"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth36/led_status",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port_led_ctrl_1",
+            "description": "MAC_BOARD_CPLD1 ctrl PORT36 led status"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth36/write_enable",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/55-0053/xcvr_reg_wp",
+            "description": "transceiver MAC_BOARD_CPLD1 register write protect"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth37/eeprom",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/59-0050/eeprom",
+            "description": "port37 QSFP112 eeprom"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth37/power_on",
+            "type": "string",
+            "value": "NA",
+            "description": "port37 QSFP112 power_on"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth37/present",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/59-0053/xcvr_present",
+            "description": "port37 QSFP112 present"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth37/reset",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/59-0053/xcvr_reset",
+            "description": "port37 QSFP112 reset"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth37/low_power_mode",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/59-0053/xcvr_lpmode",
+            "description": "port37 QSFP112 low power mode"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth37/interrupt",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/59-0053/xcvr_intr_status",
+            "description": "port37 QSFP112 interrupt"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth37/plug_record",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port37_plug_record",
+            "description": "port37 QSFP112 xcvr_plug_record"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth37/led_status",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port_led_ctrl_2",
+            "description": "SMB1 PORT CPLD ctrl PORT37 led status"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth37/write_enable",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/55-0053/xcvr_reg_wp",
+            "description": "transceiver SMB port cpld1 register write protect"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth38/eeprom",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/60-0050/eeprom",
+            "description": "port38 QSFP112 eeprom"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth38/power_on",
+            "type": "string",
+            "value": "NA",
+            "description": "port38 QSFP112 power_on"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth38/present",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/60-0053/xcvr_present",
+            "description": "port38 QSFP112 present"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth38/reset",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/60-0053/xcvr_reset",
+            "description": "port38 QSFP112 reset"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth38/low_power_mode",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/60-0053/xcvr_lpmode",
+            "description": "port38 QSFP112 low power mode"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth38/interrupt",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/60-0053/xcvr_intr_status",
+            "description": "port38 QSFP112 interrupt"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth38/plug_record",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port38_plug_record",
+            "description": "port38 QSFP112 xcvr_plug_record"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth38/led_status",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port_led_ctrl_2",
+            "description": "SMB1 PORT CPLD ctrl PORT38 led status"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth38/write_enable",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/55-0053/xcvr_reg_wp",
+            "description": "transceiver SMB port cpld1 register write protect"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth39/eeprom",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/61-0050/eeprom",
+            "description": "port39 QSFP112 eeprom"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth39/power_on",
+            "type": "string",
+            "value": "NA",
+            "description": "port39 QSFP112 power_on"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth39/present",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/61-0053/xcvr_present",
+            "description": "port39 QSFP112 present"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth39/reset",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/61-0053/xcvr_reset",
+            "description": "port39 QSFP112 reset"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth39/low_power_mode",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/61-0053/xcvr_lpmode",
+            "description": "port39 QSFP112 low power mode"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth39/interrupt",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/61-0053/xcvr_intr_status",
+            "description": "port39 QSFP112 interrupt"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth39/plug_record",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port39_plug_record",
+            "description": "port39 QSFP112 xcvr_plug_record"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth39/led_status",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port_led_ctrl_2",
+            "description": "SMB1 PORT CPLD ctrl PORT39 led status"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth39/write_enable",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/23-0053/xcvr_reg_wp",
+            "description": "transceiver SMB port cpld1 register write protect"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth40/eeprom",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/62-0050/eeprom",
+            "description": "port40 QSFP112 eeprom"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth40/power_on",
+            "type": "string",
+            "value": "NA",
+            "description": "port40 QSFP112 power_on"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth40/present",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/62-0053/xcvr_present",
+            "description": "port40 QSFP112 present"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth40/reset",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/62-0053/xcvr_reset",
+            "description": "port40 QSFP112 reset"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth40/low_power_mode",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/62-0053/xcvr_lpmode",
+            "description": "port40 QSFP112 low power mode"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth40/interrupt",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/62-0053/xcvr_intr_status",
+            "description": "port40 QSFP112 interrupt"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth40/plug_record",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port40_plug_record",
+            "description": "port40 QSFP112 xcvr_plug_record"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth40/led_status",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port_led_ctrl_2",
+            "description": "SMB1 PORT CPLD ctrl PORT40 led status"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth40/write_enable",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/55-0053/xcvr_reg_wp",
+            "description": "transceiver SMB port cpld1 register write protect"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth41/eeprom",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/63-0050/eeprom",
+            "description": "port41 QSFP112 eeprom"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth41/power_on",
+            "type": "string",
+            "value": "NA",
+            "description": "port41 QSFP112 power_on"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth41/present",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/63-0053/xcvr_present",
+            "description": "port41 QSFP112 present"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth41/reset",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/63-0053/xcvr_reset",
+            "description": "port41 QSFP112 reset"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth41/low_power_mode",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/63-0053/xcvr_lpmode",
+            "description": "port41 QSFP112 low power mode"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth41/interrupt",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/63-0053/xcvr_intr_status",
+            "description": "port41 QSFP112 interrupt"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth41/plug_record",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port41_plug_record",
+            "description": "port41 QSFP112 xcvr_plug_record"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth41/led_status",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port_led_ctrl_1",
+            "description": "MAC_BOARD_CPLD1 ctrl PORT41 led status"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth41/write_enable",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/55-0053/xcvr_reg_wp",
+            "description": "transceiver MAC_BOARD_CPLD1 register write protect"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth42/eeprom",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/64-0050/eeprom",
+            "description": "port42 QSFP112 eeprom"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth42/power_on",
+            "type": "string",
+            "value": "NA",
+            "description": "port42 QSFP112 power_on"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth42/present",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/64-0053/xcvr_present",
+            "description": "port42 QSFP112 present"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth42/reset",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/64-0053/xcvr_reset",
+            "description": "port42 QSFP112 reset"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth42/low_power_mode",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/64-0053/xcvr_lpmode",
+            "description": "port42 QSFP112 low power mode"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth42/interrupt",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/64-0053/xcvr_intr_status",
+            "description": "port42 QSFP112 interrupt"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth42/plug_record",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port42_plug_record",
+            "description": "port42 QSFP112 xcvr_plug_record"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth42/led_status",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port_led_ctrl_1",
+            "description": "MAC_BOARD_CPLD1 ctrl PORT42 led status"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth42/write_enable",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/55-0053/xcvr_reg_wp",
+            "description": "transceiver MAC_BOARD_CPLD1 register write protect"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth43/power_on",
+            "type": "string",
+            "value": "NA",
+            "description": "port43 QSFP112 power_on"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth43/present",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/65-0053/xcvr_present",
+            "description": "port43 QSFP112 present"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth43/reset",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/65-0053/xcvr_reset",
+            "description": "port43 QSFP112 reset"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth43/eeprom",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/65-0050/eeprom",
+            "description": "port43 QSFP112 eeprom"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth43/low_power_mode",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/65-0053/xcvr_lpmode",
+            "description": "port43 QSFP112 low power mode"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth43/interrupt",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/65-0053/xcvr_intr_status",
+            "description": "port43 QSFP112 interrupt"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth43/plug_record",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port43_plug_record",
+            "description": "port43 QSFP112 xcvr_plug_record"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth43/led_status",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port_led_ctrl_2",
+            "description": "SMB1 PORT CPLD ctrl PORT43 led status"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth43/write_enable",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/55-0053/xcvr_reg_wp",
+            "description": "transceiver SMB port cpld1 register write protect"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth44/eeprom",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/66-0050/eeprom",
+            "description": "port44 QSFP112 eeprom"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth44/power_on",
+            "type": "string",
+            "value": "NA",
+            "description": "port44 QSFP112 power_on"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth44/present",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/66-0053/xcvr_present",
+            "description": "port44 QSFP112 present"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth44/reset",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/66-0053/xcvr_reset",
+            "description": "port44 QSFP112 reset"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth44/low_power_mode",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/66-0053/xcvr_lpmode",
+            "description": "port44 QSFP112 low power mode"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth44/interrupt",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/66-0053/xcvr_intr_status",
+            "description": "port44 QSFP112 interrupt"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth44/plug_record",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port44_plug_record",
+            "description": "port44 QSFP112 xcvr_plug_record"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth44/led_status",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port_led_ctrl_2",
+            "description": "SMB1 PORT CPLD ctrl PORT44 led status"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth44/write_enable",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/55-0053/xcvr_reg_wp",
+            "description": "transceiver SMB port cpld1 register write protect"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth45/eeprom",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/67-0050/eeprom",
+            "description": "port45 QSFP112 eeprom"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth45/power_on",
+            "type": "string",
+            "value": "NA",
+            "description": "port45 QSFP112 power_on"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth45/present",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/67-0053/xcvr_present",
+            "description": "port45 QSFP112 present"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth45/reset",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/67-0053/xcvr_reset",
+            "description": "port45 QSFP112 reset"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth45/low_power_mode",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/67-0053/xcvr_lpmode",
+            "description": "port45 QSFP112 low power mode"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth45/interrupt",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/67-0053/xcvr_intr_status",
+            "description": "port45 QSFP112 interrupt"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth45/plug_record",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port45_plug_record",
+            "description": "port45 QSFP112 xcvr_plug_record"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth45/led_status",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port_led_ctrl_2",
+            "description": "SMB1 PORT CPLD ctrl PORT45 led status"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth45/write_enable",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/55-0053/xcvr_reg_wp",
+            "description": "transceiver SMB port cpld1 register write protect"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth46/eeprom",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/68-0050/eeprom",
+            "description": "port46 QSFP112 eeprom"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth46/power_on",
+            "type": "string",
+            "value": "NA",
+            "description": "port46 QSFP112 power_on"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth46/present",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/68-0053/xcvr_present",
+            "description": "port46 QSFP112 present"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth46/reset",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/68-0053/xcvr_reset",
+            "description": "port46 QSFP112 reset"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth46/low_power_mode",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/68-0053/xcvr_lpmode",
+            "description": "port46 QSFP112 low power mode"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth46/interrupt",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/68-0053/xcvr_intr_status",
+            "description": "port46 QSFP112 interrupt"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth46/plug_record",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port46_plug_record",
+            "description": "port46 QSFP112 xcvr_plug_record"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth46/led_status",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port_led_ctrl_2",
+            "description": "SMB1 PORT CPLD ctrl PORT46 led status"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth46/write_enable",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/55-0053/xcvr_reg_wp",
+            "description": "transceiver SMB port cpld1 register write protect"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth47/eeprom",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/69-0050/eeprom",
+            "description": "port47 QSFP112 eeprom"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth47/power_on",
+            "type": "string",
+            "value": "NA",
+            "description": "port47 QSFP112 power_on"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth47/present",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/69-0053/xcvr_present",
+            "description": "port47 QSFP112 present"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth47/reset",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/69-0053/xcvr_reset",
+            "description": "port47 QSFP112 reset"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth47/low_power_mode",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/69-0053/xcvr_lpmode",
+            "description": "port47 QSFP112 low power mode"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth47/interrupt",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/69-0053/xcvr_intr_status",
+            "description": "port47 QSFP112 interrupt"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth47/plug_record",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port47_plug_record",
+            "description": "port47 QSFP112 xcvr_plug_record"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth47/led_status",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port_led_ctrl_1",
+            "description": "MAC_BOARD_CPLD1 ctrl PORT47 led status"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth47/write_enable",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/55-0053/xcvr_reg_wp",
+            "description": "transceiver MAC_BOARD_CPLD1 register write protect"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth48/eeprom",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/70-0050/eeprom",
+            "description": "port48 QSFP112 eeprom"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth48/power_on",
+            "type": "string",
+            "value": "NA",
+            "description": "port48 QSFP112 power_on"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth48/present",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/70-0053/xcvr_present",
+            "description": "port48 QSFP112 present"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth48/reset",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/70-0053/xcvr_reset",
+            "description": "port48 QSFP112 reset"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth48/low_power_mode",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/70-0053/xcvr_lpmode",
+            "description": "port48 QSFP112 low power mode"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth48/interrupt",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/70-0053/xcvr_intr_status",
+            "description": "port48 QSFP112 interrupt"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth48/plug_record",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port48_plug_record",
+            "description": "port48 QSFP112 xcvr_plug_record"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth48/led_status",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port_led_ctrl_1",
+            "description": "MAC_BOARD_CPLD1 ctrl PORT48 led status"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth48/write_enable",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/55-0053/xcvr_reg_wp",
+            "description": "transceiver MAC_BOARD_CPLD1 register write protect"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth49/eeprom",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/71-0050/eeprom",
+            "description": "port49 QSFP112 eeprom"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth49/power_on",
+            "type": "string",
+            "value": "NA",
+            "description": "port49 QSFP112 power_on"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth49/present",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/71-0053/xcvr_present",
+            "description": "port49 QSFP112 present"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth49/reset",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/71-0053/xcvr_reset",
+            "description": "port49 QSFP112 reset"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth49/low_power_mode",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/71-0053/xcvr_lpmode",
+            "description": "port49 QSFP112 low power mode"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth49/interrupt",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/71-0053/xcvr_intr_status",
+            "description": "port49 QSFP112 interrupt"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth49/plug_record",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port49_plug_record",
+            "description": "port49 QSFP112 xcvr_plug_record"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth49/led_status",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port_led_ctrl_2",
+            "description": "SMB1 PORT CPLD ctrl PORT49 led status"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth49/write_enable",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/55-0053/xcvr_reg_wp",
+            "description": "transceiver SMB port cpld1 register write protect"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth50/eeprom",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/72-0050/eeprom",
+            "description": "port50 QSFP112 eeprom"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth50/power_on",
+            "type": "string",
+            "value": "NA",
+            "description": "port50 QSFP112 poweron"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth50/present",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/72-0053/xcvr_present",
+            "description": "port50 QSFP112 present"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth50/reset",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/72-0053/xcvr_reset",
+            "description": "port50 QSFP112 reset"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth50/low_power_mode",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/72-0053/xcvr_lpmode",
+            "description": "port50 QSFP112 low power mode"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth50/interrupt",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/72-0053/xcvr_intr_status",
+            "description": "port50 QSFP112 interrupt"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth50/plug_record",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port50_plug_record",
+            "description": "port50 QSFP112 xcvr_plug_record"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth50/led_status",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port_led_ctrl_2",
+            "description": "SMB1 PORT CPLD ctrl PORT50 led status"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth50/write_enable",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/55-0053/xcvr_reg_wp",
+            "description": "transceiver SMB port cpld1 register write protect"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth51/eeprom",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/73-0050/eeprom",
+            "description": "port51 QSFP112 eeprom"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth51/power_on",
+            "type": "string",
+            "value": "NA",
+            "description": "port51 QSFP112 poweron"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth51/present",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/73-0053/xcvr_present",
+            "description": "port51 QSFP112 present"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth51/reset",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/73-0053/xcvr_reset",
+            "description": "port51 QSFP112 reset"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth51/low_power_mode",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/73-0053/xcvr_lpmode",
+            "description": "port51 QSFP112 low power mode"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth51/interrupt",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/73-0053/xcvr_intr_status",
+            "description": "port51 QSFP112 interrupt"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth51/plug_record",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port51_plug_record",
+            "description": "port51 QSFP112 xcvr_plug_record"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth51/led_status",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port_led_ctrl_2",
+            "description": "SMB1 PORT CPLD ctrl PORT51 led status"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth51/write_enable",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/55-0053/xcvr_reg_wp",
+            "description": "transceiver SMB port cpld1 register write protect"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth52/eeprom",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/74-0050/eeprom",
+            "description": "port52 QSFP112 eeprom"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth52/power_on",
+            "type": "string",
+            "value": "NA",
+            "description": "port52 QSFP112 poweron"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth52/present",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/74-0053/xcvr_present",
+            "description": "port52 QSFP112 present"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth52/reset",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/74-0053/xcvr_reset",
+            "description": "port52 QSFP112 reset"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth52/low_power_mode",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/74-0053/xcvr_lpmode",
+            "description": "port52 QSFP112 low power mode"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth52/interrupt",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/74-0053/xcvr_intr_status",
+            "description": "port52 QSFP112 interrupt"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth52/plug_record",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port52_plug_record",
+            "description": "port52 QSFP112 xcvr_plug_record"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth52/led_status",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port_led_ctrl_2",
+            "description": "SMB1 PORT CPLD ctrl PORT52 led status"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth52/write_enable",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/55-0053/xcvr_reg_wp",
+            "description": "transceiver SMB port cpld1 register write protect"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth53/eeprom",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/75-0050/eeprom",
+            "description": "port53 QSFP112 eeprom"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth53/power_on",
+            "type": "string",
+            "value": "NA",
+            "description": "port53 QSFP112 poweron"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth53/present",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/75-0053/xcvr_present",
+            "description": "port53 QSFP112 present"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth53/reset",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/75-0053/xcvr_reset",
+            "description": "port53 QSFP112 reset"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth53/low_power_mode",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/75-0053/xcvr_lpmode",
+            "description": "port53 QSFP112 low power mode"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth53/interrupt",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/75-0053/xcvr_intr_status",
+            "description": "port53 QSFP112 interrupt"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth53/plug_record",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port53_plug_record",
+            "description": "port53 QSFP112 xcvr_plug_record"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth53/led_status",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port_led_ctrl_1",
+            "description": "MAC_BOARD_CPLD1 ctrl PORT53 led status"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth53/write_enable",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/23-0053/xcvr_reg_wp",
+            "description": "transceiver MAC_BOARD_CPLD1 register write protect"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth54/eeprom",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/76-0050/eeprom",
+            "description": "port55 QSFP112 eeprom"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth54/power_on",
+            "type": "string",
+            "value": "NA",
+            "description": "port54 QSFP112 poweron"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth54/present",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/76-0053/xcvr_present",
+            "description": "port54 QSFP112 present"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth54/reset",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/76-0053/xcvr_reset",
+            "description": "port54 QSFP112 reset"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth54/low_power_mode",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/76-0053/xcvr_lpmode",
+            "description": "port54 QSFP112 low power mode"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth54/interrupt",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/76-0053/xcvr_intr_status",
+            "description": "port54 QSFP112 interrupt"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth54/plug_record",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port54_plug_record",
+            "description": "port54 QSFP112 xcvr_plug_record"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth54/led_status",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port_led_ctrl_1",
+            "description": "MAC_BOARD_CPLD1 ctrl PORT54 led status"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth54/write_enable",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/55-0053/xcvr_reg_wp",
+            "description": "transceiver MAC_BOARD_CPLD1 register write protect"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth55/eeprom",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/77-0050/eeprom",
+            "description": "port55 QSFP112 eeprom"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth55/power_on",
+            "type": "string",
+            "value": "NA",
+            "description": "port55 QSFP112 poweron"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth55/present",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/77-0053/xcvr_present",
+            "description": "port55 QSFP112 present"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth55/reset",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/77-0053/xcvr_reset",
+            "description": "port55 QSFP112 reset"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth55/low_power_mode",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/77-0053/xcvr_lpmode",
+            "description": "port55 QSFP112 low power mode"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth55/interrupt",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/77-0053/xcvr_intr_status",
+            "description": "port55 QSFP112 interrupt"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth55/plug_record",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port55_plug_record",
+            "description": "port55 QSFP112 xcvr_plug_record"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth55/led_status",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port_led_ctrl_2",
+            "description": "SMB1 PORT CPLD ctrl PORT55 led status"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth55/write_enable",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/55-0053/xcvr_reg_wp",
+            "description": "transceiver SMB port cpld1 register write protect"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth56/eeprom",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/78-0050/eeprom",
+            "description": "port56 QSFP112 eeprom"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth56/power_on",
+            "type": "string",
+            "value": "NA",
+            "description": "port56 QSFP112 poweron"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth56/present",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/78-0053/xcvr_present",
+            "description": "port56 QSFP112 present"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth56/reset",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/78-0053/xcvr_reset",
+            "description": "port56 QSFP112 reset"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth56/low_power_mode",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/78-0053/xcvr_lpmode",
+            "description": "port56 QSFP112 low power mode"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth56/interrupt",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/78-0053/xcvr_intr_status",
+            "description": "port56 QSFP112 interrupt"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth56/plug_record",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port56_plug_record",
+            "description": "port56 QSFP112 xcvr_plug_record"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth56/led_status",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port_led_ctrl_2",
+            "description": "SMB1 PORT CPLD ctrl PORT56 led status"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth56/write_enable",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/55-0053/xcvr_reg_wp",
+            "description": "transceiver SMB port cpld1 register write protect"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth57/eeprom",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/79-0050/eeprom",
+            "description": "port57 QSFP112 eeprom"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth57/power_on",
+            "type": "string",
+            "value": "NA",
+            "description": "port57 QSFP112 poweron"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth57/present",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/79-0053/xcvr_present",
+            "description": "port57 QSFP112 present"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth57/reset",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/79-0053/xcvr_reset",
+            "description": "port57 QSFP112 reset"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth57/low_power_mode",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/79-0053/xcvr_lpmode",
+            "description": "port57 QSFP112 low power mode"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth57/interrupt",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/79-0053/xcvr_intr_status",
+            "description": "port57 QSFP112 interrupt"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth57/plug_record",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port57_plug_record",
+            "description": "port57 QSFP112 xcvr_plug_record"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth57/led_status",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port_led_ctrl_2",
+            "description": "SMB1 PORT CPLD ctrl PORT57 led status"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth57/write_enable",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/55-0053/xcvr_reg_wp",
+            "description": "transceiver SMB port cpld1 register write protect"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth58/eeprom",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/80-0050/eeprom",
+            "description": "port58 QSFP112 eeprom"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth58/power_on",
+            "type": "string",
+            "value": "NA",
+            "description": "port58 QSFP112 poweron"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth58/present",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/80-0053/xcvr_present",
+            "description": "port58 QSFP112 present"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth58/reset",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/80-0053/xcvr_reset",
+            "description": "port58 QSFP112 reset"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth58/low_power_mode",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/80-0053/xcvr_lpmode",
+            "description": "port58 QSFP112 low power mode"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth58/interrupt",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/80-0053/xcvr_intr_status",
+            "description": "port58 QSFP112 interrupt"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth58/plug_record",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port58_plug_record",
+            "description": "port58 QSFP112 xcvr_plug_record"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth58/led_status",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port_led_ctrl_2",
+            "description": "SMB1 PORT CPLD ctrl PORT58 led status"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth58/write_enable",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/55-0053/xcvr_reg_wp",
+            "description": "transceiver SMB port cpld1 register write protect"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth59/eeprom",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/81-0050/eeprom",
+            "description": "port59 QSFP112 eeprom"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth59/power_on",
+            "type": "string",
+            "value": "NA",
+            "description": "port59 QSFP112 poweron"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth59/present",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/81-0053/xcvr_present",
+            "description": "port59 QSFP112 present"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth59/reset",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/81-0053/xcvr_reset",
+            "description": "port59 QSFP112 reset"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth59/low_power_mode",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/81-0053/xcvr_lpmode",
+            "description": "port59 QSFP112 low power mode"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth59/interrupt",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/81-0053/xcvr_intr_status",
+            "description": "port59 QSFP112 interrupt"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth59/plug_record",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port59_plug_record",
+            "description": "port59 QSFP112 xcvr_plug_record"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth59/led_status",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port_led_ctrl_1",
+            "description": "MAC_BOARD_CPLD1 ctrl PORT59 led status"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth59/write_enable",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/55-0053/xcvr_reg_wp",
+            "description": "transceiver MAC_BOARD_CPLD1 register write protect"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth60/eeprom",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/82-0050/eeprom",
+            "description": "port60 QSFP112 eeprom"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth60/power_on",
+            "type": "string",
+            "value": "NA",
+            "description": "port60 QSFP112 poweron"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth60/present",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/82-0053/xcvr_present",
+            "description": "port60 QSFP112 present"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth60/reset",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/82-0053/xcvr_reset",
+            "description": "port60 QSFP112 reset"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth60/low_power_mode",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/82-0053/xcvr_lpmode",
+            "description": "port60 QSFP112 low power mode"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth60/interrupt",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/82-0053/xcvr_intr_status",
+            "description": "port60 QSFP112 interrupt"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth60/plug_record",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port60_plug_record",
+            "description": "port60 QSFP112 xcvr_plug_record"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth60/led_status",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port_led_ctrl_1",
+            "description": "MAC_BOARD_CPLD1 ctrl PORT60 led status"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth60/write_enable",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/55-0053/xcvr_reg_wp",
+            "description": "transceiver MAC_BOARD_CPLD1 register write protect"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth61/eeprom",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/83-0050/eeprom",
+            "description": "port61 QSFP112 eeprom"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth61/power_on",
+            "type": "string",
+            "value": "NA",
+            "description": "port61 QSFP112 poweron"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth61/present",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/83-0053/xcvr_present",
+            "description": "port61 QSFP112 present"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth61/reset",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/83-0053/xcvr_reset",
+            "description": "port61 QSFP112 reset"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth61/low_power_mode",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/83-0053/xcvr_lpmode",
+            "description": "port61 QSFP112 low power mode"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth61/interrupt",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/83-0053/xcvr_intr_status",
+            "description": "port61 QSFP112 interrupt"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth61/plug_record",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port61_plug_record",
+            "description": "port61 QSFP112 xcvr_plug_record"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth61/led_status",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port_led_ctrl_2",
+            "description": "SMB1 PORT CPLD ctrl PORT61 led status"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth61/write_enable",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/55-0053/xcvr_reg_wp",
+            "description": "transceiver SMB port cpld1 register write protect"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth62/eeprom",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/84-0050/eeprom",
+            "description": "port62 QSFP112 eeprom"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth62/power_on",
+            "type": "string",
+            "value": "NA",
+            "description": "port62 QSFP112 poweron"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth62/present",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/84-0053/xcvr_present",
+            "description": "port62 QSFP112 present"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth62/reset",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/84-0053/xcvr_reset",
+            "description": "port62 QSFP112 reset"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth62/low_power_mode",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/84-0053/xcvr_lpmode",
+            "description": "port62 QSFP112 low power mode"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth62/interrupt",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/84-0053/xcvr_intr_status",
+            "description": "port62 QSFP112 interrupt"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth62/plug_record",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port62_plug_record",
+            "description": "port62 QSFP112 xcvr_plug_record"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth62/led_status",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port_led_ctrl_2",
+            "description": "SMB1 PORT CPLD ctrl PORT62 led status"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth62/write_enable",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/55-0053/xcvr_reg_wp",
+            "description": "transceiver SMB port cpld1 register write protect"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth63/eeprom",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/85-0050/eeprom",
+            "description": "port63 QSFP112 eeprom"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth63/power_on",
+            "type": "string",
+            "value": "NA",
+            "description": "port63 QSFP112 poweron"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth63/present",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/85-0053/xcvr_present",
+            "description": "port63 QSFP112 present"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth63/reset",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/85-0053/xcvr_reset",
+            "description": "port63 QSFP112 reset"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth63/low_power_mode",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/85-0053/xcvr_lpmode",
+            "description": "port63 QSFP112 low power mode"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth63/interrupt",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/85-0053/xcvr_intr_status",
+            "description": "port63 QSFP112 interrupt"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth63/plug_record",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port63_plug_record",
+            "description": "port63 QSFP112 xcvr_plug_record"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth63/led_status",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port_led_ctrl_2",
+            "description": "SMB1 PORT CPLD ctrl PORT63 led status"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth63/write_enable",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/55-0053/xcvr_reg_wp",
+            "description": "transceiver SMB port cpld1 register write protect"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth64/eeprom",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/86-0050/eeprom",
+            "description": "port64 QSFP112 eeprom"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth64/power_on",
+            "type": "string",
+            "value": "NA",
+            "description": "port64 QSFP112 poweron"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth64/present",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/86-0053/xcvr_present",
+            "description": "port64 QSFP112 present"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth64/reset",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/86-0053/xcvr_reset",
+            "description": "port64 QSFP112 reset"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth64/low_power_mode",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/86-0053/xcvr_lpmode",
+            "description": "port64 QSFP112 low power mode"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth64/interrupt",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/86-0053/xcvr_intr_status",
+            "description": "port64 QSFP112 interrupt"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth64/plug_record",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port64_plug_record",
+            "description": "port64 QSFP112 xcvr_plug_record"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth64/led_status",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port_led_ctrl_2",
+            "description": "SMB1 PORT CPLD ctrl PORT64 led status"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth64/write_enable",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/55-0053/xcvr_reg_wp",
+            "description": "transceiver SMB port cpld1 register write protect"
+        },
+        {
+            "path": "extend/system",
+            "type": "dir",
+            "value": 0,
+            "description": "switch extend system"
+        },
+        {
+            "path": "extend/system",
+            "type": "dir",
+            "value": 8,
+            "description": "pca9548_reset_ctrl"
+        },
+        {
+            "path": "extend/system",
+            "type": "dir",
+            "value": 10,
+            "description": "i2c_master_reset_ctrl"
+        },
+        {
+            "path": "/sys_switch/extend/system/i2c_master_reset_ctrl1/alias",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/i2c_master_reset_alias1",
+            "description": "i2c reset ctrl register 1 alias"
+        },
+        {
+            "path": "/sys_switch/extend/system/i2c_master_reset_ctrl1/reset",
+            "type": "path",
+            "value": "/sys/bus/platform/devices/fpga_misc_dev.0/i2c_master1_rst",
+            "description": "i2c reset ctrl register 1 reset"
+        },
+        {
+            "path": "/sys_switch/extend/system/i2c_master_reset_ctrl2/alias",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/i2c_master_reset_alias2",
+            "description": "i2c reset ctrl register 2 alias"
+        },
+        {
+            "path": "/sys_switch/extend/system/i2c_master_reset_ctrl2/reset",
+            "type": "path",
+            "value": "/sys/bus/platform/devices/fpga_misc_dev.0/i2c_master2_rst",
+            "description": "i2c reset ctrl register 2 reset"
+        },
+        {
+            "path": "/sys_switch/extend/system/i2c_master_reset_ctrl3/alias",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/i2c_master_reset_alias3",
+            "description": "i2c reset ctrl register 3 alias"
+        },
+        {
+            "path": "/sys_switch/extend/system/i2c_master_reset_ctrl3/reset",
+            "type": "path",
+            "value": "/sys/bus/platform/devices/fpga_misc_dev.0/i2c_master3_rst",
+            "description": "i2c reset ctrl register 3 reset"
+        },
+        {
+            "path": "/sys_switch/extend/system/i2c_master_reset_ctrl4/alias",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/i2c_master_reset_alias4",
+            "description": "i2c reset ctrl register 4 alias"
+        },
+        {
+            "path": "/sys_switch/extend/system/i2c_master_reset_ctrl4/reset",
+            "type": "path",
+            "value": "/sys/bus/platform/devices/fpga_misc_dev.0/i2c_master4_rst",
+            "description": "i2c reset ctrl register 4 reset"
+        },
+        {
+            "path": "/sys_switch/extend/system/i2c_master_reset_ctrl5/alias",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/i2c_master_reset_alias5",
+            "description": "i2c reset ctrl register 5 alias"
+        },
+        {
+            "path": "/sys_switch/extend/system/i2c_master_reset_ctrl5/reset",
+            "type": "path",
+            "value": "/sys/bus/platform/devices/fpga_misc_dev.0/i2c_master5_rst",
+            "description": "i2c reset ctrl register 5 reset"
+        },
+        {
+            "path": "/sys_switch/extend/system/i2c_master_reset_ctrl6/alias",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/i2c_master_reset_alias6",
+            "description": "i2c reset ctrl register 6 alias"
+        },
+        {
+            "path": "/sys_switch/extend/system/i2c_master_reset_ctrl6/reset",
+            "type": "path",
+            "value": "/sys/bus/platform/devices/fpga_misc_dev.0/i2c_master6_rst",
+            "description": "i2c reset ctrl register 6 reset"
+        },
+        {
+            "path": "/sys_switch/extend/system/i2c_master_reset_ctrl7/alias",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/i2c_master_reset_alias7",
+            "description": "i2c reset ctrl register 7 alias"
+        },
+        {
+            "path": "/sys_switch/extend/system/i2c_master_reset_ctrl7/reset",
+            "type": "path",
+            "value": "/sys/bus/platform/devices/fpga_misc_dev.0/i2c_master7_rst",
+            "description": "i2c reset ctrl register 7 reset"
+        },
+        {
+            "path": "/sys_switch/extend/system/i2c_master_reset_ctrl8/alias",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/i2c_master_reset_alias8",
+            "description": "i2c reset ctrl register 8 alias"
+        },
+        {
+            "path": "/sys_switch/extend/system/i2c_master_reset_ctrl8/reset",
+            "type": "path",
+            "value": "/sys/bus/platform/devices/fpga_misc_dev.0/i2c_master8_rst",
+            "description": "i2c reset ctrl register 8 reset"
+        },
+        {
+            "path": "/sys_switch/extend/system/i2c_master_reset_ctrl9/alias",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/i2c_master_reset_alias9",
+            "description": "i2c reset ctrl register 9 alias"
+        },
+        {
+            "path": "/sys_switch/extend/system/i2c_master_reset_ctrl9/reset",
+            "type": "path",
+            "value": "/sys/bus/platform/devices/fpga_misc_dev.0/i2c_master10_rst",
+            "description": "i2c reset ctrl register 9 reset"
+        },
+        {
+            "path": "/sys_switch/extend/system/i2c_master_reset_ctrl10/alias",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/i2c_master_reset_alias10",
+            "description": "i2c reset ctrl register 10 alias"
+        },
+        {
+            "path": "/sys_switch/extend/system/i2c_master_reset_ctrl10/reset",
+            "type": "path",
+            "value": "/sys/bus/platform/devices/fpga_misc_dev.0/i2c_master11_rst",
+            "description": "i2c reset ctrl register 10 reset"
+        },
+        {
+            "path": "/sys_switch/extend/system/pca9548_reset_ctrl1/alias",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/pca9548_reset_alias1",
+            "description": "i2c reset ctrl register 1 alias"
+        },
+        {
+            "path": "/sys_switch/extend/system/pca9548_reset_ctrl1/reset",
+            "type": "path",
+            "value": "/sys/bus/platform/devices/fpga_misc_dev.0/port_9548_rst1",
+            "description": "i2c reset ctrl register 1 reset"
+        },
+        {
+            "path": "/sys_switch/extend/system/pca9548_reset_ctrl2/alias",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/pca9548_reset_alias2",
+            "description": "i2c reset ctrl register 2 alias"
+        },
+        {
+            "path": "/sys_switch/extend/system/pca9548_reset_ctrl2/reset",
+            "type": "path",
+            "value": "/sys/bus/platform/devices/fpga_misc_dev.0/port_9548_rst2",
+            "description": "i2c reset ctrl register 2 reset"
+        },
+        {
+            "path": "/sys_switch/extend/system/pca9548_reset_ctrl3/alias",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/pca9548_reset_alias3",
+            "description": "i2c reset ctrl register 3 alias"
+        },
+        {
+            "path": "/sys_switch/extend/system/pca9548_reset_ctrl3/reset",
+            "type": "path",
+            "value": "/sys/bus/platform/devices/fpga_misc_dev.0/port_9548_rst3",
+            "description": "i2c reset ctrl register 3 reset"
+        },
+        {
+            "path": "/sys_switch/extend/system/pca9548_reset_ctrl4/alias",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/pca9548_reset_alias4",
+            "description": "i2c reset ctrl register 4 alias"
+        },
+        {
+            "path": "/sys_switch/extend/system/pca9548_reset_ctrl4/reset",
+            "type": "path",
+            "value": "/sys/bus/platform/devices/fpga_misc_dev.0/port_9548_rst4",
+            "description": "i2c reset ctrl register 4 reset"
+        },
+        {
+            "path": "/sys_switch/extend/system/pca9548_reset_ctrl5/alias",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/pca9548_reset_alias5",
+            "description": "i2c reset ctrl register 5 alias"
+        },
+        {
+            "path": "/sys_switch/extend/system/pca9548_reset_ctrl5/reset",
+            "type": "path",
+            "value": "/sys/bus/platform/devices/fpga_misc_dev.0/port_9548_rst5",
+            "description": "i2c reset ctrl register 5 reset"
+        },
+        {
+            "path": "/sys_switch/extend/system/pca9548_reset_ctrl6/alias",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/pca9548_reset_alias6",
+            "description": "i2c reset ctrl register 6 alias"
+        },
+        {
+            "path": "/sys_switch/extend/system/pca9548_reset_ctrl6/reset",
+            "type": "path",
+            "value": "/sys/bus/platform/devices/fpga_misc_dev.0/port_9548_rst6",
+            "description": "i2c reset ctrl register 6 reset"
+        },
+        {
+            "path": "/sys_switch/extend/system/pca9548_reset_ctrl7/alias",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/pca9548_reset_alias7",
+            "description": "i2c reset ctrl register 7 alias"
+        },
+        {
+            "path": "/sys_switch/extend/system/pca9548_reset_ctrl7/reset",
+            "type": "path",
+            "value": "/sys/bus/platform/devices/fpga_misc_dev.0/port_9548_rst7",
+            "description": "i2c reset ctrl register 7 reset"
+        },
+        {
+            "path": "/sys_switch/extend/system/pca9548_reset_ctrl8/alias",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/pca9548_reset_alias8",
+            "description": "i2c reset ctrl register 8 alias"
+        },
+        {
+            "path": "/sys_switch/extend/system/pca9548_reset_ctrl8/reset",
+            "type": "path",
+            "value": "/sys/bus/platform/devices/fpga_misc_dev.0/port_9548_rst8",
+            "description": "i2c reset ctrl register 8 reset"
+        },
+        {
+            "path": "/sys_switch/extend/system/port_control_1",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port_led_ctrl_en_1",
+            "description": "ctrl LC-PORT-CPLD PORT led ctrl enable"
+        },
+        {
+            "path": "/sys_switch/extend/system/port_control_2",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/sysstatus/sysstatus_data/port_led_ctrl_en_2",
+            "description": "ctrl SMB1-POR-CPLD PORT led ctrl enable"
+        },
+        {
+            "path": "/sys_switch/extend/system/reboot_cause",
+            "type": "path",
+            "value": "/sys/bus/platform/devices/bbd_ctrl_cpld/cpu_reboot_type",
+            "description": "CPU reboot cause"
+        },
+        {
+            "path": "/sys_switch/extend/system/cpu_caterr_record",
+            "type": "path",
+            "value": "/sys/bus/platform/devices/bbd_ctrl_cpld/cpu_caterr_counter",
+            "description": "CPU caterr record register"
+        },
+        {
+            "path": "/sys_switch/extend/system/cpu_caterr_3V3",
+            "type": "path",
+            "value": "/sys/bus/platform/devices/bbd_ctrl_cpld/cpu_caterr",
+            "description": "CPU caterr register"
+        },
+        {
+            "path": "/sys_switch/extend/system/cpu_thermaltrip_out",
+            "type": "path",
+            "value": "/sys/bus/platform/devices/bbd_ctrl_cpld/cpu_thermaltrip_sta",
+            "description": "CPU thermal trip register"
+        },
+        {
+            "path": "/sys_switch/extend/system/cpu_error0",
+            "type": "path",
+            "value": "/sys/bus/platform/devices/bbd_ctrl_cpld/cpu_error0",
+            "description": "CPU error0 register"
+        },
+        {
+            "path": "/sys_switch/extend/system/cpu_error1",
+            "type": "path",
+            "value": "/sys/bus/platform/devices/bbd_ctrl_cpld/cpu_error1",
+            "description": "CPU error1 register"
+        },
+        {
+            "path": "/sys_switch/extend/system/cpu_error2",
+            "type": "path",
+            "value": "/sys/bus/platform/devices/bbd_ctrl_cpld/cpu_error2",
+            "description": "CPU error2 register"
+        },
+        {
+            "path": "/sys_switch/extend/system/bmc_reset_ctrl",
+            "type": "path",
+            "value": "/sys/bus/platform/devices/bbd_ctrl_cpld/bmc_rst",
+            "description": "BMC reset register"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth1/temp1/value",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/sff_temp1",
+            "description": "port1 QSFP112 temperature value"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth2/temp1/value",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/sff_temp2",
+            "description": "port2 QSFP112 temperature value"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth3/temp1/value",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/sff_temp3",
+            "description": "port3 QSFP112 temperature value"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth4/temp1/value",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/sff_temp4",
+            "description": "port4 QSFP112 temperature value"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth5/temp1/value",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/sff_temp5",
+            "description": "port5 QSFP112 temperature value"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth6/temp1/value",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/sff_temp6",
+            "description": "port6 QSFP112 temperature value"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth7/temp1/value",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/sff_temp7",
+            "description": "port7 QSFP112 temperature value"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth8/temp1/value",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/sff_temp8",
+            "description": "port8 QSFP112 temperature value"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth9/temp1/value",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/sff_temp9",
+            "description": "port9 QSFP112 temperature value"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth10/temp1/value",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/sff_temp10",
+            "description": "port10 QSFP112 temperature value"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth11/temp1/value",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/sff_temp11",
+            "description": "port11 QSFP112 temperature value"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth12/temp1/value",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/sff_temp12",
+            "description": "port12 QSFP112 temperature value"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth13/temp1/value",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/sff_temp13",
+            "description": "port13 QSFP112 temperature value"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth14/temp1/value",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/sff_temp14",
+            "description": "port14 QSFP112 temperature value"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth15/temp1/value",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/sff_temp15",
+            "description": "port15 QSFP112 temperature value"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth16/temp1/value",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/sff_temp16",
+            "description": "port16 QSFP112 temperature value"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth17/temp1/value",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/sff_temp17",
+            "description": "port17 QSFP112 temperature value"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth18/temp1/value",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/sff_temp18",
+            "description": "port18 QSFP112 temperature value"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth19/temp1/value",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/sff_temp19",
+            "description": "port19 QSFP112 temperature value"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth20/temp1/value",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/sff_temp20",
+            "description": "port20 QSFP112 temperature value"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth21/temp1/value",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/sff_temp21",
+            "description": "port21 QSFP112 temperature value"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth22/temp1/value",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/sff_temp22",
+            "description": "port22 QSFP112 temperature value"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth23/temp1/value",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/sff_temp23",
+            "description": "port23 QSFP112 temperature value"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth24/temp1/value",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/sff_temp24",
+            "description": "port24 QSFP112 temperature value"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth25/temp1/value",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/sff_temp25",
+            "description": "port23 QSFP112 temperature value"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth26/temp1/value",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/sff_temp26",
+            "description": "port26 QSFP112 temperature value"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth27/temp1/value",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/sff_temp27",
+            "description": "port27 QSFP112 temperature value"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth28/temp1/value",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/sff_temp28",
+            "description": "port28 QSFP112 temperature value"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth29/temp1/value",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/sff_temp29",
+            "description": "port29 QSFP112 temperature value"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth30/temp1/value",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/sff_temp30",
+            "description": "port30 QSFP112 temperature value"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth31/temp1/value",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/sff_temp31",
+            "description": "port31 QSFP112 temperature value"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth32/temp1/value",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/sff_temp32",
+            "description": "port32 QSFP112 temperature value"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth33/temp1/value",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/sff_temp33",
+            "description": "port33 QSFP112 temperature value"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth34/temp1/value",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/sff_temp34",
+            "description": "port34 QSFP112 temperature value"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth35/temp1/value",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/sff_temp35",
+            "description": "port35 QSFP112 temperature value"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth36/temp1/value",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/sff_temp36",
+            "description": "port36 QSFP112 temperature value"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth37/temp1/value",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/sff_temp37",
+            "description": "port37 QSFP112 temperature value"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth38/temp1/value",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/sff_temp38",
+            "description": "port38 QSFP112 temperature value"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth39/temp1/value",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/sff_temp39",
+            "description": "port39 QSFP112 temperature value"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth40/temp1/value",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/sff_temp40",
+            "description": "port40 QSFP112 temperature value"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth41/temp1/value",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/sff_temp41",
+            "description": "port41 QSFP112 temperature value"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth42/temp1/value",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/sff_temp42",
+            "description": "port42 QSFP112 temperature value"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth43/temp1/value",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/sff_temp43",
+            "description": "port43 QSFP112 temperature value"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth44/temp1/value",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/sff_temp44",
+            "description": "port44 QSFP112 temperature value"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth45/temp1/value",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/sff_temp45",
+            "description": "port45 QSFP112 temperature value"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth46/temp1/value",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/sff_temp46",
+            "description": "port46 QSFP112 temperature value"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth47/temp1/value",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/sff_temp47",
+            "description": "port47 QSFP112 temperature value"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth48/temp1/value",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/sff_temp48",
+            "description": "port48 QSFP112 temperature value"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth49/temp1/value",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/sff_temp49",
+            "description": "port49 QSFP112 temperature value"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth50/temp1/value",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/sff_temp50",
+            "description": "port50 QSFP112 temperature value"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth51/temp1/value",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/sff_temp51",
+            "description": "port51 QSFP112 temperature value"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth52/temp1/value",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/sff_temp52",
+            "description": "port52 QSFP112 temperature value"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth53/temp1/value",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/sff_temp53",
+            "description": "port53 QSFP112 temperature value"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth54/temp1/value",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/sff_temp54",
+            "description": "port54 QSFP112 temperature value"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth55/temp1/value",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/sff_temp55",
+            "description": "port55 QSFP112 temperature value"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth56/temp1/value",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/sff_temp56",
+            "description": "port56 QSFP112 temperature value"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth57/temp1/value",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/sff_temp57",
+            "description": "port57 QSFP112 temperature value"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth58/temp1/value",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/sff_temp58",
+            "description": "port58 QSFP112 temperature value"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth59/temp1/value",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/sff_temp59",
+            "description": "port59 QSFP112 temperature value"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth60/temp1/value",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/sff_temp60",
+            "description": "port60 QSFP112 temperature value"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth61/temp1/value",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/sff_temp61",
+            "description": "port61 QSFP112 temperature value"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth62/temp1/value",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/sff_temp62",
+            "description": "port62 QSFP112 temperature value"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth63/temp1/value",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/sff_temp63",
+            "description": "port63 QSFP112 temperature value"
+        },
+        {
+            "path": "/sys_switch/transceiver/eth64/temp1/value",
+            "type": "path",
+            "value": "/sys/kernel/pddf/devices/newsysfs/sysfs/sff_temp64",
+            "description": "port64 QSFP112 temperature value"
+        },
+        {
+            "path": "extend/fw_ctl",
+            "type": "dir",
+            "value": 1,
+            "description": "jtag_gpio"
+        },
+        {
+            "path": "/sys_switch/extend/fw_ctl/jtag_gpio1/jtag_tdi",
+            "type": "path",
+            "value": "/sys/class/gpio/gpio10055",
+            "description": "ieit fw_ctrl jtag tdi"
+        },
+        {
+            "path": "/sys_switch/extend/fw_ctl/jtag_gpio1/jtag_tdo",
+            "type": "path",
+            "value": "/sys/class/gpio/gpio10056",
+            "description": "ieit fw_ctrl jtag tdo"
+        },
+        {
+            "path": "/sys_switch/extend/fw_ctl/jtag_gpio1/jtag_tms",
+            "type": "path",
+            "value": "/sys/class/gpio/gpio10057",
+            "description": "ieit fw_ctrl jtag tms"
+        },
+        {
+            "path": "/sys_switch/extend/fw_ctl/jtag_gpio1/jtag_tck",
+            "type": "path",
+            "value": "/sys/class/gpio/gpio10058",
+            "description": "ieit fw_ctrl jtag tms"
+        },
+        {
+            "path": "/sys_switch/extend/fw_ctl/jtag_gpio1/jtag_en",
+            "type": "path",
+            "value": "/sys/class/gpio/gpio10075",
+            "description": "ieit fw_ctrl cpu jtag en"
+        },
+        {
+            "path": "/sys_switch/extend/fw_ctl/jtag_gpio1/jtag_mux_sel",
+            "type": "path",
+            "value": "/sys/class/gpio/gpio10053",
+            "description": "ieit fw_ctrl cpu jtag en"
+        },
+        {
+            "path": "/sys_switch/extend/fw_ctl/bios_boot_flash_select",
+            "type": "path",
+            "value": "/sys/bus/platform/devices/bbd_ctrl_cpld/bios_next_flash_select",
+            "description": "BIOS boot flash select register"
+        },
+        {
+            "path": "/sys_switch/extend/fw_ctl/bios_boot_flash_status",
+            "type": "path",
+            "value": "/sys/bus/platform/devices/bbd_ctrl_cpld/bios_current_boot_convert",
+            "description": "BIOS boot flash select status register"
+        },
+        {
+            "path": "/sys_switch/extend/fw_ctl/pri_bios_boot_success",
+            "type": "path",
+            "value": "/sys/bus/platform/devices/bbd_ctrl_cpld/bios_boot_main_succeed_sta",
+            "description": "BIOS primary flash boot status"
+        },
+        {
+            "path": "/sys_switch/extend/fw_ctl/sec_bios_boot_success",
+            "type": "path",
+            "value": "/sys/bus/platform/devices/bbd_ctrl_cpld/bios_boot_sec_succeed_sta",
+            "description": "BIOS secondary flash boot status"
+        },
+        {
+            "path": "/sys_switch/extend/fw_ctl/cpld_update_ctrl",
+            "type": "path",
+            "value": "/sys/bus/platform/devices/bbd_ctrl_cpld/cpld_update_ctrl",
+            "description": "CPLD upgrade jatg select control register"
+        },
+        {
+            "path": "extend/fru",
+            "type": "dir",
+            "value": 0,
+            "description": "ieit fru dir"
+        },
+        {
+            "path": "/sys_switch/extend/fru/onie_fru",
+            "type": "path",
+            "value": "/sys/bus/i2c/devices/0-0056/eeprom",
+            "description": "ieit TLV fru"
+        },
+        {
+            "path": "/sys_switch/extend/fru/onie_fru_wp",
+            "type": "path",
+            "value": "/sys/bus/platform/devices/bbd_ctrl_cpld/onie_eeprom_wp",
+            "description": "ieit TLV fru"
+        },
+        {
+            "path": "sysled",
+            "type": "dir",
+            "value": 0,
+            "description": "sysled"
+        },
+        {
+            "path": "/sys_switch/sysled/sys_led_status",
+            "type": "path",
+            "value": "/sys/bus/platform/devices/bbd_ctrl_cpld/sys_led_ctrl_s3ip",
+            "description": "set/get sys led status"
+        },
+        {
+            "path": "/sys_switch/sysled/sys_led_ctrl_en",
+            "type": "path",
+            "value": "/sys/bus/platform/devices/bbd_ctrl_cpld/sys_led_ctrl_en",
+            "description": "set/get sys led status"
+        },
+        {
+            "path": "/sys_switch/sysled/psu_led_status",
+            "type": "path",
+            "value": "/sys/bus/platform/devices/bbd_ctrl_cpld/pwr_led_ctrl_s3ip",
+            "description": "set/get psu led status"
+        },
+        {
+            "path": "/sys_switch/sysled/psu_led_ctrl_en",
+            "type": "path",
+            "value": "/sys/bus/platform/devices/bbd_ctrl_cpld/pwr_led_ctrl_en",
+            "description": "set/get psu led status"
+        },
+        {
+            "path": "/sys_switch/sysled/fan_led_status",
+            "type": "path",
+            "value": "/sys/bus/platform/devices/bbd_ctrl_cpld/fcb_led_ctrl_s3ip",
+            "description": "set/get fan led status"
+        },
+        {
+            "path": "/sys_switch/sysled/fan_led_ctrl_en",
+            "type": "path",
+            "value": "/sys/bus/platform/devices/ctrl_cpld/fan_led_sw_ctrl_en",
+            "description": "set/get fan led status"
+        }
+    ]
+}
